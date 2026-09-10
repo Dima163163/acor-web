@@ -169,12 +169,27 @@
   }
   const header = document.querySelector('.site-header');
   const progress = document.querySelector('.reading-progress');
+  const chapterDock = document.querySelector('.chapter-dock');
+  const chapters = Array.from(document.querySelectorAll('[data-chapter]'));
+  const footer = document.querySelector('.site-footer');
   let scrollFrame = null;
   const updateScroll = () => {
     scrollFrame = null;
     const distance = document.documentElement.scrollHeight - innerHeight;
     progress?.style.setProperty('--reading', String(distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0));
     header?.classList.toggle('is-scrolled', scrollY > 20);
+    if (chapterDock) {
+      const focused = chapterDock.contains(document.activeElement);
+      chapterDock.hidden = !focused && ((hero?.getBoundingClientRect().bottom ?? 0) > 100 || (footer?.getBoundingClientRect().top ?? Infinity) < innerHeight);
+      let current = chapters[0];
+      chapters.forEach((link) => {
+        if (document.getElementById(link.dataset.chapter).getBoundingClientRect().top < innerHeight * .4) current = link;
+      });
+      chapters.forEach((link) => {
+        if (link === current) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    }
     if (hero && !motionDisabled && finePointer.matches && hero.getBoundingClientRect().bottom > 0) {
       hero.style.setProperty('--scroll-art', `${-Math.min(scrollY * .09, 60)}px`);
       hero.style.setProperty('--scroll-copy', `${Math.min(scrollY * .035, 20)}px`);
@@ -186,6 +201,11 @@
   window.addEventListener('resize', () => {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
   });
+  chapterDock?.querySelector('.dock-top').addEventListener('click', () => {
+    document.querySelector('.brand')?.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: motionDisabled ? 'instant' : 'smooth' });
+  });
+  chapterDock?.addEventListener('focusout', () => requestAnimationFrame(updateScroll));
   updateScroll();
 
   const people = Array.from(document.querySelectorAll('.person-card'));
@@ -267,9 +287,9 @@
   personDialog?.addEventListener('close', () => lastPersonButton?.focus());
 
   const projectTypes = {
-    web: { heading: 'Впечатление с первого экрана.', description: 'От структуры и визуальной идеи до быстрого, адаптивного сайта.', team: ['Аналитик', 'Дизайнер', 'Frontend', 'Backend'], title: ['Есть идея.', 'Будет сайт.'], action: 'Обсудить сайт ↗' },
-    app: { heading: 'Ваш продукт всегда рядом.', description: 'Понятные сценарии, нативные жесты и единая логика для iOS и Android.', team: ['UX/UI', 'iOS', 'Android', 'Backend', 'QA'], title: ['Ближе.', 'Каждый день.'], action: 'Обсудить приложение ↗' },
-    design: { heading: 'Характер, который узнают.', description: 'Находим визуальную идею и собираем систему, которая растёт вместе с брендом.', team: ['Арт-директор', 'Дизайнер', 'Motion'], title: ['Свой взгляд.', 'Своя форма.'], action: 'Обсудить дизайн ↗' }
+    web: { heading: 'Впечатление с первого экрана.', description: 'От структуры и визуальной идеи до быстрого, адаптивного сайта.', team: ['Аналитик', 'Дизайнер', 'Frontend', 'Backend'], title: ['Есть идея.', 'Будет сайт.'], action: 'Обсудить сайт ↗︎' },
+    app: { heading: 'Ваш продукт всегда рядом.', description: 'Понятные сценарии, нативные жесты и единая логика для iOS и Android.', team: ['UX/UI', 'iOS', 'Android', 'Backend', 'QA'], title: ['Ближе.', 'Каждый день.'], action: 'Обсудить приложение ↗︎' },
+    design: { heading: 'Характер, который узнают.', description: 'Находим визуальную идею и собираем систему, которая растёт вместе с брендом.', team: ['Арт-директор', 'Дизайнер', 'Motion'], title: ['Свой взгляд.', 'Своя форма.'], action: 'Обсудить дизайн ↗︎' }
   };
   document.querySelectorAll('[data-project-type]').forEach((button) => button.addEventListener('click', () => {
     const type = button.dataset.projectType;
@@ -293,4 +313,100 @@
     cta.textContent = project.action;
     if (!motionDisabled) scene.querySelector('.builder-response').animate([{ opacity: .25, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 450, easing: 'cubic-bezier(.22,1,.36,1)' });
   }));
+  // The case link stays available; the gallery is a separate enhancement.
+  const gallery = document.querySelector('#project-gallery');
+  if (gallery) {
+    const stage = gallery.querySelector('#gallery-stage');
+    const previous = gallery.querySelector('#gallery-prev');
+    const next = gallery.querySelector('#gallery-next');
+    let galleryCards = [];
+    let galleryIndex = 0;
+    let galleryTrigger = null;
+    const renderProject = (index) => {
+      galleryIndex = (index + galleryCards.length) % galleryCards.length;
+      const card = galleryCards[galleryIndex];
+      const visual = card.querySelector('.project-visual').cloneNode(true);
+      // SVG paint references must remain unique alongside the original card.
+      visual.querySelectorAll('[id]').forEach((element) => {
+        const oldId = element.id;
+        element.id = `gallery-${oldId}`;
+        visual.querySelectorAll('*').forEach((child) => {
+          Array.from(child.attributes).forEach((attribute) => {
+            if (attribute.value.includes(`url(#${oldId})`)) child.setAttribute(attribute.name, attribute.value.replaceAll(`url(#${oldId})`, `url(#gallery-${oldId})`));
+          });
+        });
+      });
+      stage.className = `gallery-stage ${Array.from(card.classList).filter((name) => name.startsWith('project--')).join(' ')}`;
+      stage.replaceChildren(visual);
+      gallery.querySelector('#gallery-title').textContent = card.querySelector('h3').textContent;
+      gallery.querySelector('#gallery-description').textContent = card.querySelector('.project-caption p').textContent;
+      gallery.querySelector('#gallery-count').textContent = `${galleryIndex + 1} / ${galleryCards.length}`;
+      gallery.querySelector('#gallery-case').href = card.querySelector('.project-link').href;
+      previous.disabled = next.disabled = galleryCards.length < 2;
+      if (!motionDisabled) visual.animate([{ opacity: .35, transform: 'scale(.98)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 350, easing: 'ease-out' });
+    };
+    document.querySelectorAll('[data-gallery-open]').forEach((button) => {
+      button.hidden = false;
+      button.addEventListener('click', () => {
+        galleryTrigger = button;
+        galleryCards = Array.from(document.querySelectorAll('.project')).filter((card) => !card.hidden);
+        renderProject(galleryCards.indexOf(button.closest('.project')));
+        cursor?.classList.remove('visible');
+        gallery.showModal();
+        gallery.querySelector('.gallery-close').focus();
+      });
+    });
+    previous.addEventListener('click', () => renderProject(galleryIndex - 1));
+    next.addEventListener('click', () => renderProject(galleryIndex + 1));
+    gallery.querySelector('.gallery-close').addEventListener('click', () => gallery.close());
+    gallery.addEventListener('close', () => galleryTrigger?.focus({ preventScroll: true }));
+    gallery.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        renderProject(galleryIndex + (event.key === 'ArrowRight' ? 1 : -1));
+      }
+    });
+    let swipeStart = null;
+    stage.addEventListener('pointerdown', (event) => { swipeStart = { x: event.clientX, y: event.clientY }; });
+    stage.addEventListener('pointercancel', () => { swipeStart = null; });
+    stage.addEventListener('pointerup', (event) => {
+      if (!swipeStart) return;
+      const dx = event.clientX - swipeStart.x;
+      const dy = event.clientY - swipeStart.y;
+      swipeStart = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) renderProject(galleryIndex + (dx < 0 ? 1 : -1));
+    });
+    gallery.addEventListener('click', (event) => {
+      if (event.target !== gallery) return;
+      const rect = gallery.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) gallery.close();
+    });
+  }
+
+  const stepTabs = Array.from(document.querySelectorAll('[data-step]'));
+  const selectStep = (button) => {
+    stepTabs.forEach((tab) => {
+      const selected = tab === button;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      const panel = document.getElementById(tab.getAttribute('aria-controls'));
+      panel.hidden = !selected;
+      panel.getAnimations({ subtree: true }).forEach((animation) => animation.cancel());
+      if (selected && !motionDisabled) panel.animate([{ opacity: .2, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 400, easing: 'ease-out' });
+    });
+  };
+  stepTabs.forEach((button, index) => {
+    button.addEventListener('click', () => selectStep(button));
+    button.addEventListener('keydown', (event) => {
+      let target;
+      if (event.key === 'ArrowRight') target = (index + 1) % stepTabs.length;
+      if (event.key === 'ArrowLeft') target = (index - 1 + stepTabs.length) % stepTabs.length;
+      if (event.key === 'Home') target = 0;
+      if (event.key === 'End') target = stepTabs.length - 1;
+      if (target === undefined) return;
+      event.preventDefault();
+      selectStep(stepTabs[target]);
+      stepTabs[target].focus();
+    });
+  });
 })();
