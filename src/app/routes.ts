@@ -34,5 +34,12 @@ export const routeDefinitions: RouteDefinition[] = [
 
 export const notFoundPage: RouteDefinition = { ...pageSeo.notFound, markup: notFoundMarkup, paths: [] };
 
-export const resolvePage = (pathname: string): RouteDefinition =>
-  routeDefinitions.find((page) => page.paths.includes(pathname)) || notFoundPage;
+export const normalizePathname = (pathname: string): string => {
+  const normalized = pathname.replace(/\/+$/, '');
+  return normalized || '/';
+};
+
+export const resolvePage = (pathname: string): RouteDefinition => {
+  const normalizedPathname = normalizePathname(pathname);
+  return routeDefinitions.find((page) => page.paths.includes(normalizedPathname)) || notFoundPage;
+};
