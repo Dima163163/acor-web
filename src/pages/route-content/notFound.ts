@@ -1,0 +1,1 @@
+export const notFoundMarkup = String.raw`<p class="eyebrow">Acor Web / 404</p><h1>Эта страница<br><em>ушла дальше.</em></h1><p class="intro-description">Вернитесь в студию или откройте портфолио — там всё на месте.</p><div class="error-actions"><a class="dark-button" href="/">На главную ↗︎</a><a class="text-link" href="/cases">Смотреть проекты ↗︎</a></div>`;

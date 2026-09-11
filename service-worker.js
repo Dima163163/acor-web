@@ -1,7 +1,6 @@
-const CACHE_NAME = 'acor-web-v32';
+const CACHE_NAME = 'acor-web-v33';
 const CORE = [
-  './', './index.html', './cases.html', './services.html', './about.html', './team.html', './careers.html', './lab.html', './contact.html', './privacy.html', './offline.html', './404.html', './robots.txt', './sitemap.xml',
-  './case-arden.html', './case-greenflow.html', './case-orbit.html', './styles.css', './script.js', './manifest.webmanifest'
+  './', './index.html', './styles.css', './script.js', './manifest.webmanifest', './robots.txt', './sitemap.xml'
 ];
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE)).then(() => self.skipWaiting()));
@@ -15,5 +14,5 @@ self.addEventListener('fetch', (event) => {
     const clone = response.clone();
     caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
     return response;
-  }).catch(() => caches.match(event.request).then((cached) => cached || caches.match('./offline.html'))));
+  }).catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html'))));
 });

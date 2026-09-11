@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/((?!assets/|styles\\.css|script\\.js|service-worker\\.js|manifest\\.webmanifest|robots\\.txt|sitemap\\.xml).*)", "destination": "/index.html" }
+  ]
+}

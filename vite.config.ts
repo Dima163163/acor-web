@@ -1,27 +1,11 @@
-import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
-
-const pageNames = [
-  'index',
-  'cases',
-  'services',
-  'about',
-  'team',
-  'careers',
-  'lab',
-  'contact',
-  'case-arden',
-  'case-greenflow',
-  'case-orbit',
-  'privacy',
-  '404',
-  'offline'
-] as const;
 
 export default defineConfig({
   build: {
+    // React Router owns every application route. The deployed server rewrites
+    // clean URLs to this single shell, while Vite keeps assets fingerprinted.
     rollupOptions: {
-      input: Object.fromEntries(pageNames.map((name) => [name, resolve(process.cwd(), `${name}.html`)]))
+      input: 'index.html'
     }
   }
 });

@@ -1,17 +1,18 @@
-import { isCurrentPath, primaryNavigation } from '../../../shared/config/navigation';
+import { NavLink } from 'react-router-dom';
+import { primaryNavigation } from '../../../shared/config/navigation';
 
 export const SiteHeader = () => (
   <>
-    <a className="brand" href="index.html" aria-label="Acor Web — главная">
+    <NavLink className="brand" to="/" aria-label="Acor Web — главная" end>
       acor<span className="brand-slash">/</span><small>web</small>
-    </a>
+    </NavLink>
     <span className="header-signal" aria-hidden="true"><i></i><span>Студия / online</span></span>
     <nav className="desktop-nav" aria-label="Основная навигация">
-      {primaryNavigation.map(([href, label]) => (
-        <a key={href} href={href} aria-current={isCurrentPath(href) ? 'page' : undefined}>{label}</a>
+      {primaryNavigation.map(([to, label]) => (
+        <NavLink key={to} to={to}>{label}</NavLink>
       ))}
     </nav>
-    <a className="header-contact" href="contact.html">Обсудить проект <span aria-hidden="true">↗︎</span></a>
+    <NavLink className="header-contact" to="/contact">Обсудить проект <span aria-hidden="true">↗︎</span></NavLink>
     <button type="button" className="command-trigger" aria-label="Открыть поиск по сайту" data-analytics="command_open">
       <span aria-hidden="true">⌘</span><small>K</small>
     </button>
@@ -28,8 +29,8 @@ export const SiteHeader = () => (
       <span></span><span></span>
     </button>
     <nav className="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация" hidden>
-      {primaryNavigation.map(([href, label]) => <a key={href} href={href} aria-current={isCurrentPath(href) ? 'page' : undefined}>{label}</a>)}
-      <a href="contact.html" aria-current={isCurrentPath('contact.html') ? 'page' : undefined}><span>Обсудить проект</span> <span aria-hidden="true">↗︎</span></a>
+      {primaryNavigation.map(([to, label]) => <NavLink key={to} to={to}>{label}</NavLink>)}
+      <NavLink to="/contact"><span>Обсудить проект</span> <span aria-hidden="true">↗︎</span></NavLink>
     </nav>
   </>
 );

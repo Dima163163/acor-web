@@ -66,7 +66,14 @@
   const textSources = new WeakMap();
   const attributeSources = new WeakMap();
   const t = (value) => localeMaps[activeLocale][value] || value;
-  const pageKey = () => location.pathname.split('/').pop() || 'index.html';
+  const pageKey = () => {
+    const pathname = location.pathname.split('/').filter(Boolean);
+    const last = pathname.at(-1) || 'index';
+    if (last === 'index.html') return 'index.html';
+    if (last.endsWith('.html')) return last;
+    if (last === 'arden' || last === 'greenflow' || last === 'orbit') return `case-${last}.html`;
+    return `${last}.html`;
+  };
   let languageSelect = null;
   const applyLocale = () => {
     document.documentElement.lang = localeInfo[activeLocale].html;
@@ -419,7 +426,7 @@
       estimateCopy.textContent = current[1] + pace;
       estimateWeeks.textContent = current[2];
       estimateTeam.textContent = current[3];
-      estimateCta.href = `contact.html?type=${estimateType.value}`;
+      estimateCta.href = `/contact?type=${estimateType.value}`;
     };
     [estimateType, estimateScope, estimatePace].forEach((control) => control.addEventListener('change', syncEstimate));
     window.addEventListener('acor:locale-change', syncEstimate);
@@ -993,7 +1000,7 @@
       const chip = document.createElement('span'); chip.textContent = t(role); return chip;
     }));
     const cta = document.querySelector('#builder-cta');
-    cta.href = `contact.html?type=${type}`;
+    cta.href = `/contact?type=${type}`;
     cta.textContent = t(project.action);
     if (animate && !motionDisabled) scene.querySelector('.builder-response').animate([{ opacity: .25, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 450, easing: 'cubic-bezier(.22,1,.36,1)' });
   };
@@ -1090,7 +1097,7 @@
     const crumbs = document.createElement('nav');
     crumbs.className = 'case-crumbs';
     crumbs.setAttribute('aria-label', 'Навигация по проекту');
-    crumbs.innerHTML = `<a href="cases.html">Проекты</a><span aria-hidden="true">/</span><span>${projectName}</span><span aria-hidden="true">/</span><span>Решение</span>`;
+    crumbs.innerHTML = `<a href="/cases">Проекты</a><span aria-hidden="true">/</span><span>${projectName}</span><span aria-hidden="true">/</span><span>Решение</span>`;
     caseIntro.prepend(crumbs);
   }
   if (!caseScene && caseIntro && !caseIntro.querySelector('.page-crumbs')) {
@@ -1098,7 +1105,7 @@
     trail.className = 'page-crumbs';
     trail.setAttribute('aria-label', 'Навигация по сайту');
     const current = document.title.replace(' — Acor Web', '').trim();
-    trail.innerHTML = `<a href="index.html">Acor Web</a><span aria-hidden="true">/</span><span>${current}</span>`;
+    trail.innerHTML = `<a href="/">Acor Web</a><span aria-hidden="true">/</span><span>${current}</span>`;
     caseIntro.prepend(trail);
   }
   if (caseIntro && !caseIntro.querySelector('.reading-time')) {
@@ -1357,7 +1364,7 @@
       if (catches >= 5) {
         status.textContent = t('Форма найдена. Открываем проекты.');
         game.classList.add('is-complete');
-        window.setTimeout(() => { location.href = 'cases.html'; }, motionDisabled ? 0 : 520);
+        window.setTimeout(() => { location.href = '/cases'; }, motionDisabled ? 0 : 520);
       } else {
         status.textContent = `${t('Поймано')} ${catches}/5`;
         move();
@@ -1417,11 +1424,11 @@
     commandDialog.className = 'command-palette';
     commandDialog.setAttribute('aria-labelledby', 'command-palette-title');
     commandDialog.innerHTML = '<div class="command-palette-inner"><div class="command-palette-head"><div><p class="eyebrow">Навигация / Acor Web</p><h2 id="command-palette-title">Куда дальше?</h2></div><button type="button" class="command-close" aria-label="Закрыть поиск">×</button></div><label class="command-search"><span aria-hidden="true">⌕</span><input type="search" autocomplete="off" placeholder="Найти раздел или действие" aria-label="Поиск по сайту"></label><div class="command-results" role="listbox"></div><p class="command-hint">Enter — открыть · Esc — закрыть</p></div>';
-    document.body.append(commandDialog);
+    (document.querySelector('.app-shell') || document.body).append(commandDialog);
     const commandSearch = commandDialog.querySelector('input');
     const commandResults = commandDialog.querySelector('.command-results');
     const commandItems = [
-      ['Проекты', 'cases.html', 'Три концепции и разбор решений'], ['Услуги', 'services.html', 'Стратегия, дизайн и разработка'], ['Студия', 'about.html', 'Подход и наблюдения команды'], ['Команда', 'team.html', 'Люди и роли в проекте'], ['Карьера', 'careers.html', 'Вакансии, стажировка и контакты для отклика'], ['Lab', 'lab.html', 'Форма, движение и эксперименты'], ['Контакты', 'contact.html', 'Собрать задачу и начать разговор']
+      ['Проекты', '/cases', 'Три концепции и разбор решений'], ['Услуги', '/services', 'Стратегия, дизайн и разработка'], ['Студия', '/about', 'Подход и наблюдения команды'], ['Команда', '/team', 'Люди и роли в проекте'], ['Карьера', '/careers', 'Вакансии, стажировка и контакты для отклика'], ['Lab', '/lab', 'Форма, движение и эксперименты'], ['Контакты', '/contact', 'Собрать задачу и начать разговор']
     ];
     const renderCommandResults = () => {
       const query = commandSearch.value.trim().toLocaleLowerCase('ru');
@@ -1503,9 +1510,11 @@
   applyLocale();
 
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js').catch(() => {
+    const registerServiceWorker = () => navigator.serviceWorker.register('/service-worker.js').catch(() => {
       // The studio stays fully usable when service workers are disabled.
-    }), { once: true });
+    });
+    if (document.readyState === 'complete') registerServiceWorker();
+    else window.addEventListener('load', registerServiceWorker, { once: true });
   }
   queueMicrotask(() => {
     if (window.__acorRuntimeController === runtimeController) window.__acorRuntimeController = null;
