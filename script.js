@@ -1218,13 +1218,13 @@
   }
 
   const commandHeader = document.querySelector('.site-header');
-  if (commandHeader && !document.querySelector('.command-trigger')) {
-    const commandTrigger = document.createElement('button');
+  if (commandHeader) {
+    const commandTrigger = commandHeader.querySelector('.command-trigger') || document.createElement('button');
     commandTrigger.type = 'button';
     commandTrigger.className = 'command-trigger';
     commandTrigger.setAttribute('aria-label', 'Открыть поиск по сайту');
     commandTrigger.innerHTML = '<span aria-hidden="true">⌘</span><small>K</small>';
-    commandHeader.querySelector('.header-contact')?.insertAdjacentElement('afterend', commandTrigger);
+    if (!commandTrigger.parentElement) commandHeader.querySelector('.header-contact')?.insertAdjacentElement('afterend', commandTrigger);
     const commandDialog = document.createElement('dialog');
     commandDialog.className = 'command-palette';
     commandDialog.setAttribute('aria-labelledby', 'command-palette-title');
