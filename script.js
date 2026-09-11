@@ -210,6 +210,68 @@
     if (item.open) disclosures.forEach((other) => { if (other !== item) other.open = false; });
   }));
 
+  // Animate the actual details height so the first open does not jump the layout.
+  // The summary click remains keyboard accessible; without JavaScript, native details still work.
+  const smoothDisclosures = document.querySelectorAll('.service-item, .insight-card, .faq-list details');
+  smoothDisclosures.forEach((details) => {
+    const summary = details.querySelector('summary');
+    if (!summary) return;
+    let animating = false;
+    let finishTimer = 0;
+    let afterFinish = null;
+    const finish = (event) => {
+      if (event?.propertyName && event.propertyName !== 'height') return;
+      window.clearTimeout(finishTimer);
+      const callback = afterFinish;
+      afterFinish = null;
+      details.classList.remove('disclosure-height-animating');
+      details.style.removeProperty('height');
+      details.style.removeProperty('overflow');
+      animating = false;
+      callback?.();
+    };
+    details.addEventListener('transitionend', finish);
+    const animateOpen = () => {
+      if (details.open || animating) return;
+      if (motionDisabled || reducedMotion.matches) {
+        details.open = true;
+        return;
+      }
+      animating = true;
+      details.open = true;
+      details.classList.add('disclosure-height-animating');
+      details.style.height = `${summary.offsetHeight}px`;
+      void details.offsetHeight;
+      requestAnimationFrame(() => {
+        details.style.height = `${details.scrollHeight}px`;
+        finishTimer = window.setTimeout(() => finish(), 700);
+      });
+    };
+    const animateClose = () => {
+      if (!details.open || animating) return;
+      if (motionDisabled || reducedMotion.matches) {
+        details.open = false;
+        return;
+      }
+      animating = true;
+      details.classList.add('disclosure-height-animating');
+      details.style.height = `${details.offsetHeight}px`;
+      details.style.overflow = 'hidden';
+      void details.offsetHeight;
+      afterFinish = () => { details.open = false; };
+      requestAnimationFrame(() => {
+        details.style.height = `${summary.offsetHeight}px`;
+        finishTimer = window.setTimeout(() => finish(), 700);
+      });
+    };
+    summary.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (animating) return;
+      if (details.open) animateClose();
+      else animateOpen();
+    });
+  });
+
   const estimateType = document.querySelector('#estimate-type');
   const estimateScope = document.querySelector('#estimate-scope');
   const estimatePace = document.querySelector('#estimate-pace');
@@ -438,9 +500,10 @@
         draftFields.forEach((name) => {
           const value = draft[name];
           if (!value) return;
+          const restoredValue = name === 'budget' ? (budgetLabels[value] || value) : value;
           const fields = Array.from(form.elements).filter((field) => field.name === name);
-          if (fields[0]?.type === 'radio') fields.forEach((field) => { field.checked = field.value === value; });
-          else if (fields[0]) fields[0].value = value;
+          if (fields[0]?.type === 'radio') fields.forEach((field) => { field.checked = field.value === restoredValue; });
+          else if (fields[0]) fields[0].value = restoredValue;
           restoredDraft = true;
         });
       }
@@ -487,7 +550,7 @@
         'ACOR WEB — БРИФ ПРОЕКТА', '',
         `Имя: ${data.get('name')}`, `Компания: ${data.get('company') || 'Не указана'}`,
         `Email: ${data.get('email')}`, `Проект: ${project}`,
-        `Бюджет: ${budgetLabels[data.get('budget')] || 'Пока обсуждаем'}`, `Сроки: ${data.get('timing') || 'Обсудим'}`,
+        `Бюджет: ${budgetLabels[data.get('budget')] || data.get('budget') || 'Пока обсуждаем'}`, `Сроки: ${data.get('timing') || 'Обсудим'}`,
         '', 'ЗАДАЧА', String(data.get('message')), '',
         'Письмо подготовлено на сайте Acor Web.'
         ].join('\n')
