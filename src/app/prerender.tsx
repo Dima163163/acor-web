@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
-import { AppShell, resolvePage } from './App';
+import { AppShell } from './App';
+import { resolvePage } from './routes';
 
 export interface PrerenderedRoute {
   page: ReturnType<typeof resolvePage>;
