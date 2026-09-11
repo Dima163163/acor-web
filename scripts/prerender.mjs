@@ -41,6 +41,13 @@ const replaceMeta = (template, page, url) => {
 };
 
 const renderDocument = (template, route, rendered) => replaceMeta(template, rendered.page, route.url)
+  .replace(/<script id="route-schema" type="application\/ld\+json">.*?<\/script>/, `<script id="route-schema" type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': ['caseArden', 'caseGreenflow', 'caseOrbit'].includes(rendered.page.key) ? 'CreativeWork' : rendered.page.key === 'contact' ? 'ContactPage' : 'WebPage',
+    name: rendered.page.title,
+    description: rendered.page.description || 'Acor Web — дизайн и разработка цифровых продуктов.',
+    url: `${origin}${route.url}`
+  }).replaceAll('<', '\\u003c')}</script>`)
   .replace('<div id="app"></div>', `<div id="app">${rendered.markup}</div>`);
 
 const server = await createServer({

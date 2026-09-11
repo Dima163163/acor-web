@@ -45,12 +45,18 @@ export const resolvePage = (pathname: string): RouteDefinition => routeDefinitio
 
 const updateSeo = (page: PageSeo): void => {
   const canonicalPath = window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
+  const description = page.description || defaultDescription;
+  const schemaType = ['caseArden', 'caseGreenflow', 'caseOrbit'].includes(page.key) ? 'CreativeWork' : page.key === 'contact' ? 'ContactPage' : 'WebPage';
   document.title = page.title;
   document.documentElement.lang = 'ru';
-  document.querySelector('meta[name="description"]')?.setAttribute('content', page.description || defaultDescription);
+  document.querySelector('meta[name="description"]')?.setAttribute('content', description);
   document.querySelector('meta[property="og:title"]')?.setAttribute('content', page.title);
-  document.querySelector('meta[property="og:description"]')?.setAttribute('content', page.description || defaultDescription);
+  document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
   document.querySelector('link[rel="canonical"]')?.setAttribute('href', `${siteOrigin}${canonicalPath}`);
+  const schema = document.querySelector('#route-schema');
+  if (schema) {
+    schema.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': schemaType, name: page.title, description, url: `${siteOrigin}${canonicalPath}` });
+  }
 };
 
 const RuntimeBridge = (): null => {
