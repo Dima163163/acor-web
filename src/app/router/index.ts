@@ -37,7 +37,10 @@ const scrollToHash = (url: URL): void => {
 
 const navigate = async (url: URL, renderRoute: NavigationOptions['renderRoute'], replace = false): Promise<void> => {
   if (!isSiteRoute(url.pathname)) return;
-  if (url.href === window.location.href) return;
+  // A popstate event fires after the browser has already updated the address
+  // bar, so the target URL equals `location.href`. Keep the guard for regular
+  // clicks while still re-rendering the destination during back/forward.
+  if (url.href === window.location.href && !replace) return;
 
   const currentUrl = new URL(window.location.href);
   if (url.pathname === currentUrl.pathname && url.search === currentUrl.search && url.hash) {
