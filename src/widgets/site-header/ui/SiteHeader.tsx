@@ -25,7 +25,7 @@ export const SiteHeader = () => (
     <button type="button" className="theme-toggle" aria-label="Переключить цветовую тему" aria-pressed="false" data-analytics="theme_toggle">
       <span className="theme-toggle-label">Светлая</span><span aria-hidden="true">◐</span>
     </button>
-    <button className="menu-toggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-nav">
+    <button type="button" className="menu-toggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-nav">
       <span></span><span></span>
     </button>
     <nav className="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация" hidden>
