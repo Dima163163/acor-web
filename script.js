@@ -90,7 +90,7 @@
     heroLink?.addEventListener('focus', () => hero.classList.add('hero-intent'));
     heroLink?.addEventListener('blur', () => hero.classList.remove('hero-intent'));
   }
-  const animatedElements = document.querySelectorAll('[data-reveal], .project, .process-grid article, .role-card, .person-card');
+  const animatedElements = document.querySelectorAll('[data-reveal], .project, .process-grid article, .role-card, .person-card, .insight-card, .after-brief-grid article, .case-info-grid article, .case-timeline li');
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -194,6 +194,7 @@
     };
     labArt.dataset.material = 'chrome';
     labArt.dataset.shape = 'ribbon';
+    labArt.dataset.palette = 'studio';
     labControls.append(createLabSet('Материал', 'material', [['chrome', 'Chrome'], ['cobalt', 'Cobalt'], ['paper', 'Paper']]));
     labControls.append(createLabSet('Форма', 'shape', [['ribbon', 'Ribbon'], ['orb', 'Orb'], ['letter', 'Letter']]));
     const copyButton = document.createElement('button');
@@ -204,7 +205,7 @@
     copyStatus.className = 'lab-copy-status';
     copyStatus.setAttribute('role', 'status');
     const copyParams = async () => {
-      const value = `Acor Lab — ${labArt.dataset.material}, ${labArt.dataset.shape}, поворот ${rotation.value}°, масштаб ${scale.value}%`;
+      const value = `Acor Lab — ${labArt.dataset.material}, ${labArt.dataset.shape}, ${labArt.dataset.palette || 'studio'}, поворот ${rotation.value}°, масштаб ${scale.value}%`;
       try {
         await navigator.clipboard.writeText(value);
         copyStatus.textContent = 'Параметры скопированы.';
@@ -327,9 +328,12 @@
 
   const people = Array.from(document.querySelectorAll('.person-card'));
   const teamFilters = document.querySelectorAll('[data-team-filter]');
+  const teamTrackFilters = document.querySelectorAll('[data-team-track]');
   const teamSearch = document.querySelector('#team-search');
   const teamParams = new URLSearchParams(location.search);
   let teamCategory = teamParams.get('group') || 'all';
+  let teamTrack = teamParams.get('track') || 'all';
+  const trackGroups = { research: ['analysis'], design: ['design'], build: ['frontend', 'backend', 'mobile'], quality: ['qa'], direction: ['management'] };
   if (teamSearch && teamParams.get('q')) teamSearch.value = teamParams.get('q');
   const normalize = (value) => value.toLocaleLowerCase('ru').replaceAll('ё', 'е').trim();
   const filterPeople = () => {
@@ -338,8 +342,9 @@
     people.forEach((card) => {
       const person = card.querySelector('[data-person]');
       const matchesGroup = teamCategory === 'all' || card.dataset.personGroup === teamCategory;
+      const matchesTrack = teamTrack === 'all' || (trackGroups[teamTrack] || []).includes(card.dataset.personGroup);
       const matchesText = normalize(`${person.dataset.name} ${person.dataset.role} ${person.dataset.skills}`).includes(query);
-      card.hidden = !(matchesGroup && matchesText);
+      card.hidden = !(matchesGroup && matchesTrack && matchesText);
       if (!card.hidden) found++;
     });
     document.querySelectorAll('[data-team-group]').forEach((group) => {
@@ -353,6 +358,8 @@
       const url = new URL(location.href);
       if (teamCategory === 'all') url.searchParams.delete('group');
       else url.searchParams.set('group', teamCategory);
+      if (teamTrack === 'all') url.searchParams.delete('track');
+      else url.searchParams.set('track', teamTrack);
       if (query) url.searchParams.set('q', query);
       else url.searchParams.delete('q');
       history.replaceState(null, '', url);
@@ -367,6 +374,14 @@
     });
     filterPeople();
   }));
+  teamTrackFilters.forEach((button) => button.addEventListener('click', () => {
+    teamTrack = button.dataset.teamTrack;
+    teamTrackFilters.forEach((filter) => {
+      filter.classList.toggle('active', filter === button);
+      filter.setAttribute('aria-pressed', String(filter === button));
+    });
+    filterPeople();
+  }));
   teamSearch?.addEventListener('input', filterPeople);
   if (teamFilters.length) {
     const initialTeamFilter = Array.from(teamFilters).find((filter) => filter.dataset.teamFilter === teamCategory) || teamFilters[0];
@@ -375,6 +390,14 @@
       filter.classList.toggle('active', filter === initialTeamFilter);
       filter.setAttribute('aria-pressed', String(filter === initialTeamFilter));
     });
+    const initialTrackFilter = Array.from(teamTrackFilters).find((filter) => filter.dataset.teamTrack === teamTrack) || teamTrackFilters[0];
+    if (initialTrackFilter) {
+      teamTrack = initialTrackFilter.dataset.teamTrack;
+      teamTrackFilters.forEach((filter) => {
+        filter.classList.toggle('active', filter === initialTrackFilter);
+        filter.setAttribute('aria-pressed', String(filter === initialTrackFilter));
+      });
+    }
     filterPeople();
   }
 
@@ -535,6 +558,199 @@
     crumbs.setAttribute('aria-label', 'Навигация по проекту');
     crumbs.innerHTML = `<a href="cases.html">Проекты</a><span aria-hidden="true">/</span><span>${projectName}</span><span aria-hidden="true">/</span><span>Решение</span>`;
     caseIntro.prepend(crumbs);
+  }
+
+  const briefBuilder = document.querySelector('#brief-builder');
+  if (briefBuilder) {
+    const briefSteps = Array.from(briefBuilder.querySelectorAll('[data-brief-step]'));
+    const briefOptions = Array.from(briefBuilder.querySelectorAll('[data-brief-option]'));
+    const briefPrev = briefBuilder.querySelector('#brief-prev');
+    const briefNext = briefBuilder.querySelector('#brief-next');
+    const briefTitle = briefBuilder.querySelector('#brief-summary-title');
+    const briefCopy = briefBuilder.querySelector('#brief-summary-copy');
+    const briefTags = briefBuilder.querySelector('#brief-summary-tags');
+    const briefKicker = briefBuilder.querySelector('.brief-summary-kicker');
+    const briefForm = document.querySelector('#brief-form');
+    const briefParams = new URLSearchParams(location.search);
+    const briefState = {
+      type: ['web', 'app', 'design', 'other'].includes(briefParams.get('type')) ? briefParams.get('type') : 'web',
+      audience: ['clients', 'team', 'buyers', 'wide'].includes(briefParams.get('audience')) ? briefParams.get('audience') : 'clients',
+      goal: ['launch', 'refresh', 'validate', 'grow'].includes(briefParams.get('goal')) ? briefParams.get('goal') : 'launch',
+      tone: ['calm', 'bold', 'clear', 'alive'].includes(briefParams.get('tone')) ? briefParams.get('tone') : 'clear'
+    };
+    const briefText = {
+      type: {
+        web: ['Сайт с характером.', 'Соберём структуру, визуальную идею и понятный путь к действию.', 'Web'],
+        app: ['Приложение, которым удобно пользоваться.', 'Продумываем ежедневные сценарии, состояния и связь между экранами.', 'Mobile'],
+        design: ['Визуальная система, которую узнают.', 'Находим идею и превращаем её в устойчивый язык для продукта и команды.', 'Identity'],
+        other: ['Задача, которой нужна форма.', 'Разберёмся в контексте и предложим маршрут, с которого удобно начать.', 'Custom']
+      },
+      audience: {
+        clients: ['Люди выбирают с доверием.', 'Покажем ценность продукта до первого контакта.', 'Клиенты'],
+        team: ['Команда видит общее.', 'Сделаем сложный внутренний сценарий прозрачнее.', 'Команда'],
+        buyers: ['Выбор становится проще.', 'Соединим настроение, аргументы и понятный следующий шаг.', 'Покупатели'],
+        wide: ['Первое впечатление работает.', 'Соберём язык, который быстро считывается разными людьми.', 'Аудитория']
+      },
+      goal: {
+        launch: ['Новый продукт начинается уверенно.', 'От первого вопроса до сценария, который можно выпускать.', 'Запуск'],
+        refresh: ['Существующее получает новую опору.', 'Найдём, что мешает продукту, и аккуратно пересоберём главное.', 'Обновление'],
+        validate: ['Идея проходит проверку раньше.', 'Соберём прототип и проверим ключевой сценарий до большой разработки.', 'Проверка'],
+        grow: ['Следующая версия становится точнее.', 'Смотрим на поведение пользователей и развиваем то, что действительно нужно.', 'Развитие']
+      },
+      tone: {
+        calm: ['Спокойное ощущение.', 'Паузы, ясная иерархия и форма, которая помогает сосредоточиться.', 'Calm'],
+        bold: ['Смелое ощущение.', 'Контраст, характер и визуальный жест, который сложно забыть.', 'Bold'],
+        clear: ['Точное ощущение.', 'Каждая деталь отвечает на действие и не спорит с задачей.', 'Clear'],
+        alive: ['Живое ощущение.', 'Движение, отклик и пространство для любопытства.', 'Alive']
+      }
+    };
+    let briefIndex = 0;
+    const syncBriefUrl = () => {
+      const url = new URL(location.href);
+      Object.entries(briefState).forEach(([key, value]) => url.searchParams.set(key, value));
+      history.replaceState(null, '', url);
+    };
+    const syncBrief = () => {
+      briefSteps.forEach((step, index) => {
+        step.hidden = index !== briefIndex;
+        step.classList.toggle('is-active', index === briefIndex);
+      });
+      briefOptions.forEach((option) => option.classList.toggle('is-selected', briefState[option.dataset.briefOption] === option.dataset.briefValue));
+      const key = ['type', 'audience', 'goal', 'tone'][briefIndex];
+      const [title, copy] = briefText[key][briefState[key]];
+      if (briefTitle) briefTitle.textContent = title;
+      if (briefCopy) briefCopy.textContent = copy;
+      if (briefKicker) briefKicker.textContent = `Ваш контекст / ${String(briefIndex + 1).padStart(2, '0')} из ${String(briefSteps.length).padStart(2, '0')}`;
+      if (briefTags) briefTags.innerHTML = Object.entries(briefState).map(([name, value]) => `<span>${briefText[name][value][2]}</span>`).join('');
+      if (briefPrev) briefPrev.disabled = briefIndex === 0;
+      if (briefNext) briefNext.innerHTML = briefIndex === briefSteps.length - 1 ? 'Заполнить заявку <span>↘︎</span>' : 'Следующий вопрос <span>↗︎</span>';
+      const typeChoice = briefForm?.querySelector(`input[name="type"][value="${briefState.type}"]`);
+      if (typeChoice) typeChoice.checked = true;
+      syncBriefUrl();
+    };
+    briefOptions.forEach((option) => option.addEventListener('click', () => {
+      briefState[option.dataset.briefOption] = option.dataset.briefValue;
+      syncBrief();
+    }));
+    briefPrev?.addEventListener('click', () => { briefIndex = Math.max(0, briefIndex - 1); syncBrief(); });
+    briefNext?.addEventListener('click', () => {
+      if (briefIndex < briefSteps.length - 1) {
+        briefIndex += 1;
+        syncBrief();
+      } else {
+        document.querySelector('#brief-form')?.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start' });
+        briefForm?.elements.name?.focus({ preventScroll: true });
+      }
+    });
+    syncBrief();
+  }
+
+  document.querySelectorAll('[data-compare]').forEach((compare) => {
+    const range = compare.querySelector('[data-compare-range]');
+    const output = compare.querySelector('[data-compare-output]');
+    range?.addEventListener('input', () => {
+      compare.style.setProperty('--compare', `${range.value}%`);
+      if (output) output.textContent = `${range.value}%`;
+    });
+  });
+
+  const labRandom = document.querySelector('#lab-random');
+  const labPaletteChoices = document.querySelectorAll('[data-lab-palette]');
+  const labPageArt = document.querySelector('.lab-art');
+  if (labPageArt && labRandom) {
+    const palettes = ['studio', 'night', 'moss'];
+    const applyLabPalette = (value) => {
+      const palette = palettes.includes(value) ? value : 'studio';
+      labPageArt.dataset.palette = palette;
+      labPaletteChoices.forEach((button) => {
+        const selected = button.dataset.labPalette === palette;
+        button.classList.toggle('is-selected', selected);
+        button.setAttribute('aria-pressed', String(selected));
+      });
+      const url = new URL(location.href);
+      url.searchParams.set('palette', palette);
+      history.replaceState(null, '', url);
+    };
+    labPaletteChoices.forEach((button) => button.addEventListener('click', () => applyLabPalette(button.dataset.labPalette)));
+    document.querySelector('#lab-reset')?.addEventListener('click', () => applyLabPalette('studio'));
+    const labParams = new URLSearchParams(location.search);
+    applyLabPalette(labParams.get('palette') || 'studio');
+    labRandom.addEventListener('click', () => {
+      const sets = Array.from(document.querySelectorAll('.lab-preset-set'));
+      sets.forEach((set) => {
+        const choices = Array.from(set.querySelectorAll('.lab-preset'));
+        choices[Math.floor(Math.random() * choices.length)]?.click();
+      });
+      const rotationInput = document.querySelector('#lab-rotation');
+      const scaleInput = document.querySelector('#lab-scale');
+      if (rotationInput) rotationInput.value = String(Math.round(Math.random() * 50 - 25));
+      if (scaleInput) scaleInput.value = String(Math.round(Math.random() * 45 + 70));
+      rotationInput?.dispatchEvent(new Event('input', { bubbles: true }));
+      scaleInput?.dispatchEvent(new Event('input', { bubbles: true }));
+      applyLabPalette(palettes[Math.floor(Math.random() * palettes.length)]);
+      if (!motionDisabled) labPageArt.animate([{ transform: 'scale(.97)' }, { transform: 'scale(1)' }], { duration: 420, easing: 'ease-out' });
+    });
+  }
+
+  const commandHeader = document.querySelector('.site-header');
+  if (commandHeader && !document.querySelector('.command-trigger')) {
+    const commandTrigger = document.createElement('button');
+    commandTrigger.type = 'button';
+    commandTrigger.className = 'command-trigger';
+    commandTrigger.setAttribute('aria-label', 'Открыть поиск по сайту');
+    commandTrigger.innerHTML = '<span aria-hidden="true">⌘</span><small>K</small>';
+    commandHeader.querySelector('.header-contact')?.insertAdjacentElement('afterend', commandTrigger);
+    const commandDialog = document.createElement('dialog');
+    commandDialog.className = 'command-palette';
+    commandDialog.setAttribute('aria-labelledby', 'command-palette-title');
+    commandDialog.innerHTML = '<div class="command-palette-inner"><div class="command-palette-head"><div><p class="eyebrow">Навигация / Acor Web</p><h2 id="command-palette-title">Куда дальше?</h2></div><button type="button" class="command-close" aria-label="Закрыть поиск">×</button></div><label class="command-search"><span aria-hidden="true">⌕</span><input type="search" autocomplete="off" placeholder="Найти раздел или действие" aria-label="Поиск по сайту"></label><div class="command-results" role="listbox"></div><p class="command-hint">Enter — открыть · Esc — закрыть</p></div>';
+    document.body.append(commandDialog);
+    const commandSearch = commandDialog.querySelector('input');
+    const commandResults = commandDialog.querySelector('.command-results');
+    const commandItems = [
+      ['Проекты', 'cases.html', 'Три концепции и разбор решений'], ['Услуги', 'services.html', 'Стратегия, дизайн и разработка'], ['Студия', 'about.html', 'Подход и наблюдения команды'], ['Команда', 'team.html', 'Люди и роли в проекте'], ['Lab', 'lab.html', 'Форма, движение и эксперименты'], ['Контакты', 'contact.html', 'Собрать задачу и начать разговор']
+    ];
+    const renderCommandResults = () => {
+      const query = commandSearch.value.trim().toLocaleLowerCase('ru');
+      commandResults.replaceChildren(...commandItems.filter(([label, , description]) => `${label} ${description}`.toLocaleLowerCase('ru').includes(query)).map(([label, href, description]) => {
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('role', 'option');
+        link.innerHTML = `<span>${label}</span><small>${description}</small><b aria-hidden="true">↗︎</b>`;
+        return link;
+      }));
+      if (!commandResults.children.length) {
+        const empty = document.createElement('p');
+        empty.className = 'command-empty';
+        empty.textContent = 'Ничего не нашли. Попробуйте другое слово.';
+        commandResults.append(empty);
+      }
+    };
+    const openCommand = () => {
+      setMenu(false);
+      commandSearch.value = '';
+      renderCommandResults();
+      commandDialog.showModal();
+      commandSearch.focus();
+    };
+    commandTrigger.addEventListener('click', openCommand);
+    commandDialog.querySelector('.command-close').addEventListener('click', () => commandDialog.close());
+    commandSearch.addEventListener('input', renderCommandResults);
+    commandDialog.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        commandDialog.close();
+      }
+    });
+    commandDialog.addEventListener('click', (event) => { if (event.target === commandDialog) commandDialog.close(); });
+    commandDialog.addEventListener('close', () => commandTrigger.focus({ preventScroll: true }));
+    document.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        if (commandDialog.open) commandDialog.close(); else openCommand();
+      }
+    });
+    renderCommandResults();
   }
 
   const stepTabs = Array.from(document.querySelectorAll('[data-step]'));
