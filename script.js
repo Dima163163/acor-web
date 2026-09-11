@@ -9,7 +9,7 @@
     be: { short: 'BE', label: 'Беларуская', html: 'be' }
   };
   const localeRows = [
-    ['Ваше имя', 'Your name', 'Twoje imię', 'Ваша імя'], ['Название, если есть', 'Company name, if available', 'Nazwa firmy, jeśli jest', 'Назва, калі ёсць'], ['Есть дата или готовы обсудить', 'Have a date or open to discussing it', 'Masz termin lub chcesz go omówić', 'Ёсць дата або гатовыя абмеркаваць'], ['Например, 850 000 ₽', 'For example, €8,500', 'Np. 35 000 zł', 'Напрыклад, 85 000 BYN'], ['Что хотите создать или изменить? Для кого? Какой результат важен?', 'What would you like to create or change? Who is it for? What outcome matters?', 'Co chcesz stworzyć lub zmienić? Dla kogo? Jaki efekt jest ważny?', 'Што хочаце стварыць або змяніць? Для каго? Які вынік важны?'], ['Найти человека или роль', 'Find a person or role', 'Znajdź osobę lub rolę', 'Знайсці чалавека або ролю'], ['you@company.ru', 'you@company.com', 'you@company.pl', 'you@company.by'],
+    ['Ваше имя', 'Your name', 'Twoje imię', 'Ваша імя'], ['Сравнить ↔︎', 'Compare ↔︎', 'Porównaj ↔︎', 'Параўнаць ↔︎'], ['Поймать форму', 'Catch the form', 'Złap formę', 'Злавіць форму'], ['Поймано', 'Caught', 'Złapano', 'Злоўлена'], ['Форма найдена. Открываем проекты.', 'Form found. Opening projects.', 'Forma znaleziona. Otwieramy projekty.', 'Форма знойдзена. Адкрываем праекты.'], ['Название, если есть', 'Company name, if available', 'Nazwa firmy, jeśli jest', 'Назва, калі ёсць'], ['Есть дата или готовы обсудить', 'Have a date or open to discussing it', 'Masz termin lub chcesz go omówić', 'Ёсць дата або гатовыя абмеркаваць'], ['Например, 850 000 ₽', 'For example, €8,500', 'Np. 35 000 zł', 'Напрыклад, 85 000 BYN'], ['Что хотите создать или изменить? Для кого? Какой результат важен?', 'What would you like to create or change? Who is it for? What outcome matters?', 'Co chcesz stworzyć lub zmienić? Dla kogo? Jaki efekt jest ważny?', 'Што хочаце стварыць або змяніць? Для каго? Які вынік важны?'], ['Найти человека или роль', 'Find a person or role', 'Znajdź osobę lub rolę', 'Знайсці чалавека або ролю'], ['you@company.ru', 'you@company.com', 'you@company.pl', 'you@company.by'],
     ['Русский', 'Russian', 'Rosyjski', 'Руская'], ['Проекты', 'Projects', 'Projekty', 'Праекты'], ['Услуги', 'Services', 'Usługi', 'Паслугі'], ['Студия', 'Studio', 'Studio', 'Студыя'], ['Студия / online', 'Studio / online', 'Studio / online', 'Студыя / online'], ['Команда', 'Team', 'Zespół', 'Каманда'], ['Карьера', 'Careers', 'Kariera', 'Кар’ера'], ['Lab', 'Lab', 'Lab', 'Lab'], ['Обсудить проект', 'Discuss a project', 'Omówmy projekt', 'Абмеркаваць праект'], ['Контакты', 'Contact', 'Kontakt', 'Кантакты'], ['Конфиденциальность', 'Privacy', 'Prywatność', 'Канфідэнцыяльнасць'], ['К содержимому', 'Skip to content', 'Przejdź do treści', 'Да зместу'], ['Основная навигация', 'Main navigation', 'Główna nawigacja', 'Асноўная навігацыя'], ['Мобильная навигация', 'Mobile navigation', 'Nawigacja mobilna', 'Мабільная навігацыя'], ['Ссылки в подвале', 'Footer links', 'Linki w stopce', 'Спасылкі ў падвале'], ['Открыть меню', 'Open menu', 'Otwórz menu', 'Адкрыць меню'], ['Закрыть меню', 'Close menu', 'Zamknij menu', 'Закрыць меню'], ['Язык сайта', 'Site language', 'Język strony', 'Мова сайта'], ['Переключить цветовую тему', 'Toggle colour theme', 'Przełącz motyw kolorystyczny', 'Пераключыць каляровую тэму'], ['Есть идея? Давайте придадим ей форму.', 'Have an idea? Let’s give it shape.', 'Masz pomysł? Nadajmy mu formę.', 'Ёсць ідэя? Надамо ёй форму.'], ['Начнём разговор', 'Start a conversation', 'Zacznijmy rozmowę', 'Пачнём размову'], ['Дизайн с характером. Разработка с мыслью.', 'Design with character. Development with intent.', 'Design z charakterem. Rozwój z myślą.', 'Дызайн з характарам. Распрацоўка з думкай.'], ['Смотреть проекты', 'View projects', 'Zobacz projekty', 'Глядзець праекты'], ['Обсудить задачу', 'Discuss the task', 'Omówmy zadanie', 'Абмеркаваць задачу'], ['Обсудить похожую задачу ↗︎', 'Discuss a similar task ↗︎', 'Omówmy podobne zadanie ↗︎', 'Абмеркаваць падобную задачу ↗︎'], ['Открыть письмо', 'Open email', 'Otwórz e-mail', 'Адкрыць ліст'], ['Скачать .txt', 'Download .txt', 'Pobierz .txt', 'Спампаваць .txt'], ['Откликнуться ↗︎', 'Apply ↗︎', 'Aplikuj ↗︎', 'Адгукнуцца ↗︎'], ['Карьера / открытые роли', 'Careers / open roles', 'Kariera / otwarte role', 'Кар’ера / адкрытыя ролі'], ['ПРИЁМ В КОМАНДУ / ДЕМО', 'JOIN THE TEAM / DEMO', 'DOŁĄCZ DO ZESPOŁU / DEMO', 'ДАЛУЧЭННЕ ДА КАМАНДЫ / ДЭМА'], ['Контактное лицо', 'Contact person', 'Osoba kontaktowa', 'Кантактная асоба'], ['Кого ищем', 'Who we are looking for', 'Kogo szukamy', 'Каго шукаем'], ['Как знакомимся', 'How we meet', 'Jak się poznajemy', 'Як знаёмімся'], ['Наше обещание', 'Our promise', 'Nasza obietnica', 'Наша абяцанне'], ['Демо-контакты', 'Demo contacts', 'Kontakty demo', 'Дэма-кантакты'],
     ['Независимая digital-студия', 'Independent digital studio', 'Niezależne studio digital', 'Незалежная digital-студыя'], ['ДИЗАЙН / ТЕХНОЛОГИИ / ХАРАКТЕР', 'DESIGN / TECHNOLOGY / CHARACTER', 'DESIGN / TECHNOLOGIA / CHARAKTER', 'ДЫЗАЙН / ТЭХНАЛОГІІ / ХАРАКТАР'], ['Хорошим идеям', 'Good ideas', 'Dobrym pomysłom', 'Добрым ідэям'], ['нужна', 'need', 'potrzebna jest', 'патрэбна'], ['форма.', 'form.', 'forma.', 'форма.'], ['Создаём сайты и приложения,', 'We create websites and apps,', 'Tworzymy strony i aplikacje,', 'Ствараем сайты і праграмы,'], ['в которых смысл становится опытом.', 'where meaning becomes an experience.', 'w których sens staje się doświadczeniem.', 'у якіх сэнс становіцца вопытам.'], ['ACOR / FORM STUDY — 001', 'ACOR / FORM STUDY — 001', 'ACOR / FORM STUDY — 001', 'ACOR / FORM STUDY — 001'], ['Листайте. Дальше интереснее.', 'Scroll on. It gets more interesting.', 'Przewiń. Dalej jest ciekawiej.', 'Гартайце. Далей цікавей.'], ['Стратегия. Дизайн. Разработка.', 'Strategy. Design. Development.', 'Strategia. Design. Rozwój.', 'Стратэгія. Дызайн. Распрацоўка.'], ['Форма следует за смыслом', 'Form follows meaning', 'Forma podąża za sensem', 'Форма ідзе за сэнсам'], ['Между «просто работает»', 'Between “it just works”', 'Pomiędzy „po prostu działa”', 'Паміж «проста працуе»'], ['и', 'and', 'a', 'і'], ['«невозможно забыть».', 'and “impossible to forget”.', 'a „nie da się zapomnieć”.', 'і «немагчыма забыць».'], ['Мы ищем точку встречи.', 'We look for the meeting point.', 'Szukamy punktu spotkania.', 'Мы шукаем кропку сустрэчы.'], ['Соединяем смелый дизайн и внимательную разработку. Чтобы продукт не только запоминался, но и помогал людям решать свои задачи.', 'We pair bold design with careful development, so a product is memorable and useful.', 'Łączymy odważny design z uważnym rozwojem, aby produkt zapadał w pamięć i pomagał ludziom.', 'Спалучаем смелы дызайн і ўважлівую распрацоўку, каб прадукт запамінаўся і дапамагаў людзям.'], ['Ближе к студии ↗︎', 'Meet the studio ↗︎', 'Poznaj studio ↗︎', 'Бліжэй да студыі ↗︎'], ['Избранные концепции', 'Selected concepts', 'Wybrane koncepcje', 'Абраныя канцэпцыі'], ['Работы говорят.', 'The work speaks.', 'Prace mówią.', 'Працы гавораць.'], ['Все проекты ↗︎', 'All projects ↗︎', 'Wszystkie projekty ↗︎', 'Усе праекты ↗︎'], ['Что мы делаем', 'What we do', 'Co robimy', 'Што мы робім'], ['От первой мысли.', 'From the first thought.', 'Od pierwszej myśli.', 'Ад першай думкі.'], ['До следующей версии.', 'To the next version.', 'Do kolejnej wersji.', 'Да наступнай версіі.'], ['Одна команда на всём пути.', 'One team all the way.', 'Jeden zespół na całej drodze.', 'Адна каманда на ўсім шляху.'], ['Столько экспертизы, сколько нужно задаче.', 'As much expertise as the task needs.', 'Tyle doświadczenia, ile potrzebuje zadanie.', 'Столькі экспертызы, колькі патрэбна задачы.'], ['Ваша идея — точка старта', 'Your idea is the starting point', 'Twój pomysł to punkt startu', 'Ваша ідэя — пункт старту'], ['А что создадим', 'What shall we create', 'Co stworzymy', 'А што створым'], ['вместе?', 'together?', 'razem?', 'разам?'], ['Выберите направление.', 'Choose a direction.', 'Wybierz kierunek.', 'Выберыце напрамак.'], ['Посмотрите, как меняется команда.', 'See how the team changes.', 'Zobacz, jak zmienia się zespół.', 'Паглядзіце, як змяняецца каманда.'], ['Сайт с характером', 'A website with character', 'Strona z charakterem', 'Сайт з характарам'], ['Бренд, пространство, история', 'Brand, space, story', 'Marka, przestrzeń, historia', 'Брэнд, прастора, гісторыя'], ['Удобное приложение', 'A useful app', 'Wygodna aplikacja', 'Зручная праграма'], ['Продукт в повседневной жизни', 'A product for everyday life', 'Produkt na co dzień', 'Прадукт на кожны дзень'], ['Новая визуальная система', 'A new visual system', 'Nowy system wizualny', 'Новая візуальная сістэма'], ['Идея, которую узнают', 'An idea people recognize', 'Pomysł, który rozpoznasz', 'Ідэя, якую пазнаюць'], ['ВАША ИДЕЯ / ACOR WEB', 'YOUR IDEA / ACOR WEB', 'TWÓJ POMYSŁ / ACOR WEB', 'ВАША ІДЭЯ / ACOR WEB'], ['Есть идея.', 'There is an idea.', 'Jest pomysł.', 'Ёсць ідэя.'], ['Будет сайт.', 'There will be a website.', 'Będzie strona.', 'Будзе сайт.'], ['Начать историю ↗︎', 'Start the story ↗︎', 'Zacznij historię ↗︎', 'Пачаць гісторыю ↗︎'], ['Впечатление с первого экрана.', 'A first-screen impression.', 'Wrażenie od pierwszego ekranu.', 'Уражанне з першага экрана.'], ['От структуры и визуальной идеи до быстрого, адаптивного сайта.', 'From structure and visual idea to a fast, responsive website.', 'Od struktury i pomysłu wizualnego do szybkiej, responsywnej strony.', 'Ад структуры і візуальнай ідэі да хуткага адаптыўнага сайта.'], ['Аналитик', 'Analyst', 'Analityk', 'Аналітык'], ['Дизайнер', 'Designer', 'Projektant', 'Дызайнер'], ['Обсудить сайт ↗︎', 'Discuss the website ↗︎', 'Omówmy stronę ↗︎', 'Абмеркаваць сайт ↗︎'], ['Люди за результатом', 'People behind the result', 'Ludzie za rezultatem', 'Людзі за вынікам'], ['Разные взгляды.', 'Different perspectives.', 'Różne spojrzenia.', 'Розныя погляды.'], ['Общий фокус.', 'One shared focus.', 'Wspólny fokus.', 'Агульны фокус.'], ['Аналитики, дизайнеры и разработчики за одним столом. Обсуждаем, пробуем, находим. Вместе с вами.', 'Analysts, designers and developers at one table. We discuss, test and find the way with you.', 'Analitycy, projektanci i programiści przy jednym stole. Rozmawiamy, próbujemy i znajdujemy rozwiązania razem z Tobą.', 'Аналітыкі, дызайнеры і распрацоўшчыкі за адным сталом. Абмяркоўваем, спрабуем, знаходзім разам з вамі.'], ['Познакомиться с командой ↗︎', 'Meet the team ↗︎', 'Poznaj zespół ↗︎', 'Пазнаёміцца з камандай ↗︎'], ['Как идея становится продуктом', 'How an idea becomes a product', 'Jak pomysł staje się produktem', 'Як ідэя становіцца прадуктам'], ['У каждого шага —', 'Every step has a', 'Każdy krok ma', 'У кожнага кроку —'], ['понятный результат.', 'clear result.', 'jasny rezultat.', 'зразумелы вынік.'], ['Выберите этап.', 'Choose a stage.', 'Wybierz etap.', 'Выберыце этап.'], ['Покажем, что происходит внутри.', 'See what happens inside.', 'Pokażemy, co dzieje się w środku.', 'Пакажам, што адбываецца ўнутры.'], ['Погружение', 'Discovery', 'Poznanie', 'Пагружэнне'], ['Создание', 'Creation', 'Tworzenie', 'Стварэнне'], ['Запуск', 'Launch', 'Start', 'Запуск'], ['Сначала — правильные вопросы', 'Start with the right questions', 'Zaczynamy od właściwych pytań', 'Спачатку — правільныя пытанні'], ['Собираем картину.', 'We build the picture.', 'Budujemy obraz.', 'Збіраем карціну.'], ['Находим главное.', 'We find what matters.', 'Znajdujemy sedno.', 'Знаходзім галоўнае.'], ['Проводим интервью, разбираем аудиторию и пользовательские сценарии. Вместе определяем, что продукт должен изменить.', 'We interview people, study the audience and define what the product should change.', 'Prowadzimy wywiady, poznajemy odbiorców i ustalamy, co produkt ma zmienić.', 'Праводзім інтэрв’ю, разбіраем аўдыторыю і вызначаем, што павінен змяніць прадукт.'], ['Карта сценариев', 'Scenario map', 'Mapa scenariuszy', 'Карта сцэнарыяў'], ['Требования к продукту', 'Product requirements', 'Wymagania produktu', 'Патрабаванні да прадукту'], ['План работы', 'Work plan', 'Plan pracy', 'План працы'], ['Идея приобретает форму', 'The idea takes shape', 'Pomysł nabiera formy', 'Ідэя набывае форму'], ['Пробуем. Обсуждаем.', 'We try. We discuss.', 'Próbujemy. Rozmawiamy.', 'Спрабуем. Абмяркоўваем.'], ['Доводим до деталей.', 'We refine the details.', 'Dopracowujemy szczegóły.', 'Даводзім да дэталяў.'], ['Создаём концепцию, проверяем сценарии на прототипе и превращаем дизайн в работающий интерфейс. Показываем промежуточные версии.', 'We create a concept, test scenarios in a prototype and turn design into a working interface.', 'Tworzymy koncepcję, testujemy scenariusze w prototypie i zamieniamy design w działający interfejs.', 'Ствараем канцэпцыю, правяраем сцэнарыі на прататыпе і ператвараем дызайн у працоўны інтэрфейс.'], ['Визуальная концепция', 'Visual concept', 'Koncepcja wizualna', 'Візуальная канцэпцыя'], ['Дизайн-система', 'Design system', 'System designu', 'Дызайн-сістэма'], ['Рабочий продукт', 'Working product', 'Działający produkt', 'Працоўны прадукт'], ['Всё готово к первому пользователю', 'Ready for the first user', 'Gotowe na pierwszego użytkownika', 'Усё гатова да першага карыстальніка'], ['Проверяем важное.', 'We check what matters.', 'Sprawdzamy to, co ważne.', 'Правяраем важнае.'], ['Запускаем уверенно.', 'We launch with confidence.', 'Startujemy pewnie.', 'Запускаем упэўнена.'], ['Тестируем продукт на разных устройствах, готовим выпуск и передаём команде понятные инструкции. Договариваемся о дальнейшем развитии.', 'We test on devices, prepare the release and hand the team clear instructions for what comes next.', 'Testujemy na urządzeniach, przygotowujemy wydanie i przekazujemy zespołowi jasne instrukcje.', 'Тэстуем на розных прыладах, рыхтуем рэліз і перадаём камандзе зразумелыя інструкцыі.'], ['Протестированные сценарии', 'Tested scenarios', 'Przetestowane scenariusze', 'Пратэставаныя сцэнарыі'], ['Опубликованный продукт', 'Published product', 'Opublikowany produkt', 'Апублікаваны прадукт'], ['План развития', 'Growth plan', 'Plan rozwoju', 'План развіцця'], ['Вы участвуете в решениях. Мы отвечаем за целостность.', 'You take part in decisions. We keep the whole picture together.', 'Bierzesz udział w decyzjach. Dbamy o spójność.', 'Вы ўдзельнічаеце ў рашэннях. Мы адказваем за цэласнасць.'], ['Обсудить свой процесс ↗︎', 'Discuss your process ↗︎', 'Omówmy Twój proces ↗︎', 'Абмеркаваць свой працэс ↗︎'],
     ['Студия / Acor Web', 'Studio / Acor Web', 'Studio / Acor Web', 'Студыя / Acor Web'], ['Внимание к сути.', 'Attention to the essence.', 'Uwaga na sedno.', 'Увага да сутнасці.'], ['Смелость в форме.', 'Courage in form.', 'Odwaga w formie.', 'Смеласць у форме.'], ['Мы — команда, в которой дизайн и разработка разговаривают на одном языке. Создаём цифровые продукты с характером и понятной логикой.', 'We are a team where design and development speak one language. We create digital products with character and clear logic.', 'Jesteśmy zespołem, w którym design i rozwój mówią jednym językiem. Tworzymy produkty cyfrowe z charakterem i jasną logiką.', 'Мы — каманда, у якой дызайн і распрацоўка размаўляюць на адной мове. Ствараем лічбавыя прадукты з характарам і зразумелай логікай.'], ['СМЫСЛ × ФОРМА × ТЕХНОЛОГИИ', 'MEANING × FORM × TECHNOLOGY', 'SENS × FORMA × TECHNOLOGIA', 'СЭНС × ФОРМА × ТЭХНАЛОГІІ'], ['Наш подход', 'Our approach', 'Nasze podejście', 'Наш падыход'], ['Хороший результат', 'A good result', 'Dobry rezultat', 'Добры вынік'], ['начинается', 'starts', 'zaczyna się', 'пачынаецца'], ['с диалога.', 'with a dialogue.', 'od rozmowy.', 'з дыялогу.'], ['Нам важно понять, почему продукт должен появиться. Что он изменит. Кто будет им пользоваться. Из этого рождаются решения, которые не нужно объяснять длинной презентацией.', 'We need to understand why a product should exist, what it changes and who will use it. That is where self-explanatory decisions come from.', 'Chcemy zrozumieć, po co produkt ma powstać, co zmieni i kto będzie z niego korzystać. Z tego rodzą się rozwiązania, których nie trzeba długo tłumaczyć.', 'Нам важна зразумець, навошта патрэбны прадукт, што ён зменіць і хто будзе ім карыстацца. Так нараджаюцца рашэнні, якія не трэба доўга тлумачыць.'], ['Сначала задача.', 'The task comes first.', 'Najpierw zadanie.', 'Спачатку задача.'], ['Потом инструменты.', 'Then the tools.', 'Potem narzędzia.', 'Потым інструменты.'], ['Выбираем технологии и визуальные приёмы под продукт, аудиторию и ограничения.', 'We choose technology and visual techniques for the product, audience and constraints.', 'Dobieramy technologie i środki wizualne do produktu, odbiorców i ograniczeń.', 'Выбіраем тэхналогіі і візуальныя прыёмы пад прадукт, аўдыторыю і абмежаванні.'], ['Открытость', 'Openness', 'Otwartość', 'Адкрытасць'], ['Решения видны.', 'Decisions stay visible.', 'Decyzje są widoczne.', 'Рашэнні бачныя.'], ['Вопросы обсуждаются.', 'Questions are discussed.', 'Pytania omawiamy razem.', 'Пытанні абмяркоўваюцца.'], ['Показываем промежуточные результаты и объясняем, как пришли к ним.', 'We show work in progress and explain how we got there.', 'Pokazujemy wersje pośrednie i wyjaśniamy, skąd się wzięły.', 'Паказваем прамежкавыя вынікі і тлумачым, як да іх прыйшлі.'], ['Внимание', 'Care', 'Uważność', 'Увага'], ['Детали складываются', 'Details add up', 'Szczegóły składają się', 'Дэталі складаюцца'], ['в целое.', 'into a whole.', 'w całość.', 'у цэлае.'], ['Типографика, скорость, доступность и обратная связь — одинаково важные части опыта.', 'Typography, speed, accessibility and feedback are equally important parts of the experience.', 'Typografia, szybkość, dostępność i informacja zwrotna są równie ważne.', 'Тыпаграфіка, хуткасць, даступнасць і зваротная сувязь — аднолькава важныя часткі досведу.'], ['Наблюдения студии', 'Studio notes', 'Notatki studia', 'Назіранні студыі'], ['Думаем вслух.', 'Thinking out loud.', 'Myślimy na głos.', 'Думаем услых.'], ['Проверяем делом.', 'We test it in practice.', 'Sprawdzamy w praktyce.', 'Правяраем справай.'], ['Короткие заметки о структуре, визуальном языке и поведении цифровых продуктов.', 'Short notes on structure, visual language and product behaviour.', 'Krótkie notatki o strukturze, języku wizualnym i zachowaniu produktów cyfrowych.', 'Кароткія нататкі пра структуру, візуальную мову і паводзіны лічбавых прадуктаў.'], ['01 / Структура', '01 / Structure', '01 / Struktura', '01 / Структура'], ['Красивый экран начинается до дизайна.', 'A beautiful screen starts before design.', 'Piękny ekran zaczyna się przed designem.', 'Прыгожы экран пачынаецца да дызайну.'], ['Сначала раскладываем задачу на решения и сценарии. Когда путь пользователя ясен, визуальный стиль получает опору и не превращается в декорацию.', 'We first break the task into decisions and scenarios. When the path is clear, visual style has a foundation.', 'Najpierw rozkładamy zadanie na decyzje i scenariusze. Gdy ścieżka jest jasna, styl wizualny ma oparcie.', 'Спачатку раскладваем задачу на рашэнні і сцэнарыі. Калі шлях карыстальніка ясны, візуальны стыль мае апору.'], ['02 / Движение', '02 / Motion', '02 / Ruch', '02 / Рух'], ['Анимация должна отвечать на действие.', 'Animation should answer an action.', 'Animacja powinna odpowiadać na działanie.', 'Анімацыя павінна адказваць на дзеянне.'], ['Переход, задержка или смена цвета полезны, когда объясняют связь между состояниями. Мы убираем эффект, если он не помогает понять следующий шаг.', 'A transition, delay or colour change is useful when it explains a connection between states. We remove effects that do not help.', 'Przejście, opóźnienie lub zmiana koloru mają sens, gdy wyjaśniają relację stanów.', 'Пераход, затрымка ці змена колеру карысныя, калі тлумачаць сувязь паміж станамі.'], ['03 / Запуск', '03 / Launch', '03 / Start', '03 / Запуск'], ['Первую версию можно сделать точнее.', 'The first version can be more precise.', 'Pierwszą wersję można dopracować.', 'Першую версію можна зрабіць дакладней.'], ['Запуск — начало наблюдений. Смотрим на реальные сценарии, собираем обратную связь и развиваем продукт там, где это заметно людям.', 'Launch is the start of observation. We watch real scenarios, collect feedback and improve what people notice.', 'Start to początek obserwacji. Patrzymy na scenariusze, zbieramy opinie i rozwijamy to, co widać.', 'Запуск — пачатак назіранняў. Глядзім на рэальныя сцэнарыі, збіраем водгукі і развіваем тое, што заўважаюць людзі.'],
@@ -414,6 +414,17 @@
       project.hidden = !visible;
       if (visible) count++;
     });
+    if (!motionDisabled) {
+      requestAnimationFrame(() => {
+        projects.forEach((project, index) => {
+          if (project.hidden || typeof project.animate !== 'function') return;
+          project.animate(
+            [{ opacity: .2, transform: 'translateY(18px) scale(.985)' }, { opacity: 1, transform: 'translateY(0) scale(1)' }],
+            { duration: 460 + index * 45, delay: index * 35, easing: 'cubic-bezier(.22,1,.36,1)' }
+          );
+        });
+      });
+    }
     const status = document.querySelector('#filter-status');
     if (status) status.textContent = `Показано проектов: ${count}`;
     if (updateUrl && filter.dataset.filter !== 'all') {
@@ -588,6 +599,39 @@
     });
   }
 
+  // The Lab object can be shaped directly with a pointer or a finger. The
+  // range inputs remain the source of truth, so keyboard users get the same
+  // result and the gesture never changes the page scroll position.
+  if (labArt && labObject && rotation && scale) {
+    let dragState = null;
+    labObject.setAttribute('draggable', 'false');
+    labObject.style.touchAction = 'none';
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const stopLabDrag = (event) => {
+      if (!dragState) return;
+      if (event?.pointerId !== undefined && labObject.hasPointerCapture?.(event.pointerId)) labObject.releasePointerCapture(event.pointerId);
+      dragState = null;
+      labArt.classList.remove('is-dragging');
+    };
+    labObject.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      event.preventDefault();
+      labObject.setPointerCapture?.(event.pointerId);
+      dragState = { x: event.clientX, y: event.clientY, angle: Number(rotation.value), size: Number(scale.value) };
+      labArt.classList.add('is-dragging');
+    });
+    labObject.addEventListener('pointermove', (event) => {
+      if (!dragState) return;
+      event.preventDefault();
+      rotation.value = String(Math.round(clamp(dragState.angle + (event.clientX - dragState.x) * .16, Number(rotation.min), Number(rotation.max))));
+      scale.value = String(Math.round(clamp(dragState.size - (event.clientY - dragState.y) * .12, Number(scale.min), Number(scale.max))));
+      updateLab();
+    });
+    labObject.addEventListener('pointerup', stopLabDrag);
+    labObject.addEventListener('pointercancel', stopLabDrag);
+    labObject.addEventListener('lostpointercapture', () => stopLabDrag());
+  }
+
   const form = document.querySelector('#brief-form');
   if (form) {
     const typeLabels = { web: 'Сайт', app: 'Приложение', design: 'Дизайн', other: 'Другое' };
@@ -629,12 +673,19 @@
       form.reset();
       try { sessionStorage.removeItem(draftKey); } catch { /* The form still resets locally. */ }
       const status = document.querySelector('#form-status');
-      if (status) status.textContent = t('Черновик очищен.');
+      if (status) {
+        status.textContent = t('Черновик очищен.');
+        status.classList.remove('is-success');
+        status.classList.add('is-visible');
+      }
     });
     form.querySelector('.form-actions')?.append(clearDraft);
     if (restoredDraft) {
       const status = document.querySelector('#form-status');
-      if (status) status.textContent = t('Черновик восстановлен из этой сессии.');
+      if (status) {
+        status.textContent = t('Черновик восстановлен из этой сессии.');
+        status.classList.add('is-visible');
+      }
     }
     const initialType = new URLSearchParams(location.search).get('type');
     if (Object.hasOwn(typeLabels, initialType)) {
@@ -665,7 +716,12 @@
       download.href = url; download.download = 'acor-project-brief.txt';
       document.body.append(download); download.click(); download.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      document.querySelector('#form-status').textContent = t('Бриф скачан. Его можно прикрепить к письму или сохранить для себя.');
+      const status = document.querySelector('#form-status');
+      if (status) {
+        status.textContent = t('Бриф скачан. Его можно прикрепить к письму или сохранить для себя.');
+        status.classList.remove('is-success');
+        status.classList.add('is-visible');
+      }
     };
     document.querySelector('#download-brief')?.addEventListener('click', () => {
       if (form.reportValidity()) downloadBrief();
@@ -678,11 +734,20 @@
       const body = encodeURIComponent(text);
       const submitButton = form.querySelector('button[type="submit"]');
       if (submitButton) submitButton.disabled = true;
-      document.querySelector('#form-status').textContent = t('Открываем почтовое приложение…');
+      const status = document.querySelector('#form-status');
+      if (status) {
+        status.textContent = t('Открываем почтовое приложение…');
+        status.classList.remove('is-success');
+        status.classList.add('is-visible');
+      }
       window.location.href = `mailto:hello@acorweb.ru?subject=${subject}&body=${body}`;
       window.setTimeout(() => {
         if (submitButton) submitButton.disabled = false;
-        document.querySelector('#form-status').textContent = `${t('Письмо подготовлено для')} ${data.get('email')}. ${t('Если приложение не открылось, скачайте .txt-файл ниже.')}`;
+        const readyStatus = document.querySelector('#form-status');
+        if (readyStatus) {
+          readyStatus.textContent = `${t('Письмо подготовлено для')} ${data.get('email')}. ${t('Если приложение не открылось, скачайте .txt-файл ниже.')}`;
+          readyStatus.classList.add('is-success', 'is-visible');
+        }
       }, 900);
     });
   }
@@ -715,8 +780,16 @@
   const chapters = Array.from(document.querySelectorAll('[data-chapter]'));
   const footer = document.querySelector('.site-footer');
   let scrollFrame = null;
+  let previousScrollY = scrollY;
+  let previousScrollAt = performance.now();
   const updateScroll = () => {
     scrollFrame = null;
+    const now = performance.now();
+    const elapsed = Math.max(16, now - previousScrollAt);
+    const velocity = Math.max(-18, Math.min(18, ((scrollY - previousScrollY) / elapsed) * 14));
+    previousScrollY = scrollY;
+    previousScrollAt = now;
+    document.body.style.setProperty('--scroll-velocity', motionDisabled ? '0' : velocity.toFixed(2));
     const distance = document.documentElement.scrollHeight - innerHeight;
     progress?.style.setProperty('--reading', String(distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0));
     progress?.setAttribute('aria-valuenow', String(Math.round((distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0) * 100)));
@@ -1178,7 +1251,95 @@
       compare.style.setProperty('--compare', `${range.value}%`);
       if (output) output.textContent = `${range.value}%`;
     });
+    compare.addEventListener('pointerenter', () => {
+      if (!cursor || motionDisabled || !finePointer.matches) return;
+      cursor.textContent = t('Сравнить ↔︎');
+      cursor.classList.add('visible');
+    });
+    compare.addEventListener('pointermove', (event) => {
+      if (!cursor || motionDisabled || !finePointer.matches) return;
+      cursor.style.left = `${event.clientX}px`;
+      cursor.style.top = `${event.clientY}px`;
+    });
+    compare.addEventListener('pointerleave', () => cursor?.classList.remove('visible'));
   });
+
+  // A light 3D response gives the case cards a material feel without adding a
+  // render loop. It stays on fine pointers where the gesture is predictable.
+  if (finePointer.matches) {
+    document.querySelectorAll('.project-link').forEach((target) => {
+      let tiltFrame = null;
+      target.addEventListener('pointermove', (event) => {
+        if (motionDisabled) return;
+        if (tiltFrame) cancelAnimationFrame(tiltFrame);
+        tiltFrame = requestAnimationFrame(() => {
+          const rect = target.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / Math.max(1, rect.width) - .5;
+          const y = (event.clientY - rect.top) / Math.max(1, rect.height) - .5;
+          target.style.setProperty('--card-tilt-x', `${(y * -2.8).toFixed(2)}deg`);
+          target.style.setProperty('--card-tilt-y', `${(x * 3.2).toFixed(2)}deg`);
+          target.style.setProperty('--card-lift', `${Math.min(7, Math.max(0, (Math.abs(x) + Math.abs(y)) * 3)).toFixed(2)}px`);
+        });
+      });
+      target.addEventListener('pointerleave', () => {
+        if (tiltFrame) cancelAnimationFrame(tiltFrame);
+        target.style.setProperty('--card-tilt-x', '0deg');
+        target.style.setProperty('--card-tilt-y', '0deg');
+        target.style.setProperty('--card-lift', '0px');
+      });
+    });
+  }
+
+  // A tactile ripple confirms taps on primary actions, especially on touch
+  // screens where hover feedback is unavailable.
+  document.addEventListener('pointerdown', (event) => {
+    if (motionDisabled || event.target.closest('input,textarea,select,[data-compare-range]')) return;
+    const target = event.target.closest('button,.dark-button,.light-button,.round-link,.text-link');
+    if (!target || target.closest('.mobile-nav')) return;
+    const ripple = document.createElement('span');
+    ripple.className = 'tap-ripple';
+    ripple.style.left = `${event.clientX}px`;
+    ripple.style.top = `${event.clientY}px`;
+    document.body.append(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+  }, { passive: true });
+
+  // Page entry and non-View-Transition browsers still get a quiet handoff.
+  document.body.classList.add('page-enter');
+  requestAnimationFrame(() => document.body.classList.remove('page-enter'));
+
+  // The 404 page doubles as a tiny studio experiment: catch the moving arrow
+  // five times to reveal a route back to the work.
+  const offlinePage = document.querySelector('.offline-page');
+  if (offlinePage && pageKey() === '404.html') {
+    const game = document.createElement('button');
+    game.type = 'button';
+    game.className = 'error-orbit';
+    game.setAttribute('aria-label', t('Поймать форму'));
+    game.innerHTML = '<span class="error-orbit-core">↗︎</span><span class="error-orbit-label">Поймать форму</span>';
+    const status = document.createElement('p');
+    status.className = 'error-orbit-status';
+    status.setAttribute('role', 'status');
+    let catches = 0;
+    const move = () => {
+      game.style.setProperty('--orbit-x', `${Math.round((Math.random() - .5) * 100)}px`);
+      game.style.setProperty('--orbit-y', `${Math.round((Math.random() - .5) * 70)}px`);
+      game.style.setProperty('--orbit-r', `${Math.round((Math.random() - .5) * 18)}deg`);
+    };
+    game.addEventListener('click', () => {
+      catches += 1;
+      if (catches >= 5) {
+        status.textContent = t('Форма найдена. Открываем проекты.');
+        game.classList.add('is-complete');
+        window.setTimeout(() => { location.href = 'cases.html'; }, motionDisabled ? 0 : 520);
+      } else {
+        status.textContent = `${t('Поймано')} ${catches}/5`;
+        move();
+      }
+    });
+    offlinePage.append(game, status);
+    move();
+  }
 
   const labRandom = document.querySelector('#lab-random');
   const labPaletteChoices = document.querySelectorAll('[data-lab-palette]');
@@ -1281,6 +1442,7 @@
   }
 
   const stepTabs = Array.from(document.querySelectorAll('[data-step]'));
+  const processTabs = document.querySelector('.process-tabs');
   const selectStep = (button) => {
     stepTabs.forEach((tab) => {
       const selected = tab === button;
@@ -1291,6 +1453,8 @@
       panel.getAnimations({ subtree: true }).forEach((animation) => animation.cancel());
       if (selected && !motionDisabled) panel.animate([{ opacity: .2, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 400, easing: 'ease-out' });
     });
+    const index = Math.max(0, stepTabs.indexOf(button));
+    processTabs?.style.setProperty('--process-progress', `${stepTabs.length > 1 ? (index / (stepTabs.length - 1)) * 100 : 0}%`);
   };
   stepTabs.forEach((button, index) => {
     button.addEventListener('click', () => selectStep(button));
@@ -1306,6 +1470,7 @@
       stepTabs[target].focus();
     });
   });
+  if (stepTabs.length) selectStep(stepTabs.find((tab) => tab.getAttribute('aria-selected') === 'true') || stepTabs[0]);
 
   // Translate static and progressively-created interface text after all page
   // modules have mounted their controls.
