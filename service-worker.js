@@ -1,8 +1,7 @@
-const CACHE_NAME = 'acor-web-v31';
+const CACHE_NAME = 'acor-web-v32';
 const CORE = [
   './', './index.html', './cases.html', './services.html', './about.html', './team.html', './careers.html', './lab.html', './contact.html', './privacy.html', './offline.html', './404.html', './robots.txt', './sitemap.xml',
-  './case-arden.html', './case-greenflow.html', './case-orbit.html', './styles.css', './script.js', './manifest.webmanifest',
-  './assets/favicon.svg', './assets/sculpture.jpg', './assets/arden.jpg', './assets/flora.jpg', './assets/team-1.jpg', './assets/team-2.jpg', './assets/team-3.jpg', './assets/team-4.jpg'
+  './case-arden.html', './case-greenflow.html', './case-orbit.html', './styles.css', './script.js', './manifest.webmanifest'
 ];
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE)).then(() => self.skipWaiting()));

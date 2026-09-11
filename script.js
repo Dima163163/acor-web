@@ -1,5 +1,31 @@
 (() => {
   'use strict';
+  // The Vite navigation layer can swap page markup without a hard reload. Keep
+  // one abortable listener scope so the legacy interaction layer can be
+  // re-mounted safely after every client-side route change.
+  window.__acorRuntimeCleanup?.();
+  const runtimeController = new AbortController();
+  if (!window.__acorListenerPatch) {
+    const nativeAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function patchedAddEventListener(type, listener, options) {
+      const controller = window.__acorRuntimeController;
+      if (!controller?.signal || (typeof options === 'object' && options?.signal)) {
+        return nativeAddEventListener.call(this, type, listener, options);
+      }
+      const normalizedOptions = typeof options === 'boolean' ? { capture: options } : { ...(options || {}) };
+      normalizedOptions.signal = controller.signal;
+      return nativeAddEventListener.call(this, type, listener, normalizedOptions);
+    };
+    window.__acorListenerPatch = true;
+  }
+  window.__acorRuntimeController = runtimeController;
+  let runtimeCleaned = false;
+  window.__acorRuntimeCleanup = () => {
+    if (runtimeCleaned) return;
+    runtimeCleaned = true;
+    runtimeController.abort();
+    if (window.__acorRuntimeController === runtimeController) window.__acorRuntimeController = null;
+  };
   // A small, dependency-free locale layer keeps the static prototype usable in
   // four languages while preserving the original Russian markup as a fallback.
   const localeInfo = {
@@ -1481,4 +1507,7 @@
       // The studio stays fully usable when service workers are disabled.
     }), { once: true });
   }
+  queueMicrotask(() => {
+    if (window.__acorRuntimeController === runtimeController) window.__acorRuntimeController = null;
+  });
 })();
