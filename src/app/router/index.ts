@@ -4,25 +4,28 @@ import { withViewTransition } from '../../widgets/page-transition/model';
 
 const runtimeScriptSelector = 'script[data-acor-spa-runtime]';
 
-const loadLegacyRuntime = (): void => {
+export const loadLegacyRuntime = (): void => {
   document.querySelector(runtimeScriptSelector)?.remove();
   const script = document.createElement('script');
   script.src = `/script.js?v=20260911-31&spa=${Date.now()}`;
   script.defer = true;
+  script.async = false;
   script.dataset.acorSpaRuntime = 'true';
   document.head.append(script);
 };
 
-const swapDocument = (nextDocument: Document, url: URL): void => {
-  const nextBody = nextDocument.body;
-  if (!nextBody) throw new Error('The destination page has no body.');
+export interface NavigationOptions {
+  renderRoute: (markup: string, url: URL) => void;
+}
 
-  window.__acorRuntimeCleanup?.();
+const swapDocument = (nextDocument: Document, url: URL, renderRoute: NavigationOptions['renderRoute']): void => {
+  const nextRoot = nextDocument.querySelector<HTMLElement>('#route-root');
+  if (!nextRoot) throw new Error('The destination page has no route root.');
+
   copyPageHead(nextDocument);
-  document.body.replaceWith(nextBody.cloneNode(true));
+  renderRoute(nextRoot.innerHTML, url);
   syncCurrentNavigation(url.pathname);
   window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  loadLegacyRuntime();
 };
 
 const scrollToHash = (url: URL): void => {
@@ -32,7 +35,7 @@ const scrollToHash = (url: URL): void => {
   target.scrollIntoView({ behavior: document.body.classList.contains('motion-off') ? 'auto' : 'smooth', block: 'start' });
 };
 
-const navigate = async (url: URL, replace = false): Promise<void> => {
+const navigate = async (url: URL, renderRoute: NavigationOptions['renderRoute'], replace = false): Promise<void> => {
   if (!isSiteRoute(url.pathname)) return;
   if (url.href === window.location.href) return;
 
@@ -50,7 +53,7 @@ const navigate = async (url: URL, replace = false): Promise<void> => {
     if (!response.ok) throw new Error(`Navigation failed with ${response.status}`);
     const html = await response.text();
     const nextDocument = new DOMParser().parseFromString(html, 'text/html');
-    await withViewTransition(() => swapDocument(nextDocument, url));
+    await withViewTransition(() => swapDocument(nextDocument, url, renderRoute));
     if (replace) window.history.replaceState({}, '', url.href);
     else window.history.pushState({}, '', url.href);
     window.setTimeout(() => scrollToHash(url), 0);
@@ -63,7 +66,7 @@ const navigate = async (url: URL, replace = false): Promise<void> => {
   }
 };
 
-export const installNavigation = (): void => {
+export const installNavigation = ({ renderRoute }: NavigationOptions): void => {
   document.addEventListener('click', (event) => {
     if (!(event instanceof MouseEvent) || isModifiedClick(event)) return;
     const target = event.target;
@@ -73,10 +76,10 @@ export const installNavigation = (): void => {
     const url = new URL(link.href);
     if (!isSiteRoute(url.pathname)) return;
     event.preventDefault();
-    void navigate(url);
+    void navigate(url, renderRoute);
   });
 
   window.addEventListener('popstate', () => {
-    void navigate(new URL(window.location.href), true);
+    void navigate(new URL(window.location.href), renderRoute, true);
   });
 };

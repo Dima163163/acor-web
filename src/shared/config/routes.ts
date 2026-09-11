@@ -11,8 +11,7 @@ export const siteRoutes = [
   '/case-arden.html',
   '/case-greenflow.html',
   '/case-orbit.html',
-  '/privacy.html',
-  '/404.html'
+  '/privacy.html'
 ] as const;
 
 export type SiteRoute = (typeof siteRoutes)[number];
