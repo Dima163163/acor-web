@@ -26,6 +26,31 @@
     syncMotion();
   });
 
+  // A quiet light/night mode gives the studio a second atmosphere without
+  // changing the composition or asking the user to leave the page.
+  const themeHeader = document.querySelector('.site-header');
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem('acor-theme'); } catch { /* Storage may be unavailable. */ }
+  let theme = savedTheme === 'night' ? 'night' : 'light';
+  const themeButton = document.createElement('button');
+  themeButton.type = 'button';
+  themeButton.className = 'theme-toggle';
+  themeButton.setAttribute('aria-label', 'Переключить цветовую тему');
+  themeButton.setAttribute('aria-pressed', String(theme === 'night'));
+  if (themeHeader) themeHeader.querySelector('.menu-toggle')?.insertAdjacentElement('beforebegin', themeButton);
+  const syncTheme = () => {
+    document.body.classList.toggle('theme-night', theme === 'night');
+    themeButton.setAttribute('aria-pressed', String(theme === 'night'));
+    themeButton.innerHTML = `<span class="theme-toggle-label">${theme === 'night' ? 'Тёмная' : 'Светлая'}</span><span aria-hidden="true">${theme === 'night' ? '☾' : '◐'}</span>`;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'night' ? '#15181d' : '#f3f4f1');
+  };
+  syncTheme();
+  themeButton.addEventListener('click', () => {
+    theme = theme === 'night' ? 'light' : 'night';
+    try { localStorage.setItem('acor-theme', theme); } catch { /* The control still works without storage. */ }
+    syncTheme();
+  });
+
   const menuButton = document.querySelector('.menu-toggle');
   const mobileNav = document.querySelector('.mobile-nav');
   const setMenu = (open, restoreFocus = false) => {
@@ -106,6 +131,11 @@
         target.style.setProperty('--mag-y', '0px');
       });
     });
+    document.addEventListener('pointermove', (event) => {
+      if (motionDisabled) return;
+      document.body.style.setProperty('--spot-x', `${event.clientX}px`);
+      document.body.style.setProperty('--spot-y', `${event.clientY}px`);
+    }, { passive: true });
   }
   const animatedElements = document.querySelectorAll('[data-reveal], .project, .process-grid article, .role-card, .person-card, .insight-card, .after-brief-grid article, .case-info-grid article, .case-timeline li');
   if ('IntersectionObserver' in window) {
@@ -245,6 +275,37 @@
   if (form) {
     const typeLabels = { web: 'Сайт', app: 'Приложение', design: 'Дизайн', other: 'Другое' };
     const budgetLabels = { undecided: 'Пока обсуждаем', 'under-500': 'До 500 тыс. ₽', '500-1000': '500 тыс. – 1 млн ₽', '1-3m': '1–3 млн ₽', 'over-3m': 'Более 3 млн ₽' };
+    const draftKey = 'acor-brief-draft';
+    const draftFields = ['name', 'company', 'email', 'type', 'message', 'budget', 'timing'];
+    let restoredDraft = false;
+    try {
+      const draft = JSON.parse(sessionStorage.getItem(draftKey) || 'null');
+      if (draft && typeof draft === 'object') {
+        draftFields.forEach((name) => {
+          const value = draft[name];
+          if (!value) return;
+          const fields = Array.from(form.elements).filter((field) => field.name === name);
+          if (fields[0]?.type === 'radio') fields.forEach((field) => { field.checked = field.value === value; });
+          else if (fields[0]) fields[0].value = value;
+          restoredDraft = true;
+        });
+      }
+    } catch { /* A private browsing context can reject sessionStorage. */ }
+    const saveDraft = () => {
+      const draft = {};
+      draftFields.forEach((name) => {
+        const radio = form.querySelector(`input[type="radio"][name="${name}"]`);
+        const field = form.elements[name];
+        if (radio) draft[name] = form.querySelector(`input[name="${name}"]:checked`)?.value || '';
+        else if (field) draft[name] = field.value;
+      });
+      try { sessionStorage.setItem(draftKey, JSON.stringify(draft)); } catch { /* The form still works without storage. */ }
+    };
+    form.addEventListener('input', saveDraft);
+    if (restoredDraft) {
+      const status = document.querySelector('#form-status');
+      if (status) status.textContent = 'Черновик восстановлен из этой сессии.';
+    }
     const initialType = new URLSearchParams(location.search).get('type');
     if (Object.hasOwn(typeLabels, initialType)) {
       const choice = Array.from(form.elements.type).find((input) => input.value === initialType);
@@ -575,6 +636,31 @@
     crumbs.setAttribute('aria-label', 'Навигация по проекту');
     crumbs.innerHTML = `<a href="cases.html">Проекты</a><span aria-hidden="true">/</span><span>${projectName}</span><span aria-hidden="true">/</span><span>Решение</span>`;
     caseIntro.prepend(crumbs);
+  }
+
+  const caseNext = document.querySelector('.case-next');
+  if (caseNext && !caseNext.querySelector('.case-share')) {
+    const shareButton = document.createElement('button');
+    shareButton.type = 'button';
+    shareButton.className = 'pill-button case-share';
+    shareButton.innerHTML = 'Поделиться <span aria-hidden="true">↗︎</span>';
+    const shareStatus = document.createElement('span');
+    shareStatus.className = 'case-share-status';
+    shareStatus.setAttribute('role', 'status');
+    shareButton.addEventListener('click', async () => {
+      const title = document.title.replace(' — Acor Web', '');
+      try {
+        if (navigator.share) await navigator.share({ title, text: `Проект Acor Web: ${title}`, url: location.href });
+        else {
+          await navigator.clipboard.writeText(location.href);
+          shareStatus.textContent = 'Ссылка скопирована.';
+        }
+      } catch {
+        shareStatus.textContent = 'Ссылку не удалось скопировать.';
+      }
+      if (shareStatus.textContent) setTimeout(() => { shareStatus.textContent = ''; }, 3000);
+    });
+    caseNext.append(shareButton, shareStatus);
   }
 
   const briefBuilder = document.querySelector('#brief-builder');
