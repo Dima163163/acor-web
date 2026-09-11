@@ -312,16 +312,22 @@
     let animating = false;
     let finishTimer = 0;
     let afterFinish = null;
+    const closedHeight = () => {
+      const computed = getComputedStyle(details);
+      const padding = parseFloat(computed.paddingTop) + parseFloat(computed.paddingBottom);
+      const borders = parseFloat(computed.borderTopWidth) + parseFloat(computed.borderBottomWidth);
+      return Math.ceil(summary.getBoundingClientRect().height + padding + borders);
+    };
     const finish = (event) => {
       if (event?.propertyName && event.propertyName !== 'height') return;
       window.clearTimeout(finishTimer);
       const callback = afterFinish;
       afterFinish = null;
+      callback?.();
       details.classList.remove('disclosure-height-animating');
       details.style.removeProperty('height');
       details.style.removeProperty('overflow');
       animating = false;
-      callback?.();
     };
     details.addEventListener('transitionend', finish);
     const animateOpen = () => {
@@ -333,7 +339,7 @@
       animating = true;
       details.open = true;
       details.classList.add('disclosure-height-animating');
-      details.style.height = `${summary.offsetHeight}px`;
+      details.style.height = `${closedHeight()}px`;
       void details.offsetHeight;
       requestAnimationFrame(() => {
         details.style.height = `${details.scrollHeight}px`;
@@ -353,7 +359,7 @@
       void details.offsetHeight;
       afterFinish = () => { details.open = false; };
       requestAnimationFrame(() => {
-        details.style.height = `${summary.offsetHeight}px`;
+        details.style.height = `${closedHeight()}px`;
         finishTimer = window.setTimeout(() => finish(), 700);
       });
     };
