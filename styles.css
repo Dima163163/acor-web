@@ -1323,6 +1323,8 @@ legend {
   gap:25px;
   align-items:center;
 }
+.form-actions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.form-actions .dark-button,.form-actions .pill-button { white-space:nowrap; }
 .form-submit p {
   font-size:10px;
   color:#62665e;
@@ -2507,6 +2509,19 @@ legend {
     display:none;
   }
 }
+
+/* Lab presets turn the experiment into a small material and shape study. */
+.lab-preset-set { display:flex; align-items:center; flex-wrap:wrap; gap:6px; width:100%; max-width:330px; }
+.lab-preset-label { width:100%; color:var(--muted); font-size:10px; letter-spacing:.08em; text-transform:uppercase; }
+.lab-preset { border:1px solid var(--line); border-radius:22px; padding:9px 13px; font-size:10px; transition:background .25s,color .25s,border-color .25s; }
+.lab-preset:hover,.lab-preset[aria-pressed=true] { background:var(--ink); border-color:var(--ink); color:white; }
+.lab-copy { margin-top:4px; }
+.lab-copy-status { min-height:1.5em; color:var(--muted); font-size:10px; }
+.lab-art[data-material=cobalt] img { filter:hue-rotate(158deg) saturate(1.65) contrast(1.04); }
+.lab-art[data-material=paper] img { filter:grayscale(.78) sepia(.16) brightness(1.08); }
+.lab-art[data-shape=orb] img { border-radius:50%; clip-path:circle(44% at 50% 50%); }
+.lab-art[data-shape=letter] img { clip-path:polygon(18% 8%,82% 8%,68% 44%,90% 92%,58% 92%,50% 62%,42% 92%,10% 92%,32% 44%); }
+@media(max-width:800px) { .lab-preset-set { max-width:none; } .lab-copy { margin-top:2px; } }
 @media(prefers-reduced-motion:reduce) {
   html {
     scroll-behavior:auto;
@@ -2897,4 +2912,27 @@ body.menu-open .chapter-dock,body:has(dialog[open]) .chapter-dock { visibility:h
   .chapter-dock { bottom:max(12px,env(safe-area-inset-bottom)); padding:5px; gap:0; max-width:calc(100% - 24px); }
   .chapter-dock>a { padding:14px 10px; font-size:10px; }
   .dock-top { width:34px; height:38px; font-size:18px; }
+}
+
+/* The process map uses a three-column grid so every connector shares one baseline. */
+.map-branches { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:start; }
+.map-branches:before { left:16.666%; right:16.666%; top:0; }
+.map-branches>span { justify-self:center; margin-top:15px; }
+.roster-group { content-visibility:auto; contain-intrinsic-size:760px; }
+.gallery-meta { margin-top:8px; color:var(--muted); font-size:10px; letter-spacing:.04em; }
+.case-crumbs { display:flex; align-items:center; gap:9px; margin-bottom:25px; color:var(--muted); font-size:10px; letter-spacing:.04em; }
+.case-crumbs a { color:var(--ink); border-bottom:1px solid var(--line); }
+.hero-intent .hero-art img { filter:saturate(1.08); }
+.hero-intent .round-arrow { background:var(--ink); }
+.project-link:hover .project-caption h3 { color:var(--blue); }
+.project-link:hover .concept-label { color:var(--ink); }
+@media(max-width:540px) {
+  .map-branches { width:88%; }
+  .map-branches>span { min-width:0; width:100%; padding-inline:6px; text-align:center; }
+  .gallery-meta { font-size:8px; }
+  .case-crumbs { margin-bottom:18px; font-size:9px; }
+}
+@supports not (backdrop-filter:blur(1px)) {
+  .site-header.is-scrolled { background:var(--paper); }
+  .project-gallery::backdrop,.person-dialog::backdrop { background:#141b2af2; }
 }

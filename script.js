@@ -34,12 +34,29 @@
     menuButton.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
     mobileNav.hidden = !open;
     document.body.classList.toggle('menu-open', open);
-    if (restoreFocus) menuButton.focus();
+    if (open) requestAnimationFrame(() => mobileNav.querySelector('a')?.focus());
+    else if (restoreFocus) menuButton.focus();
   };
   menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
   mobileNav?.addEventListener('click', (event) => { if (event.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') setMenu(false, true);
+    if (menuButton?.getAttribute('aria-expanded') !== 'true') return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setMenu(false, true);
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusable = Array.from(mobileNav.querySelectorAll('a')).filter((element) => !element.hidden);
+    if (!focusable.length) return;
+    const current = focusable.indexOf(document.activeElement);
+    const next = event.shiftKey
+      ? (current <= 0 ? focusable.length - 1 : current - 1)
+      : (current === focusable.length - 1 ? 0 : current + 1);
+    if (current === -1 || event.shiftKey && current === 0 || !event.shiftKey && current === focusable.length - 1) {
+      event.preventDefault();
+      focusable[next].focus();
+    }
   });
   document.addEventListener('click', (event) => {
     if (menuButton?.getAttribute('aria-expanded') === 'true' && !event.target.closest('.site-header')) setMenu(false);
@@ -67,6 +84,11 @@
       if (frame) cancelAnimationFrame(frame);
       art.style.setProperty('--mx', '0px'); art.style.setProperty('--my', '0px'); art.style.setProperty('--mr', '0deg');
     });
+    const heroLink = hero.querySelector('.round-link');
+    heroLink?.addEventListener('pointerenter', () => hero.classList.add('hero-intent'));
+    heroLink?.addEventListener('pointerleave', () => hero.classList.remove('hero-intent'));
+    heroLink?.addEventListener('focus', () => hero.classList.add('hero-intent'));
+    heroLink?.addEventListener('blur', () => hero.classList.remove('hero-intent'));
   }
   const animatedElements = document.querySelectorAll('[data-reveal], .project, .process-grid article, .role-card, .person-card');
   if ('IntersectionObserver' in window) {
@@ -99,7 +121,7 @@
 
   const filters = document.querySelectorAll('[data-filter]');
   const projects = document.querySelectorAll('[data-category]');
-  filters.forEach((filter) => filter.addEventListener('click', () => {
+  const applyProjectFilter = (filter, { updateUrl = true } = {}) => {
     filters.forEach((button) => {
       const active = button === filter;
       button.classList.toggle('active', active);
@@ -113,7 +135,20 @@
     });
     const status = document.querySelector('#filter-status');
     if (status) status.textContent = `Показано проектов: ${count}`;
-  }));
+    if (updateUrl && filter.dataset.filter !== 'all') {
+      const url = new URL(location.href);
+      url.searchParams.set('category', filter.dataset.filter);
+      history.replaceState(null, '', url);
+    } else if (updateUrl) {
+      const url = new URL(location.href);
+      url.searchParams.delete('category');
+      history.replaceState(null, '', url);
+    }
+  };
+  filters.forEach((filter) => filter.addEventListener('click', () => applyProjectFilter(filter)));
+  const initialCategory = new URLSearchParams(location.search).get('category');
+  const initialFilter = Array.from(filters).find((filter) => filter.dataset.filter === initialCategory);
+  if (initialFilter) applyProjectFilter(initialFilter, { updateUrl: false });
 
   const rotation = document.querySelector('#lab-rotation');
   const scale = document.querySelector('#lab-scale');
@@ -130,34 +165,116 @@
   document.querySelector('#lab-reset')?.addEventListener('click', () => {
     rotation.value = '0'; scale.value = '90'; updateLab();
   });
+  const labArt = document.querySelector('.lab-art');
+  const labControls = document.querySelector('.lab-controls');
+  if (labArt && labControls && rotation && scale) {
+    const createLabSet = (label, name, options) => {
+      const set = document.createElement('div');
+      set.className = 'lab-preset-set';
+      set.setAttribute('role', 'group');
+      set.setAttribute('aria-label', label);
+      const caption = document.createElement('span');
+      caption.className = 'lab-preset-label';
+      caption.textContent = label;
+      set.append(caption);
+      options.forEach(([value, text]) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'lab-preset';
+        button.dataset.labChoice = value;
+        button.textContent = text;
+        button.setAttribute('aria-pressed', String(value === options[0][0]));
+        button.addEventListener('click', () => {
+          set.querySelectorAll('.lab-preset').forEach((option) => option.setAttribute('aria-pressed', String(option === button)));
+          labArt.dataset[name] = value;
+        });
+        set.append(button);
+      });
+      return set;
+    };
+    labArt.dataset.material = 'chrome';
+    labArt.dataset.shape = 'ribbon';
+    labControls.append(createLabSet('Материал', 'material', [['chrome', 'Chrome'], ['cobalt', 'Cobalt'], ['paper', 'Paper']]));
+    labControls.append(createLabSet('Форма', 'shape', [['ribbon', 'Ribbon'], ['orb', 'Orb'], ['letter', 'Letter']]));
+    const copyButton = document.createElement('button');
+    copyButton.type = 'button';
+    copyButton.className = 'pill-button lab-copy';
+    copyButton.textContent = 'Скопировать параметры';
+    const copyStatus = document.createElement('span');
+    copyStatus.className = 'lab-copy-status';
+    copyStatus.setAttribute('role', 'status');
+    const copyParams = async () => {
+      const value = `Acor Lab — ${labArt.dataset.material}, ${labArt.dataset.shape}, поворот ${rotation.value}°, масштаб ${scale.value}%`;
+      try {
+        await navigator.clipboard.writeText(value);
+        copyStatus.textContent = 'Параметры скопированы.';
+      } catch {
+        copyStatus.textContent = 'Выделите и скопируйте параметры вручную.';
+        copyStatus.dataset.value = value;
+      }
+    };
+    copyButton.addEventListener('click', copyParams);
+    labControls.append(copyButton, copyStatus);
+    document.querySelector('#lab-reset')?.addEventListener('click', () => {
+      labArt.dataset.material = 'chrome';
+      labArt.dataset.shape = 'ribbon';
+      labControls.querySelectorAll('.lab-preset-set').forEach((set) => set.querySelector('.lab-preset')?.click());
+      copyStatus.textContent = '';
+    });
+  }
 
   const form = document.querySelector('#brief-form');
   if (form) {
     const typeLabels = { web: 'Сайт', app: 'Приложение', design: 'Дизайн', other: 'Другое' };
+    const budgetLabels = { undecided: 'Пока обсуждаем', 'under-500': 'До 500 тыс. ₽', '500-1000': '500 тыс. – 1 млн ₽', '1-3m': '1–3 млн ₽', 'over-3m': 'Более 3 млн ₽' };
     const initialType = new URLSearchParams(location.search).get('type');
     if (Object.hasOwn(typeLabels, initialType)) {
       const choice = Array.from(form.elements.type).find((input) => input.value === initialType);
       if (choice) choice.checked = true;
     }
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
+    const collectBrief = () => {
       const data = new FormData(form);
-      const text = [
+      const project = typeLabels[data.get('type')] || 'Другое';
+      return {
+        data,
+        project,
+        text: [
         'ACOR WEB — БРИФ ПРОЕКТА', '',
         `Имя: ${data.get('name')}`, `Компания: ${data.get('company') || 'Не указана'}`,
-        `Email: ${data.get('email')}`, `Проект: ${typeLabels[data.get('type')]}`,
-        `Бюджет: ${data.get('budget')}`, `Сроки: ${data.get('timing') || 'Обсудим'}`,
+        `Email: ${data.get('email')}`, `Проект: ${project}`,
+        `Бюджет: ${budgetLabels[data.get('budget')] || 'Пока обсуждаем'}`, `Сроки: ${data.get('timing') || 'Обсудим'}`,
         '', 'ЗАДАЧА', String(data.get('message')), '',
-        'Этот файл подготовлен локально. Отправьте его на hello@acorweb.ru, чтобы обсудить проект.'
-      ].join('\n');
+        'Письмо подготовлено на сайте Acor Web.'
+        ].join('\n')
+      };
+    };
+    const downloadBrief = () => {
+      const { text } = collectBrief();
       const blob = new Blob(['\ufeff', text], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const download = document.createElement('a');
       download.href = url; download.download = 'acor-project-brief.txt';
       document.body.append(download); download.click(); download.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      document.querySelector('#form-status').textContent = 'Бриф подготовлен к скачиванию. Отправьте файл на hello@acorweb.ru — данные из формы никуда не передавались.';
+      document.querySelector('#form-status').textContent = 'Бриф скачан. Его можно прикрепить к письму или сохранить для себя.';
+    };
+    document.querySelector('#download-brief')?.addEventListener('click', () => {
+      if (form.reportValidity()) downloadBrief();
+    });
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const { data, project, text } = collectBrief();
+      const subject = encodeURIComponent(`Новый проект Acor Web — ${project}`);
+      const body = encodeURIComponent(text);
+      const submitButton = form.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
+      document.querySelector('#form-status').textContent = 'Открываем почтовое приложение…';
+      window.location.href = `mailto:hello@acorweb.ru?subject=${subject}&body=${body}`;
+      window.setTimeout(() => {
+        if (submitButton) submitButton.disabled = false;
+        document.querySelector('#form-status').textContent = `Письмо подготовлено для ${data.get('email')}. Если приложение не открылось, скачайте .txt-файл ниже.`;
+      }, 900);
     });
   }
   // Ambient CSS motion runs only while the relevant artwork is in view.
@@ -203,7 +320,7 @@
   });
   chapterDock?.querySelector('.dock-top').addEventListener('click', () => {
     document.querySelector('.brand')?.focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: motionDisabled ? 'instant' : 'smooth' });
+    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
   });
   chapterDock?.addEventListener('focusout', () => requestAnimationFrame(updateScroll));
   updateScroll();
@@ -211,7 +328,9 @@
   const people = Array.from(document.querySelectorAll('.person-card'));
   const teamFilters = document.querySelectorAll('[data-team-filter]');
   const teamSearch = document.querySelector('#team-search');
-  let teamCategory = 'all';
+  const teamParams = new URLSearchParams(location.search);
+  let teamCategory = teamParams.get('group') || 'all';
+  if (teamSearch && teamParams.get('q')) teamSearch.value = teamParams.get('q');
   const normalize = (value) => value.toLocaleLowerCase('ru').replaceAll('ё', 'е').trim();
   const filterPeople = () => {
     const query = normalize(teamSearch?.value || '');
@@ -230,6 +349,14 @@
     if (result) result.textContent = `Найдено: ${found}`;
     const empty = document.querySelector('#team-empty');
     if (empty) empty.hidden = found !== 0;
+    if (teamFilters.length) {
+      const url = new URL(location.href);
+      if (teamCategory === 'all') url.searchParams.delete('group');
+      else url.searchParams.set('group', teamCategory);
+      if (query) url.searchParams.set('q', query);
+      else url.searchParams.delete('q');
+      history.replaceState(null, '', url);
+    }
     updateScroll();
   };
   teamFilters.forEach((button) => button.addEventListener('click', () => {
@@ -241,6 +368,15 @@
     filterPeople();
   }));
   teamSearch?.addEventListener('input', filterPeople);
+  if (teamFilters.length) {
+    const initialTeamFilter = Array.from(teamFilters).find((filter) => filter.dataset.teamFilter === teamCategory) || teamFilters[0];
+    teamCategory = initialTeamFilter.dataset.teamFilter;
+    teamFilters.forEach((filter) => {
+      filter.classList.toggle('active', filter === initialTeamFilter);
+      filter.setAttribute('aria-pressed', String(filter === initialTeamFilter));
+    });
+    filterPeople();
+  }
 
   const personDialog = document.querySelector('#person-dialog');
   let lastPersonButton = null;
@@ -319,6 +455,11 @@
     const stage = gallery.querySelector('#gallery-stage');
     const previous = gallery.querySelector('#gallery-prev');
     const next = gallery.querySelector('#gallery-next');
+    const galleryMeta = document.createElement('p');
+    galleryMeta.className = 'gallery-meta';
+    gallery.querySelector('.gallery-header > div').append(galleryMeta);
+    const projectApproach = { Arden: 'масштаб и пауза', GreenFlow: 'ритм каталога', Orbit: 'ясная иерархия' };
+    const categoryLabels = { web: 'Web', commerce: 'E-commerce', product: 'Продукт' };
     let galleryCards = [];
     let galleryIndex = 0;
     let galleryTrigger = null;
@@ -339,6 +480,8 @@
       stage.className = `gallery-stage ${Array.from(card.classList).filter((name) => name.startsWith('project--')).join(' ')}`;
       stage.replaceChildren(visual);
       gallery.querySelector('#gallery-title').textContent = card.querySelector('h3').textContent;
+      const projectName = card.querySelector('h3').textContent.trim();
+      galleryMeta.textContent = `${categoryLabels[card.dataset.category] || 'Концепция'}  /  ${projectApproach[projectName] || 'точная форма'}`;
       gallery.querySelector('#gallery-description').textContent = card.querySelector('.project-caption p').textContent;
       gallery.querySelector('#gallery-count').textContent = `${galleryIndex + 1} / ${galleryCards.length}`;
       gallery.querySelector('#gallery-case').href = card.querySelector('.project-link').href;
@@ -381,6 +524,17 @@
       const rect = gallery.getBoundingClientRect();
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) gallery.close();
     });
+  }
+
+  const caseScene = document.querySelector('.case-scene');
+  const caseIntro = document.querySelector('.page-intro');
+  if (caseScene && caseIntro) {
+    const projectName = caseScene.classList.contains('project--arden') ? 'Arden' : caseScene.classList.contains('project--flora') ? 'GreenFlow' : 'Orbit';
+    const crumbs = document.createElement('nav');
+    crumbs.className = 'case-crumbs';
+    crumbs.setAttribute('aria-label', 'Навигация по проекту');
+    crumbs.innerHTML = `<a href="cases.html">Проекты</a><span aria-hidden="true">/</span><span>${projectName}</span><span aria-hidden="true">/</span><span>Решение</span>`;
+    caseIntro.prepend(crumbs);
   }
 
   const stepTabs = Array.from(document.querySelectorAll('[data-step]'));
