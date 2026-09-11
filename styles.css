@@ -2933,6 +2933,11 @@ body.menu-open .chapter-dock,body:has(dialog[open]) .chapter-dock { visibility:h
 .page-crumbs a { color:var(--ink); border-bottom:1px solid var(--line); }
 .hero-intent .hero-art img { filter:saturate(1.08); }
 .hero-intent .round-arrow { background:var(--ink); }
+.studio-marquee { border-block:1px solid var(--line); overflow:hidden; background:var(--ink); color:var(--paper); }
+.studio-marquee-track { display:flex; align-items:center; gap:25px; width:max-content; padding:16px 0; font:500 clamp(18px,2.6vw,32px)/1 var(--display); letter-spacing:-.04em; animation:marquee-slide 26s linear infinite; }
+.studio-marquee-track i { color:var(--blue); font-style:normal; font-size:.75em; }
+@keyframes marquee-slide { to { transform:translateX(-50%); } }
+body.motion-off .studio-marquee-track { animation:none; transform:none; }
 .project-link:hover .project-caption h3 { color:var(--blue); }
 .project-link:hover .concept-label { color:var(--ink); }
 @media(max-width:540px) {
@@ -3211,6 +3216,8 @@ body.theme-night .contact-mark { color:#d8e0d9; }
 .theme-toggle:hover,
 .theme-toggle:focus-visible { color:var(--ink); border-color:var(--ink); transform:translateY(-2px); }
 .theme-toggle>span:last-child { font-size:15px; line-height:1; }
+.header-signal { display:inline-flex; align-items:center; gap:8px; color:var(--muted); font-size:9px; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
+.header-signal>i { width:5px; height:5px; border-radius:50%; background:#5da372; box-shadow:0 0 0 4px #5da3721c; }
 
 @media (hover:hover) and (pointer:fine) {
   body:after {
@@ -3255,6 +3262,7 @@ body.theme-night .contact-mark { color:#d8e0d9; }
 .privacy-note { max-width:690px; margin-top:85px; padding:24px 0 0; border-top:1px solid var(--line); }
 .privacy-note>p:last-child { color:var(--muted); font-size:12px; line-height:1.65; margin-top:13px; }
 @media(max-width:800px) {
+  .header-signal { display:none; }
   .privacy-grid { grid-template-columns:1fr; gap:0; margin-top:45px; }
   .privacy-grid article,.privacy-grid article:last-child { border-right:0; border-bottom:1px solid var(--line); padding:23px 0 28px; }
   .privacy-grid article:last-child { border-bottom:0; }

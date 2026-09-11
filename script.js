@@ -39,6 +39,12 @@
   themeButton.setAttribute('aria-pressed', String(theme === 'night'));
   themeButton.dataset.analytics = 'theme_toggle';
   if (themeHeader) themeHeader.querySelector('.menu-toggle')?.insertAdjacentElement('beforebegin', themeButton);
+  if (themeHeader && !themeHeader.querySelector('.header-signal')) {
+    const signal = document.createElement('span');
+    signal.className = 'header-signal';
+    signal.innerHTML = '<i aria-hidden="true"></i><span>Студия / online</span>';
+    themeHeader.querySelector('.brand')?.insertAdjacentElement('afterend', signal);
+  }
   const syncTheme = () => {
     document.body.classList.toggle('theme-night', theme === 'night');
     themeButton.setAttribute('aria-pressed', String(theme === 'night'));
