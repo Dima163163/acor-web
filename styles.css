@@ -3330,7 +3330,8 @@ body.theme-night .contact-mark { color:#d8e0d9; }
 .career-note-panel .eyebrow { color:#c7d3ca; }
 .career-note-panel h2 { font:500 clamp(38px,5vw,78px)/1.02 var(--display); letter-spacing:-.07em; margin-top:22px; }
 .career-note-panel>p:not(.eyebrow) { color:#e3ebe4; font-size:14px; line-height:1.7; max-width:470px; margin-top:24px; }
-.career-note-panel .light-button { margin-top:30px; border-color:#ffffff80; color:#fff; }
+.career-note-panel .light-button { margin-top:30px; border-color:#ffffff80; background:#f3f4f1; color:#243c2f; }
+.career-note-panel .light-button:hover { background:#fff; color:#172019; }
 body.theme-night .career-contact-panel .eyebrow { color:#3257f5; }
 body.theme-night .career-contact-list>a { border-color:#21231f42; }
 body.theme-night .career-contact-list>p .eyebrow,
@@ -3338,7 +3339,8 @@ body.theme-night .career-contact-list>p small { color:#62665e; }
 body.theme-night .career-demo-note { color:#62665e; }
 body.theme-night .career-note-panel .eyebrow { color:#315c42; }
 body.theme-night .career-note-panel>p:not(.eyebrow) { color:#243c2f; }
-body.theme-night .career-note-panel .light-button { border-color:#243c2f80; color:#243c2f; }
+body.theme-night .career-note-panel .light-button { border-color:#243c2f80; background:#15181d; color:#eef0ea; }
+body.theme-night .career-note-panel .light-button:hover { background:#243c2f; color:#fff; }
 @media(max-width:800px) {
   .header-signal { display:none; }
   .privacy-grid { grid-template-columns:1fr; gap:0; margin-top:45px; }
@@ -3426,3 +3428,42 @@ body.theme-night .connection-status { background:#3d3520; border-color:#8f7838; 
   .menu-toggle { width:38px; flex-basis:38px; height:40px; padding:9px; }
   .mobile-nav { top:78px; }
 }
+
+/* Pale night-mode blue needs dark foreground text on interactive surfaces. */
+body.theme-night .round-arrow,
+body.theme-night .filter.active,
+body.theme-night .role-card:hover,
+body.theme-night .role-card:focus-visible,
+body.theme-night .choice-group input:checked+span,
+body.theme-night .footer-contact>span,
+body.theme-night .lab-preset:hover,
+body.theme-night .lab-preset[aria-pressed=true],
+body.theme-night .team-filter.active,
+body.theme-night .person-button:hover .person-corner,
+body.theme-night .dialog-close:hover,
+body.theme-night .project-quickview:hover,
+body.theme-night .gallery-controls button:hover:not(:disabled),
+body.theme-night .map-node--root,
+body.theme-night .sheet-front,
+body.theme-night .dock-top:hover,
+body.theme-night .brief-options button:hover,
+body.theme-night .brief-options button.is-selected,
+body.theme-night .brief-share:hover,
+body.theme-night .brief-share:focus-visible,
+body.theme-night .team-track:hover,
+body.theme-night .team-track.active,
+body.theme-night .command-trigger:hover,
+body.theme-night .command-trigger:focus-visible,
+body.theme-night .command-close:hover,
+body.theme-night .lab-palette-choice:hover,
+body.theme-night .lab-palette-choice.is-selected,
+body.theme-night .project-save:hover,
+body.theme-night .project-save:focus-visible,
+body.theme-night .dark-button:hover { color:#15181d; }
+body.theme-night .filter.active small { color:#15181d; }
+body.theme-night .role-card:hover>span,
+body.theme-night .role-card:focus-visible>span,
+body.theme-night .role-card:hover p,
+body.theme-night .role-card:focus-visible p { color:#15181d; }
+body.theme-night .person-corner { color:#15181d; }
+body.theme-night .project-link:hover .project-open { color:#15181d; }
