@@ -1118,7 +1118,7 @@
     const commandSearch = commandDialog.querySelector('input');
     const commandResults = commandDialog.querySelector('.command-results');
     const commandItems = [
-      ['Проекты', 'cases.html', 'Три концепции и разбор решений'], ['Услуги', 'services.html', 'Стратегия, дизайн и разработка'], ['Студия', 'about.html', 'Подход и наблюдения команды'], ['Команда', 'team.html', 'Люди и роли в проекте'], ['Lab', 'lab.html', 'Форма, движение и эксперименты'], ['Контакты', 'contact.html', 'Собрать задачу и начать разговор']
+      ['Проекты', 'cases.html', 'Три концепции и разбор решений'], ['Услуги', 'services.html', 'Стратегия, дизайн и разработка'], ['Студия', 'about.html', 'Подход и наблюдения команды'], ['Команда', 'team.html', 'Люди и роли в проекте'], ['Карьера', 'careers.html', 'Вакансии, стажировка и контакты для отклика'], ['Lab', 'lab.html', 'Форма, движение и эксперименты'], ['Контакты', 'contact.html', 'Собрать задачу и начать разговор']
     ];
     const renderCommandResults = () => {
       const query = commandSearch.value.trim().toLocaleLowerCase('ru');
