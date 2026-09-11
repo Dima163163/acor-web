@@ -17,14 +17,14 @@ import {
   teamMarkup
 } from '../pages/route-content';
 import { RoutePage } from '../pages/route-page/ui/RoutePage';
-import { defaultDescription, pageSeo, type PageSeo } from '../shared/config/seo';
+import { defaultDescription, pageSeo, siteOrigin, type PageSeo } from '../shared/config/seo';
 import { SiteFooter } from '../widgets/site-footer/ui/SiteFooter';
 import { SiteHeader } from '../widgets/site-header/ui/SiteHeader';
 import { loadLegacyRuntime } from './runtime/legacy';
 
-type RouteDefinition = PageSeo & { markup: string; paths: string[] };
+export type RouteDefinition = PageSeo & { markup: string; paths: string[] };
 
-const routeDefinitions: RouteDefinition[] = [
+export const routeDefinitions: RouteDefinition[] = [
   { ...pageSeo.home, markup: homeMarkup, paths: ['/', '/index.html'] },
   { ...pageSeo.cases, markup: casesMarkup, paths: ['/cases', '/cases.html'] },
   { ...pageSeo.services, markup: servicesMarkup, paths: ['/services', '/services.html'] },
@@ -39,21 +39,25 @@ const routeDefinitions: RouteDefinition[] = [
   { ...pageSeo.privacy, markup: privacyMarkup, paths: ['/privacy', '/privacy.html'] }
 ];
 
-const notFoundPage: RouteDefinition = { ...pageSeo.notFound, markup: notFoundMarkup, paths: [] };
+export const notFoundPage: RouteDefinition = { ...pageSeo.notFound, markup: notFoundMarkup, paths: [] };
+
+export const resolvePage = (pathname: string): RouteDefinition => routeDefinitions.find((page) => page.paths.includes(pathname)) || notFoundPage;
 
 const updateSeo = (page: PageSeo): void => {
+  const canonicalPath = window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
   document.title = page.title;
   document.documentElement.lang = 'ru';
   document.querySelector('meta[name="description"]')?.setAttribute('content', page.description || defaultDescription);
   document.querySelector('meta[property="og:title"]')?.setAttribute('content', page.title);
   document.querySelector('meta[property="og:description"]')?.setAttribute('content', page.description || defaultDescription);
+  document.querySelector('link[rel="canonical"]')?.setAttribute('href', `${siteOrigin}${canonicalPath}`);
 };
 
 const RuntimeBridge = (): null => {
   const location = useLocation();
 
   useEffect(() => {
-    updateSeo(routeDefinitions.find((page) => page.paths.includes(location.pathname)) || notFoundPage);
+    updateSeo(resolvePage(location.pathname));
     window.__acorRuntimeCleanup?.();
     loadLegacyRuntime();
   }, [location.pathname, location.search]);
@@ -87,7 +91,7 @@ const LegacyLinkBridge = ({ children }: { children: ReactNode }): ReactElement =
   return <div className="app-shell" onClickCapture={(event) => handleLegacyLink(event, navigate)}>{children}</div>;
 };
 
-const AppShell = (): ReactElement => (
+export const AppShell = (): ReactElement => (
   <LegacyLinkBridge>
     <div className="reading-progress" aria-hidden="true"></div>
     <a className="skip-link" href="#main">К содержимому</a>
