@@ -37,6 +37,7 @@
   themeButton.className = 'theme-toggle';
   themeButton.setAttribute('aria-label', 'Переключить цветовую тему');
   themeButton.setAttribute('aria-pressed', String(theme === 'night'));
+  themeButton.dataset.analytics = 'theme_toggle';
   if (themeHeader) themeHeader.querySelector('.menu-toggle')?.insertAdjacentElement('beforebegin', themeButton);
   const syncTheme = () => {
     document.body.classList.toggle('theme-night', theme === 'night');
@@ -50,6 +51,21 @@
     try { localStorage.setItem('acor-theme', theme); } catch { /* The control still works without storage. */ }
     syncTheme();
   });
+
+  // Local event hooks make the prototype ready for analytics without sending
+  // any data off-device. A future integration can subscribe to this event.
+  const studioEvents = [];
+  const trackStudioEvent = (name, detail = {}) => {
+    const event = { name, detail, at: new Date().toISOString() };
+    studioEvents.push(event);
+    if (studioEvents.length > 40) studioEvents.shift();
+    window.dispatchEvent(new CustomEvent('acor:interaction', { detail: event }));
+  };
+  window.acorStudioEvents = studioEvents;
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-analytics]');
+    if (target) trackStudioEvent(target.dataset.analytics, { label: target.textContent.trim().slice(0, 80) });
+  }, { passive: true });
 
   const emailLink = document.querySelector('.email-link');
   if (emailLink && !emailLink.parentElement.querySelector('.copy-email')) {
@@ -294,6 +310,7 @@
     const save = document.createElement('button');
     save.type = 'button';
     save.className = 'project-save';
+    save.dataset.analytics = 'project_save';
     save.setAttribute('aria-label', `Сохранить проект ${projectName}`);
     save.addEventListener('click', (event) => {
       event.preventDefault();
@@ -311,11 +328,13 @@
     project.append(save);
   });
   projectViewButtons.forEach((button) => button.addEventListener('click', () => {
+    button.dataset.analytics = `project_view_${button.dataset.projectView}`;
     projectView = button.dataset.projectView;
     try { localStorage.setItem('acor-project-view', projectView); } catch { /* The control still works without storage. */ }
     syncProjectTools(); syncProjectUrl();
   }));
   projectSortButtons.forEach((button) => button.addEventListener('click', () => {
+    button.dataset.analytics = `project_sort_${button.dataset.projectSort}`;
     projectSort = button.dataset.projectSort;
     sortProjects();
     try { localStorage.setItem('acor-project-sort', projectSort); } catch { /* The control still works without storage. */ }
@@ -434,6 +453,7 @@
     const clearDraft = document.createElement('button');
     clearDraft.type = 'button';
     clearDraft.className = 'pill-button clear-draft';
+    clearDraft.dataset.analytics = 'brief_clear';
     clearDraft.textContent = 'Очистить черновик';
     clearDraft.addEventListener('click', () => {
       form.reset();
@@ -807,6 +827,7 @@
     const shareButton = document.createElement('button');
     shareButton.type = 'button';
     shareButton.className = 'pill-button case-share';
+    shareButton.dataset.analytics = 'case_share';
     shareButton.innerHTML = 'Поделиться <span aria-hidden="true">↗︎</span>';
     const shareStatus = document.createElement('span');
     shareStatus.className = 'case-share-status';
@@ -828,6 +849,7 @@
     const printButton = document.createElement('button');
     printButton.type = 'button';
     printButton.className = 'pill-button case-print';
+    printButton.dataset.analytics = 'case_print';
     printButton.innerHTML = 'Печатная версия <span aria-hidden="true">↧</span>';
     printButton.addEventListener('click', () => window.print());
     caseNext.append(printButton);
@@ -853,6 +875,7 @@
     const briefShare = document.createElement('button');
     briefShare.type = 'button';
     briefShare.className = 'brief-share';
+    briefShare.dataset.analytics = 'brief_share';
     briefShare.textContent = 'Скопировать ссылку на этот бриф';
     briefShare.setAttribute('aria-label', 'Скопировать ссылку на выбранный бриф');
     briefBuilder.querySelector('.brief-summary')?.append(briefShare);

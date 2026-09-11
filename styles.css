@@ -19,6 +19,13 @@ html {
   scroll-behavior:smooth;
   scroll-padding-top:110px;
 }
+@view-transition { navigation:auto; }
+::view-transition-old(root),::view-transition-new(root) { animation-duration:.38s; }
+::view-transition-old(root) { animation-name:page-out; }
+::view-transition-new(root) { animation-name:page-in; }
+@keyframes page-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+@keyframes page-out { from { opacity:1; } to { opacity:0; } }
+body.motion-off ::view-transition-old(root),body.motion-off ::view-transition-new(root) { animation:none; }
 body {
   margin:0;
   background:var(--paper);

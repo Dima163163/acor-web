@@ -1,4 +1,4 @@
-const CACHE_NAME = 'acor-web-v10';
+const CACHE_NAME = 'acor-web-v11';
 const CORE = [
   './', './index.html', './cases.html', './services.html', './about.html', './team.html', './lab.html', './contact.html', './privacy.html', './offline.html',
   './case-arden.html', './case-greenflow.html', './case-orbit.html', './styles.css', './script.js', './manifest.webmanifest',
