@@ -3065,6 +3065,17 @@ body.menu-open .chapter-dock,body:has(dialog[open]) .chapter-dock { visibility:h
 .lab-art[data-palette=night] img { filter:brightness(.84) saturate(1.35) hue-rotate(7deg); }
 .lab-art[data-palette=moss] { background:#dce4d5; }
 .lab-art[data-palette=moss] img { filter:saturate(.72) hue-rotate(55deg) brightness(1.04); }
+.service-facts { border-top:1px solid var(--line); }
+.service-facts-grid { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); }
+.service-facts-grid article { padding:23px 25px 0 0; min-height:170px; border-right:1px solid var(--line); }
+.service-facts-grid article+article { padding-left:25px; }
+.service-facts-grid article:last-child { border-right:0; }
+.service-facts-grid span { color:var(--blue); font-size:9px; letter-spacing:.1em; text-transform:uppercase; }
+.service-facts-grid strong { display:block; font:500 27px/1.1 var(--display); letter-spacing:-.05em; margin-top:17px; }
+.service-facts-grid p { color:var(--muted); font-size:11px; line-height:1.55; margin-top:15px; max-width:250px; }
+.service-fact-tags { color:var(--ink)!important; letter-spacing:.06em; }
+.magnetic { --mag-x:0px; --mag-y:0px; transform:translate3d(var(--mag-x),var(--mag-y),0); }
+.magnetic.light-button:hover { transform:translate3d(var(--mag-x),calc(-3px + var(--mag-y)),0); }
 
 @media(max-width:800px) {
   .command-trigger { display:none; }
@@ -3085,6 +3096,9 @@ body.menu-open .chapter-dock,body:has(dialog[open]) .chapter-dock { visibility:h
   .after-brief-grid { grid-template-columns:1fr; }
   .after-brief-grid article,.after-brief-grid article+article { border-right:0; border-bottom:1px solid var(--line); padding:24px 0; min-height:0; }
   .after-brief-grid article:last-child { border-bottom:0; }
+  .service-facts-grid { grid-template-columns:1fr; }
+  .service-facts-grid article,.service-facts-grid article+article { border-right:0; border-bottom:1px solid var(--line); padding:24px 0; min-height:0; }
+  .service-facts-grid article:last-child { border-bottom:0; }
 }
 @media(max-width:540px) {
   .brief-options { grid-template-columns:1fr; }

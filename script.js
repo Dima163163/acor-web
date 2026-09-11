@@ -90,6 +90,23 @@
     heroLink?.addEventListener('focus', () => hero.classList.add('hero-intent'));
     heroLink?.addEventListener('blur', () => hero.classList.remove('hero-intent'));
   }
+  if (finePointer.matches) {
+    document.querySelectorAll('.round-link, .dark-button, .light-button, .footer-contact').forEach((target) => {
+      target.classList.add('magnetic');
+      target.addEventListener('pointermove', (event) => {
+        if (motionDisabled) return;
+        const rect = target.getBoundingClientRect();
+        const x = (event.clientX - (rect.left + rect.width / 2)) / Math.max(1, rect.width);
+        const y = (event.clientY - (rect.top + rect.height / 2)) / Math.max(1, rect.height);
+        target.style.setProperty('--mag-x', `${x * 8}px`);
+        target.style.setProperty('--mag-y', `${y * 6}px`);
+      });
+      target.addEventListener('pointerleave', () => {
+        target.style.setProperty('--mag-x', '0px');
+        target.style.setProperty('--mag-y', '0px');
+      });
+    });
+  }
   const animatedElements = document.querySelectorAll('[data-reveal], .project, .process-grid article, .role-card, .person-card, .insight-card, .after-brief-grid article, .case-info-grid article, .case-timeline li');
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
