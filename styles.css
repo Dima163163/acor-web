@@ -2931,6 +2931,7 @@ body.menu-open .chapter-dock,body:has(dialog[open]) .chapter-dock { visibility:h
 .case-crumbs a { color:var(--ink); border-bottom:1px solid var(--line); }
 .page-crumbs { display:flex; align-items:center; gap:9px; margin-bottom:25px; color:var(--muted); font-size:10px; letter-spacing:.04em; }
 .page-crumbs a { color:var(--ink); border-bottom:1px solid var(--line); }
+.reading-time { display:inline-flex; margin-top:20px; border:1px solid var(--line); border-radius:20px; padding:8px 11px; color:var(--muted); font-size:9px; letter-spacing:.06em; }
 .hero-intent .hero-art img { filter:saturate(1.08); }
 .hero-intent .round-arrow { background:var(--ink); }
 .studio-marquee { border-block:1px solid var(--line); overflow:hidden; background:var(--ink); color:var(--paper); }

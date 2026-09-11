@@ -827,6 +827,16 @@
     trail.innerHTML = `<a href="index.html">Acor Web</a><span aria-hidden="true">/</span><span>${current}</span>`;
     caseIntro.prepend(trail);
   }
+  if (caseIntro && !caseIntro.querySelector('.reading-time')) {
+    const intro = caseIntro.querySelector('.intro-description');
+    const wordCount = document.querySelector('main')?.innerText.trim().split(/\s+/).filter(Boolean).length || 0;
+    if (intro && wordCount > 80) {
+      const readTime = document.createElement('span');
+      readTime.className = 'reading-time';
+      readTime.textContent = `≈ ${Math.max(1, Math.round(wordCount / 180))} мин чтения`;
+      intro.insertAdjacentElement('afterend', readTime);
+    }
+  }
 
   const caseNext = document.querySelector('.case-next');
   if (caseNext && !caseNext.querySelector('.case-share')) {
