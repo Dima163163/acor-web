@@ -51,6 +51,28 @@
     syncTheme();
   });
 
+  const emailLink = document.querySelector('.email-link');
+  if (emailLink && !emailLink.parentElement.querySelector('.copy-email')) {
+    const copyEmail = document.createElement('button');
+    copyEmail.type = 'button';
+    copyEmail.className = 'copy-email';
+    copyEmail.textContent = 'Скопировать email';
+    const copyStatus = document.createElement('span');
+    copyStatus.className = 'copy-email-status';
+    copyStatus.setAttribute('role', 'status');
+    copyEmail.addEventListener('click', async () => {
+      const email = emailLink.textContent.replace(/\s*↗︎\s*$/, '').trim();
+      try {
+        await navigator.clipboard.writeText(email);
+        copyStatus.textContent = 'Email скопирован.';
+      } catch {
+        copyStatus.textContent = email;
+      }
+      setTimeout(() => { copyStatus.textContent = ''; }, 2600);
+    });
+    emailLink.parentElement.append(copyEmail, copyStatus);
+  }
+
   const menuButton = document.querySelector('.menu-toggle');
   const mobileNav = document.querySelector('.mobile-nav');
   const setMenu = (open, restoreFocus = false) => {
@@ -196,6 +218,86 @@
   const initialCategory = new URLSearchParams(location.search).get('category');
   const initialFilter = Array.from(filters).find((filter) => filter.dataset.filter === initialCategory);
   if (initialFilter) applyProjectFilter(initialFilter, { updateUrl: false });
+
+  const projectGrid = document.querySelector('.project-grid');
+  const projectViewButtons = document.querySelectorAll('[data-project-view]');
+  const projectSortButtons = document.querySelectorAll('[data-project-sort]');
+  const savedProjectsStatus = document.querySelector('#saved-projects');
+  const projectOrder = Array.from(projects);
+  const projectNames = new Map(projectOrder.map((project) => [project, project.querySelector('h3')?.textContent.trim() || 'Проект']));
+  let projectView = 'grid';
+  let projectSort = 'curated';
+  let savedProjects = [];
+  try {
+    projectView = localStorage.getItem('acor-project-view') === 'list' ? 'list' : 'grid';
+    projectSort = localStorage.getItem('acor-project-sort') === 'alphabetical' ? 'alphabetical' : 'curated';
+    savedProjects = JSON.parse(localStorage.getItem('acor-project-favorites') || '[]');
+    if (!Array.isArray(savedProjects)) savedProjects = [];
+  } catch { /* Preferences remain session-local when storage is unavailable. */ }
+  const syncProjectTools = () => {
+    projectGrid?.classList.toggle('is-list-view', projectView === 'list');
+    projectViewButtons.forEach((button) => {
+      const selected = button.dataset.projectView === projectView;
+      button.classList.toggle('is-selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    projectSortButtons.forEach((button) => {
+      const selected = button.dataset.projectSort === projectSort;
+      button.classList.toggle('is-selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    if (savedProjectsStatus) savedProjectsStatus.textContent = savedProjects.length ? `Сохранено проектов: ${savedProjects.length}` : '';
+  };
+  const syncProjectUrl = () => {
+    if (!projectGrid) return;
+    const url = new URL(location.href);
+    if (projectView === 'list') url.searchParams.set('view', 'list'); else url.searchParams.delete('view');
+    if (projectSort === 'alphabetical') url.searchParams.set('sort', 'name'); else url.searchParams.delete('sort');
+    history.replaceState(null, '', url);
+  };
+  const sortProjects = () => {
+    if (!projectGrid) return;
+    const order = projectSort === 'alphabetical'
+      ? Array.from(projects).sort((a, b) => projectNames.get(a).localeCompare(projectNames.get(b), 'ru'))
+      : projectOrder;
+    order.forEach((project) => projectGrid.append(project));
+  };
+  projects.forEach((project) => {
+    const projectName = projectNames.get(project);
+    const save = document.createElement('button');
+    save.type = 'button';
+    save.className = 'project-save';
+    save.setAttribute('aria-label', `Сохранить проект ${projectName}`);
+    save.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      savedProjects = savedProjects.includes(projectName) ? savedProjects.filter((name) => name !== projectName) : [...savedProjects, projectName];
+      save.classList.toggle('is-saved', savedProjects.includes(projectName));
+      save.setAttribute('aria-pressed', String(savedProjects.includes(projectName)));
+      save.textContent = savedProjects.includes(projectName) ? '★' : '☆';
+      try { localStorage.setItem('acor-project-favorites', JSON.stringify(savedProjects)); } catch { /* Saving still works for the current page. */ }
+      syncProjectTools();
+    });
+    save.setAttribute('aria-pressed', String(savedProjects.includes(projectName)));
+    save.classList.toggle('is-saved', savedProjects.includes(projectName));
+    save.textContent = savedProjects.includes(projectName) ? '★' : '☆';
+    project.append(save);
+  });
+  projectViewButtons.forEach((button) => button.addEventListener('click', () => {
+    projectView = button.dataset.projectView;
+    try { localStorage.setItem('acor-project-view', projectView); } catch { /* The control still works without storage. */ }
+    syncProjectTools(); syncProjectUrl();
+  }));
+  projectSortButtons.forEach((button) => button.addEventListener('click', () => {
+    projectSort = button.dataset.projectSort;
+    sortProjects();
+    try { localStorage.setItem('acor-project-sort', projectSort); } catch { /* The control still works without storage. */ }
+    syncProjectTools(); syncProjectUrl();
+  }));
+  const projectParams = new URLSearchParams(location.search);
+  if (projectParams.get('view') === 'list') projectView = 'list';
+  if (projectParams.get('sort') === 'name') projectSort = 'alphabetical';
+  sortProjects(); syncProjectTools();
 
   const rotation = document.querySelector('#lab-rotation');
   const scale = document.querySelector('#lab-scale');
@@ -673,7 +775,19 @@
     const briefCopy = briefBuilder.querySelector('#brief-summary-copy');
     const briefTags = briefBuilder.querySelector('#brief-summary-tags');
     const briefKicker = briefBuilder.querySelector('.brief-summary-kicker');
+    const briefNote = briefBuilder.querySelector('.brief-summary-note');
     const briefForm = document.querySelector('#brief-form');
+    const briefProgress = document.createElement('div');
+    briefProgress.className = 'brief-progress';
+    briefProgress.setAttribute('role', 'progressbar');
+    briefProgress.setAttribute('aria-label', 'Прогресс заполнения брифа');
+    briefBuilder.querySelector('.brief-steps')?.prepend(briefProgress);
+    const briefShare = document.createElement('button');
+    briefShare.type = 'button';
+    briefShare.className = 'brief-share';
+    briefShare.textContent = 'Скопировать ссылку на этот бриф';
+    briefShare.setAttribute('aria-label', 'Скопировать ссылку на выбранный бриф');
+    briefBuilder.querySelector('.brief-summary')?.append(briefShare);
     const briefParams = new URLSearchParams(location.search);
     const briefState = {
       type: ['web', 'app', 'design', 'other'].includes(briefParams.get('type')) ? briefParams.get('type') : 'web',
@@ -707,6 +821,12 @@
         alive: ['Живое ощущение.', 'Движение, отклик и пространство для любопытства.', 'Alive']
       }
     };
+    const briefEstimates = {
+      web: { launch: 'Ориентир: 6–10 недель до первой версии.', refresh: 'Ориентир: 4–8 недель на пересборку главного.', validate: 'Ориентир: 2–4 недели на прототип и проверку.', grow: 'Ориентир: короткие итерации по 2–4 недели.' },
+      app: { launch: 'Ориентир: 10–16 недель до первого релиза.', refresh: 'Ориентир: 6–12 недель на обновление ключевых сценариев.', validate: 'Ориентир: 3–5 недель на кликабельный прототип.', grow: 'Ориентир: спринты развития по 2–4 недели.' },
+      design: { launch: 'Ориентир: 3–6 недель на базовую систему.', refresh: 'Ориентир: 2–5 недель на обновление языка.', validate: 'Ориентир: 1–3 недели на визуальную гипотезу.', grow: 'Ориентир: последовательные этапы по 2–3 недели.' },
+      other: { launch: 'Срок зависит от формата — сначала уточним контекст.', refresh: 'Сначала найдём, что стоит сохранить и пересобрать.', validate: 'Начнём с небольшого прототипа и проверим идею.', grow: 'Соберём план развития под ваши ограничения.' }
+    };
     let briefIndex = 0;
     const syncBriefUrl = () => {
       const url = new URL(location.href);
@@ -725,6 +845,13 @@
       if (briefCopy) briefCopy.textContent = copy;
       if (briefKicker) briefKicker.textContent = `Ваш контекст / ${String(briefIndex + 1).padStart(2, '0')} из ${String(briefSteps.length).padStart(2, '0')}`;
       if (briefTags) briefTags.innerHTML = Object.entries(briefState).map(([name, value]) => `<span>${briefText[name][value][2]}</span>`).join('');
+      if (briefNote) briefNote.textContent = briefEstimates[briefState.type][briefState.goal];
+      if (briefProgress) {
+        const progress = Math.round(((briefIndex + 1) / briefSteps.length) * 100);
+        briefProgress.style.setProperty('--brief-progress', `${progress}%`);
+        briefProgress.setAttribute('aria-valuenow', String(progress));
+        briefProgress.setAttribute('aria-valuetext', `${progress}%`);
+      }
       if (briefPrev) briefPrev.disabled = briefIndex === 0;
       if (briefNext) briefNext.innerHTML = briefIndex === briefSteps.length - 1 ? 'Заполнить заявку <span>↘︎</span>' : 'Следующий вопрос <span>↗︎</span>';
       const typeChoice = briefForm?.querySelector(`input[name="type"][value="${briefState.type}"]`);
@@ -744,6 +871,16 @@
         document.querySelector('#brief-form')?.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start' });
         briefForm?.elements.name?.focus({ preventScroll: true });
       }
+    });
+    briefShare.addEventListener('click', async () => {
+      const shareUrl = location.href;
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        briefShare.textContent = 'Ссылка скопирована';
+      } catch {
+        briefShare.textContent = 'Скопируйте URL из адресной строки';
+      }
+      setTimeout(() => { briefShare.textContent = 'Скопировать ссылку на этот бриф'; }, 2600);
     });
     syncBrief();
   }
