@@ -1,0 +1,13 @@
+{
+  "name": "Acor Web — digital studio",
+  "short_name": "Acor Web",
+  "lang": "ru",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f3f4f1",
+  "theme_color": "#f3f4f1",
+  "description": "Дизайн и разработка цифровых продуктов с характером.",
+  "icons": [
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -3209,6 +3209,11 @@ body.theme-night .contact-mark { color:#d8e0d9; }
 .copy-email { display:inline-flex; margin-top:18px; border:1px solid var(--line); border-radius:20px; padding:9px 12px; color:var(--muted); font-size:10px; transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease); }
 .copy-email:hover,.copy-email:focus-visible { background:var(--ink); border-color:var(--ink); color:var(--paper); transform:translateY(-1px); }
 .copy-email-status { display:block; min-height:1em; color:var(--blue); font-size:10px; margin-top:9px; }
+.clear-draft { font-size:10px; }
+.offline-page { min-height:100svh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding-block:80px; }
+.offline-page h1 { font-size:clamp(50px,9vw,120px); line-height:.95; margin-top:20px; }
+.offline-page .intro-description { margin-top:30px; max-width:420px; }
+.offline-page .dark-button { margin-top:35px; }
 
 .work-tools { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin:20px 0 38px; }
 .work-sort,.work-view { display:flex; align-items:center; flex-wrap:wrap; gap:6px; }

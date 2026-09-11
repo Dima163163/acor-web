@@ -404,6 +404,17 @@
       try { sessionStorage.setItem(draftKey, JSON.stringify(draft)); } catch { /* The form still works without storage. */ }
     };
     form.addEventListener('input', saveDraft);
+    const clearDraft = document.createElement('button');
+    clearDraft.type = 'button';
+    clearDraft.className = 'pill-button clear-draft';
+    clearDraft.textContent = 'Очистить черновик';
+    clearDraft.addEventListener('click', () => {
+      form.reset();
+      try { sessionStorage.removeItem(draftKey); } catch { /* The form still resets locally. */ }
+      const status = document.querySelector('#form-status');
+      if (status) status.textContent = 'Черновик очищен.';
+    });
+    form.querySelector('.form-actions')?.append(clearDraft);
     if (restoredDraft) {
       const status = document.querySelector('#form-status');
       if (status) status.textContent = 'Черновик восстановлен из этой сессии.';
@@ -1019,4 +1030,10 @@
       stepTabs[target].focus();
     });
   });
+
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js').catch(() => {
+      // The studio stays fully usable when service workers are disabled.
+    }), { once: true });
+  }
 })();
