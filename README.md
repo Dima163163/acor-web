@@ -11,6 +11,17 @@ npm run dev
 
 Открыть http://127.0.0.1:5173. Production-проверка: `npm run typecheck`, `npm run build`, `npm run preview`.
 
+Проверки качества:
+
+```sh
+npm run typecheck    # TypeScript для приложения и E2E-конфигурации
+npm run build        # Vite-сборка и SEO-пререндер маршрутов
+npm run audit:seo    # title, canonical, Open Graph, JSON-LD, sitemap и robots
+npm run test:e2e     # smoke-сценарии в desktop Chrome, mobile Chrome и mobile Safari
+```
+
+`npm run test:e2e` собирает production-версию, запускает локальный preview и проверяет все публичные маршруты, навигацию, локализацию, тему, командную палитру, фильтры, галерею, бриф и карточки команды. В GitHub Actions эти проверки запускаются на каждый pull request и push в `main`; отчёт Playwright сохраняется при ошибке.
+
 ## Архитектура
 
 Приложение собрано на Vite и React Router 7. В исходниках остаётся один `index.html` как HTML-shell; маршруты, страницы, шапка и футер живут в React/FSD-слоях:

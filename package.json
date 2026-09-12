@@ -7,10 +7,12 @@
     "dev": "vite",
     "build": "vite build && node scripts/prerender.mjs",
     "audit:seo": "node scripts/audit-seo.mjs",
+    "test:e2e": "playwright test",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
