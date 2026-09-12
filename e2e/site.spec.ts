@@ -14,6 +14,7 @@ const publicRoutes = [
   '/cases/greenflow',
   '/cases/orbit'
 ];
+const desktopProjects = ['chromium', 'firefox', 'webkit'];
 
 const waitForRuntime = async (page: Page): Promise<void> => {
   await page.waitForFunction(() => typeof (window as unknown as { __acorRuntimeCleanup?: unknown }).__acorRuntimeCleanup === 'function');
@@ -31,7 +32,7 @@ for (const route of publicRoutes) {
 
 test.describe('navigation and appearance', () => {
   test('mobile menu opens and navigates without a reload', async ({ page }, testInfo) => {
-    if (testInfo.project.name === 'chromium') test.skip();
+    if (!['mobile-chrome', 'mobile-safari'].includes(testInfo.project.name)) test.skip();
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
@@ -60,7 +61,7 @@ test.describe('navigation and appearance', () => {
   });
 
   test('language and theme controls update the document', async ({ page }, testInfo) => {
-    if (testInfo.project.name !== 'chromium') test.skip();
+    if (!desktopProjects.includes(testInfo.project.name)) test.skip();
 
     await page.goto('/');
     await waitForRuntime(page);
@@ -74,7 +75,7 @@ test.describe('navigation and appearance', () => {
   });
 
   test('command palette searches and opens', async ({ page }, testInfo) => {
-    if (testInfo.project.name !== 'chromium') test.skip();
+    if (!desktopProjects.includes(testInfo.project.name)) test.skip();
 
     await page.goto('/');
     await waitForRuntime(page);
@@ -90,7 +91,7 @@ test.describe('navigation and appearance', () => {
 
 test.describe('interactive pages', () => {
   test('project card stays visible while hover feedback settles', async ({ page }, testInfo) => {
-    if (testInfo.project.name !== 'chromium') test.skip();
+    if (!desktopProjects.includes(testInfo.project.name)) test.skip();
 
     await page.goto('/cases');
     await waitForRuntime(page);
@@ -100,11 +101,12 @@ test.describe('interactive pages', () => {
     await link.hover();
     await page.waitForTimeout(1200);
     await expect(link).toBeVisible();
+    await expect(link).toHaveCSS('filter', 'none');
     await expect(card.locator('.project-quickview')).toBeVisible();
   });
 
   test('cases filter and quick view stay functional', async ({ page }, testInfo) => {
-    if (testInfo.project.name !== 'chromium') test.skip();
+    if (!desktopProjects.includes(testInfo.project.name)) test.skip();
 
     await page.goto('/cases');
     await waitForRuntime(page);

@@ -41,7 +41,7 @@ jobs:
         run: npm run audit:seo
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Run browser smoke tests
         run: npm run test:e2e

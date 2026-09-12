@@ -18,6 +18,12 @@ npm run check
 Она выполняет TypeScript-проверку, production-сборку с SEO-пререндерингом и
 аудит метаданных. Перед pull request дополнительно запускайте `npm run test:e2e`.
 
+Playwright проверяет desktop Chromium, Firefox и Safari (WebKit), а также
+мобильные Chrome и Safari (WebKit). Локально можно передать путь к уже
+установленному Chromium
+через `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`; в CI все движки устанавливаются
+автоматически.
+
 ## Карта проекта
 
 - `src/app` — BrowserRouter, реестр маршрутов, SEO и runtime bootstrap;

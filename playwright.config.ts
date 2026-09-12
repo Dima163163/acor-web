@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const localChromiumExecutable = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
+const chromiumLaunchOptions = localChromiumExecutable ? { executablePath: localChromiumExecutable } : undefined;
 
 export default defineConfig({
   testDir: './e2e',
@@ -13,8 +14,7 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:4176',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
-    launchOptions: localChromiumExecutable ? { executablePath: localChromiumExecutable } : undefined
+    video: 'retain-on-failure'
   },
   webServer: {
     command: 'npm run build && npm run preview -- --host 127.0.0.1 --port 4176',
@@ -27,10 +27,13 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1440, height: 900 }
+        viewport: { width: 1440, height: 900 },
+        launchOptions: chromiumLaunchOptions
       }
     },
-    { name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'], viewport: { width: 1440, height: 900 } } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'], viewport: { width: 1440, height: 900 } } },
+    { name: 'mobile-chrome', use: { ...devices['Pixel 5'], launchOptions: chromiumLaunchOptions } },
     { name: 'mobile-safari', use: { ...devices['iPhone 13'] } }
   ]
 });
