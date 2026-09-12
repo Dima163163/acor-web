@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import '../shared/styles/index.css';
 
 const root = document.querySelector<HTMLElement>('#app');
 

@@ -1,0 +1,253 @@
+.site-header {
+  height:100px;
+  padding:0 var(--gutter);
+  display:flex;
+  align-items:center;
+  gap:38px;
+  position:relative;
+  z-index:50;
+  background:var(--paper);
+}
+.brand {
+  font-family:var(--display);
+  font-weight:800;
+  font-size:39px;
+  letter-spacing:-.075em;
+  display:inline-flex;
+  align-items:baseline;
+  white-space:nowrap;
+  line-height:1;
+}
+.brand-slash {
+  display:inline-block;
+  color:var(--blue);
+  margin-inline:3px 4px;
+  transform:skew(-9deg);
+  font-weight:600;
+}
+.brand small {
+  font-size:15px;
+  letter-spacing:-.045em;
+}
+.desktop-nav {
+  display:flex;
+  gap:28px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.desktop-nav a {
+  font-size:12px;
+  position:relative;
+  padding:12px 0;
+}
+.desktop-nav a:after {
+  content:'';
+  height:1px;
+  position:absolute;
+  left:0;
+  bottom:5px;
+  width:100%;
+  background:var(--ink);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .3s var(--ease);
+}
+.desktop-nav a:hover:after,.desktop-nav a[aria-current]:after {
+  transform:scaleX(1);
+}
+.header-contact {
+  display:flex;
+  align-items:center;
+  gap:35px;
+  border-bottom:1px solid var(--ink);
+  font-size:12px;
+  padding-block:13px;
+}
+.header-contact span {
+  font-size:20px;
+  transition:transform .3s;
+}
+.header-contact:hover span {
+  transform:translate(3px,-3px);
+}
+.menu-toggle {
+  display:none;
+  width:44px;
+  height:44px;
+  padding:12px;
+}
+.menu-toggle span {
+  display:block;
+  height:1px;
+  background:var(--ink);
+  margin:6px 0;
+  transition:transform .25s;
+}
+.mobile-nav {
+  position:absolute;
+  inset:100px 0 auto;
+  background:var(--paper);
+  padding:24px var(--gutter) 40px;
+  box-shadow:0 18px 25px #21231f0d;
+  display:grid;
+  gap:22px;
+}
+.mobile-nav a {
+  font-family:var(--display);
+  font-size:30px;
+  letter-spacing:-.04em;
+}
+.mobile-nav a[aria-current] {
+  color:var(--blue);
+}
+/* The sculpture, rather than a background effect, is the signature of the opening. */ .hero {
+  min-height:730px;
+  height:calc(100svh - 100px);
+  max-height:1050px;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.hero-topline {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-top:28px;
+}
+.live-dot {
+  display:inline-block;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--blue);
+  margin-right:9px;
+  vertical-align:middle;
+}
+.hero-index {
+  font-size:9px;
+  letter-spacing:.13em;
+  color:var(--muted);
+}
+.hero-copy {
+  position:relative;
+  z-index:2;
+  padding-top:70px;
+  pointer-events:none;
+  max-width:79%;
+}
+.hero-copy h1 {
+  font-size:clamp(66px,7.75vw,133px);
+  line-height:1.08;
+  letter-spacing:-.073em;
+  font-weight:500;
+}
+.hero-line {
+  display:block;
+  animation:hero-enter 1s var(--ease) both;
+}
+.hero-line:nth-child(2) {
+  animation-delay:.12s;
+}
+.hero-copy p {
+  font-size:15px;
+  line-height:1.7;
+  margin-top:30px;
+  max-width:350px;
+}
+.hero-copy a {
+  pointer-events:auto;
+}
+.round-link {
+  display:inline-flex;
+  gap:18px;
+  align-items:center;
+  font-size:12px;
+  margin-top:30px;
+}
+.round-arrow {
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:var(--blue);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-size:26px;
+  transition:transform .4s var(--ease),background .3s;
+}
+.round-link:hover .round-arrow {
+  transform:rotate(45deg);
+  background:var(--ink);
+}
+.hero-art {
+  position:absolute;
+  z-index:1;
+  right:-7%;
+  top:130px;
+  width:61%;
+  aspect-ratio:1.5;
+  transform:translate3d(var(--mx,0px),var(--my,0px),0) rotate(var(--mr,0deg));
+  transition:transform .9s var(--ease);
+  will-change:transform;
+  pointer-events:none;
+}
+.hero-art img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  mix-blend-mode:multiply;
+  mask-image:linear-gradient(90deg,transparent,black 12%,black 90%,transparent);
+}
+.art-caption {
+  position:absolute;
+  bottom:-14px;
+  right:24%;
+  font-size:8px;
+  letter-spacing:.13em;
+  color:var(--muted);
+}
+.hero-bottom {
+  margin-top:auto;
+  padding-block:28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  border-bottom:1px solid var(--line);
+  position:relative;
+  z-index:3;
+  font-size:10px;
+  color:var(--muted);
+}
+.scroll-link {
+  display:flex;
+  align-items:center;
+  gap:15px;
+  color:var(--ink);
+}
+.scroll-link>span {
+  font-size:21px;
+}
+.motion-toggle {
+  font-size:10px;
+  padding:8px 0;
+}
+.motion-toggle span {
+  color:var(--blue);
+  margin-left:10px;
+}
+.motion-toggle[aria-pressed=true] span {
+  color:var(--muted);
+}
+@keyframes hero-enter {
+  from {
+    opacity:0;
+    transform:translateY(32px);
+  }
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
