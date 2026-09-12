@@ -1,6 +1,6 @@
-const CACHE_NAME = 'acor-web-v35';
+const CACHE_NAME = 'acor-web-v36';
 const CORE = [
-  './', './index.html', './script.js', './manifest.webmanifest', './robots.txt', './sitemap.xml'
+  './', './index.html', './manifest.webmanifest', './robots.txt', './sitemap.xml'
 ];
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE)).then(() => self.skipWaiting()));

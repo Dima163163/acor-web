@@ -1,12 +1,12 @@
-const runtimeScriptSelector = 'script[data-acor-spa-runtime]';
+type LegacyRuntimeModule = typeof import('./legacy-runtime.js');
+
+let runtimeModule: Promise<LegacyRuntimeModule> | null = null;
+let runtimeRequest = 0;
 
 export const loadLegacyRuntime = (): void => {
-  document.querySelector(runtimeScriptSelector)?.remove();
-  document.querySelectorAll('.connection-status, .command-palette, .tap-ripple').forEach((node) => node.remove());
-  const script = document.createElement('script');
-  script.src = `/script.js?v=20260911-31&spa=${Date.now()}`;
-  script.defer = true;
-  script.async = false;
-  script.dataset.acorSpaRuntime = 'true';
-  document.head.append(script);
+  const request = ++runtimeRequest;
+  runtimeModule ??= import('./legacy-runtime.js');
+  void runtimeModule.then(({ mountLegacyRuntime }) => {
+    if (request === runtimeRequest) mountLegacyRuntime();
+  });
 };
