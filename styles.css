@@ -3367,7 +3367,7 @@ body.theme-night .connection-status { background:#3d3520; border-color:#8f7838; 
 .project-grid.is-list-view .project-visual { min-height:230px; }
 .project-grid.is-list-view .project-caption { align-self:center; padding:20px 50px 20px 0; }
 .project-grid.is-list-view .project-wordmark { font-size:clamp(32px,5vw,72px); }
-.project-save { position:absolute; top:20px; right:20px; z-index:4; display:grid; place-items:center; width:38px; height:38px; border:1px solid #f3f4f166; border-radius:50%; background:#15181dbd; color:#fff; font-size:20px; line-height:1; opacity:.78; transition:opacity .25s,background .25s,color .25s,transform .35s var(--ease); }
+.project-save { position:absolute; top:78px; right:20px; z-index:4; display:grid; place-items:center; width:38px; height:38px; border:1px solid #f3f4f166; border-radius:50%; background:#15181dbd; color:#fff; font-size:20px; line-height:1; opacity:.78; transition:opacity .25s,background .25s,color .25s,transform .35s var(--ease); }
 .project-save:hover,.project-save:focus-visible { opacity:1; background:var(--blue); color:#fff; transform:scale(1.08) rotate(8deg); }
 .project-save.is-saved { color:#f4d56a; opacity:1; }
 .project-link:hover + .project-quickview + .project-save { opacity:1; }
@@ -3377,7 +3377,7 @@ body.theme-night .connection-status { background:#3d3520; border-color:#8f7838; 
   .project-grid.is-list-view .project { grid-template-columns:1fr; gap:14px; }
   .project-grid.is-list-view .project-visual { min-height:190px; }
   .project-grid.is-list-view .project-caption { padding:0 45px 8px 0; }
-  .project-save { top:14px; right:14px; width:34px; height:34px; font-size:17px; }
+  .project-save { top:69px; right:14px; width:34px; height:34px; font-size:17px; }
 }
 @media(max-width:800px) {
   .language-select { order:1; width:45px; height:42px; min-height:42px; padding:0 4px; }
