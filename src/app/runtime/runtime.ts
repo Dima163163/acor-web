@@ -18,39 +18,13 @@ import { mountServiceWorker } from './features/service-worker';
 import { mountTeam } from './features/team';
 import { mountTelemetry } from './features/telemetry';
 import { mountProjectBuilder } from './features/project-builder';
+import { createRuntimeScope } from './runtime-scope';
 import type { RuntimeContext } from './types';
 
 /** Mount all page interactions for the current React Router route. */
 export const mountRuntime = (): void => {
 
-  'use strict';
-  // The Vite navigation layer can swap page markup without a hard reload. Keep
-  // one abortable listener scope so the legacy interaction layer can be
-  // re-mounted safely after every client-side route change.
-  window.__acorRuntimeCleanup?.();
-  document.querySelectorAll('.connection-status, .command-palette, .tap-ripple').forEach((node) => node.remove());
-  const runtimeController = new AbortController();
-  if (!window.__acorListenerPatch) {
-    const nativeAddEventListener = EventTarget.prototype.addEventListener;
-    EventTarget.prototype.addEventListener = function patchedAddEventListener(type, listener, options) {
-      const controller = window.__acorRuntimeController;
-      if (!controller?.signal || (typeof options === 'object' && options?.signal)) {
-        return nativeAddEventListener.call(this, type, listener, options);
-      }
-      const normalizedOptions = typeof options === 'boolean' ? { capture: options } : { ...(options || {}) };
-      normalizedOptions.signal = controller.signal;
-      return nativeAddEventListener.call(this, type, listener, normalizedOptions);
-    };
-    window.__acorListenerPatch = true;
-  }
-  window.__acorRuntimeController = runtimeController;
-  let runtimeCleaned = false;
-  window.__acorRuntimeCleanup = () => {
-    if (runtimeCleaned) return;
-    runtimeCleaned = true;
-    runtimeController.abort();
-    if (window.__acorRuntimeController === runtimeController) window.__acorRuntimeController = null;
-  };
+  const { controller: runtimeController } = createRuntimeScope();
   const locale = createLocaleController();
   const { translate: t, pageKey, apply: applyLocale } = locale;
   const appearance = mountAppearance(locale);

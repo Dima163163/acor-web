@@ -15,6 +15,7 @@ React отвечает за разметку страниц, а этот сло�
 
 ## Где искать поведение
 
+- `runtime-scope.ts` — общий AbortController и очистка прошлого экземпляра;
 - `appearance.ts` — тема, язык, reduced motion и курсор;
 - `navigation.ts` — мобильное меню и focus trap;
 - `features/motion-effects.js` — параллакс, reveal, magnetic CTA и hover-курсор;
