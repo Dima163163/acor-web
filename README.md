@@ -31,11 +31,13 @@ npm run test:e2e     # smoke-сценарии в desktop Chrome, mobile Chrome �
 - `src/widgets` — общие React-виджеты шапки и футера;
 - `src/shared` — навигация, SEO-метаданные, типы страниц и глобальные настройки.
 
-Разметка страниц описана JSX-компонентами без `String.raw` и `dangerouslySetInnerHTML`. Глобальные стили подключаются через `src/shared/styles/index.css` и разделены на слои `base`, `header-hero`, `home`, `pages`, `responsive` и `enhancements`. Интерактивный runtime собирается Vite из `src/app/runtime/legacy-runtime.js`, а локализация вынесена в типизированный `src/app/runtime/locale.ts`; runtime перезапускается после перехода по маршруту и очищает свои обработчики через AbortController.
+Разметка страниц описана JSX-компонентами без `String.raw` и `dangerouslySetInnerHTML`. Глобальные стили подключаются через `src/shared/styles/index.css` и разделены на слои `base`, `header-hero`, `home`, `pages`, `responsive` и `enhancements`. Интерактивный runtime собирается Vite из небольшого оркестратора `src/app/runtime/runtime.ts` и feature-модулей в `src/app/runtime/features`; локализация вынесена в типизированный `src/app/runtime/locale.ts`. Runtime перезапускается после перехода по маршруту и очищает свои обработчики через AbortController.
+
+Подробная карта runtime, правила связей между feature-модулями и инструкция для нового участника проекта находятся в [`src/app/runtime/README.md`](src/app/runtime/README.md).
 
 Основные URL используют чистые пути: `/`, `/cases`, `/services`, `/about`, `/team`, `/careers`, `/lab`, `/contact`, `/cases/arden`, `/cases/greenflow`, `/cases/orbit`, `/privacy`. Старые `.html`-адреса сохраняются для совместимости и на Vercel перенаправляются на чистые URL.
 
-Существующие сценарии (фильтры, бриф, Lab, галерея, карточки команды, локализация, тема и доступность) подключаются через runtime-слой. Следующий шаг — переносить отдельные сценарии в React-фичи без изменения роутинга и SEO-пререндеринга.
+Существующие сценарии (фильтры, бриф, Lab, галерея, карточки команды, локализация, тема и доступность) подключаются через runtime-слой. При расширении продукта отдельные сценарии можно переносить в React-фичи без изменения роутинга и SEO-пререндеринга.
 
 ## SEO и деплой
 

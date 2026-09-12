@@ -5,7 +5,7 @@ import { RoutePage } from '../pages/route-page/ui/RoutePage';
 import { defaultDescription, siteOrigin, type PageSeo } from '../shared/config/seo';
 import { SiteFooter } from '../widgets/site-footer/ui/SiteFooter';
 import { SiteHeader } from '../widgets/site-header/ui/SiteHeader';
-import { loadLegacyRuntime } from './runtime/legacy';
+import { loadRuntime } from './runtime/bootstrap';
 import { notFoundPage, resolvePage, routeDefinitions } from './routes';
 
 const updateSeo = (page: PageSeo): void => {
@@ -35,7 +35,7 @@ const RuntimeBridge = (): null => {
   useEffect(() => {
     updateSeo(resolvePage(location.pathname));
     window.__acorRuntimeCleanup?.();
-    loadLegacyRuntime();
+    loadRuntime();
   }, [location.pathname, location.search]);
 
   useEffect(() => {
