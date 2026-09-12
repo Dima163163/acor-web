@@ -47,7 +47,7 @@ const RuntimeBridge = (): null => {
   return null;
 };
 
-const handleLegacyLink = (event: ReactMouseEvent<HTMLDivElement>, navigate: ReturnType<typeof useNavigate>): void => {
+const handleSpaLink = (event: ReactMouseEvent<HTMLDivElement>, navigate: ReturnType<typeof useNavigate>): void => {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.defaultPrevented) return;
   const target = event.target;
   if (!(target instanceof Element)) return;
@@ -62,13 +62,13 @@ const handleLegacyLink = (event: ReactMouseEvent<HTMLDivElement>, navigate: Retu
   navigate(destination, { viewTransition: !document.body.classList.contains('motion-off') });
 };
 
-const LegacyLinkBridge = ({ children }: { children: ReactNode }): ReactElement => {
+const SpaLinkBridge = ({ children }: { children: ReactNode }): ReactElement => {
   const navigate = useNavigate();
-  return <div className="app-shell" onClickCapture={(event) => handleLegacyLink(event, navigate)}>{children}</div>;
+  return <div className="app-shell" onClickCapture={(event) => handleSpaLink(event, navigate)}>{children}</div>;
 };
 
 export const AppShell = (): ReactElement => (
-  <LegacyLinkBridge>
+  <SpaLinkBridge>
     <div className="reading-progress" aria-hidden="true"></div>
     <a className="skip-link" href="#main">К содержимому</a>
     <header className="site-header"><SiteHeader /></header>
@@ -79,7 +79,7 @@ export const AppShell = (): ReactElement => (
     </Routes>
     <footer className="site-footer"><SiteFooter /></footer>
     <div className="cursor-caption" aria-hidden="true">Смотреть ↗︎</div>
-  </LegacyLinkBridge>
+  </SpaLinkBridge>
 );
 
 export const App = (): ReactElement => (

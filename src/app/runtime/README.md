@@ -25,15 +25,21 @@ React отвечает за разметку страниц, а этот сло�
 - `features/team.js` — поиск команды, фильтры и диалог профиля;
 - `features/case-features.js` — галерея, breadcrumbs, share и печать кейса;
 - `features/compare-and-cards.js` — compare slider и tilt карточек;
-- `features/project-builder.js` — интерактивный выбор типа проекта;
-- `features/lab-palette.js` и `lab.js` — сцена Lab и её пресеты;
-- `features/process-tabs.js` — вкладки этапов процесса;
-- `features/feedback-effects.js` — ripple, entry animation и 404-эксперимент;
+- `features/project-builder.ts` — интерактивный выбор типа проекта;
+- `features/lab-palette.ts` и `lab.js` — сцена Lab и её пресеты;
+- `features/process-tabs.ts` — вкладки этапов процесса;
+- `features/feedback-effects.ts` — ripple, entry animation и 404-эксперимент;
+- `features/estimator.ts` — оценка сроков по типу и масштабу проекта;
+- `features/telemetry.ts` — локальный журнал interaction-событий без отправки данных;
 - `brief.js` — пошаговый бриф;
 - `command-palette.js` — поиск по разделам;
-- `telemetry.js` — локальный журнал interaction-событий без отправки данных;
 - `service-worker.js` — локализация после динамического добавления элементов и
   регистрация service worker.
+
+Большие legacy-модули с DOM-логикой пока остаются JavaScript-файлами, но имеют
+рядом `.d.ts`-контракт. Новые модули и небольшие изменения пишутся на
+TypeScript: так ошибки обнаруживаются до сборки, а граница между runtime и
+страницей остаётся явной.
 
 ## Как добавить новую интерактивность
 
@@ -41,8 +47,9 @@ React отвечает за разметку страниц, а этот сло�
 2. Получить зависимости через аргумент контекста, а не читать переменные из
    другого feature-модуля. Если модулю нужно сообщить состояние наружу,
    вернуть небольшой API (пример — `updateScroll` в `scroll-state.js`).
-3. Добавить декларацию `.d.ts` рядом с JavaScript-модулем, чтобы оркестратор
-   оставался типобезопасным.
+3. Написать модуль на TypeScript. Если миграция большого legacy-модуля пока
+   нецелесообразна, добавьте рядом `.d.ts`-контракт и отдельную задачу на его
+   перенос.
 4. Подключить модуль в `runtime.ts` и добавить сценарий в `e2e/site.spec.ts`.
 5. Проверить `npm run typecheck`, `npm run build` и `npm run test:e2e`.
 
