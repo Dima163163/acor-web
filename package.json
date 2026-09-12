@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "check": "npm run typecheck && npm run build && npm run audit:seo",
     "build": "vite build && node scripts/prerender.mjs",
     "audit:seo": "node scripts/audit-seo.mjs",
     "test:e2e": "playwright test",

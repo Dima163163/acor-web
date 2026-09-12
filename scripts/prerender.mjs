@@ -57,7 +57,7 @@ const renderDocument = (template, route, rendered) => replaceMeta(template, rend
 
 const server = await createServer({
   root,
-  server: { middlewareMode: true },
+  server: { middlewareMode: true, hmr: false, ws: false },
   appType: 'spa',
   resolve: { alias: { 'react-router-dom': 'react-router' } },
   ssr: { noExternal: ['react-router'] }

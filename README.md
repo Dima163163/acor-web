@@ -24,6 +24,9 @@ npm run test:e2e     # smoke-сценарии в desktop Chrome, mobile Chrome �
 
 ## Архитектура
 
+Инструкция для нового участника проекта и порядок проверки изменений находятся
+в [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 Приложение собрано на Vite и React Router 7. В исходниках остаётся один `index.html` как HTML-shell; маршруты, страницы, шапка и футер живут в React/FSD-слоях:
 
 - `src/app` — точка входа, BrowserRouter и runtime-модули интерактивов;

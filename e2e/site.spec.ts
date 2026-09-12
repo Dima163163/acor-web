@@ -44,6 +44,21 @@ test.describe('navigation and appearance', () => {
     await expect(page.locator('#route-root')).toHaveAttribute('data-route', 'cases');
   });
 
+  test('runtime remount keeps one control instance after SPA navigation', async ({ page }) => {
+    await page.goto('/');
+    await waitForRuntime(page);
+
+    await page.locator('.header-contact').click();
+    await expect(page.locator('#route-root')).toHaveAttribute('data-route', 'contact');
+    await expect(page.locator('.connection-status')).toHaveCount(1);
+    await expect(page.locator('.command-palette')).toHaveCount(1);
+
+    await page.locator('.site-header .brand').click();
+    await expect(page.locator('#route-root')).toHaveAttribute('data-route', 'home');
+    await expect(page.locator('.connection-status')).toHaveCount(1);
+    await expect(page.locator('.command-palette')).toHaveCount(1);
+  });
+
   test('language and theme controls update the document', async ({ page }, testInfo) => {
     if (testInfo.project.name !== 'chromium') test.skip();
 
