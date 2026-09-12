@@ -89,6 +89,20 @@ test.describe('navigation and appearance', () => {
 });
 
 test.describe('interactive pages', () => {
+  test('project card stays visible while hover feedback settles', async ({ page }, testInfo) => {
+    if (testInfo.project.name !== 'chromium') test.skip();
+
+    await page.goto('/cases');
+    await waitForRuntime(page);
+    const card = page.locator('.project[data-category="product"]');
+    const link = card.locator('.project-link');
+    await link.scrollIntoViewIfNeeded();
+    await link.hover();
+    await page.waitForTimeout(1200);
+    await expect(link).toBeVisible();
+    await expect(card.locator('.project-quickview')).toBeVisible();
+  });
+
   test('cases filter and quick view stay functional', async ({ page }, testInfo) => {
     if (testInfo.project.name !== 'chromium') test.skip();
 
