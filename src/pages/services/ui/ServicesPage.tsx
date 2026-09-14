@@ -156,6 +156,20 @@ export const ServicesPage = (): ReactElement => (
         </article>
       </div>
     </section>
+    <section className="wrap section-space service-materials" aria-labelledby="service-materials-title">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">{"Материалы на выходе"}</p>
+          <h2 id="service-materials-title">{"Каждый этап оставляет"}<br /><em>{"рабочий след."}</em></h2>
+        </div>
+        <p>{"Результат можно открыть, обсудить и передать дальше. В процессе остаются документы, которыми удобно пользоваться после запуска."}</p>
+      </div>
+      <div className="service-facts-grid material-grid">
+        <article><span>{"01 / КОНТЕКСТ"}</span><strong>{"Карта сценариев"}</strong><p>{"Приоритеты, аудитория и вопросы собраны в одном понятном маршруте."}</p></article>
+        <article><span>{"02 / СИСТЕМА"}</span><strong>{"Библиотека компонентов"}</strong><p>{"Правила интерфейса, состояния и токены, которые помогают команде двигаться быстрее."}</p></article>
+        <article><span>{"03 / ЗАПУСК"}</span><strong>{"Чек-лист релиза"}</strong><p>{"Проверки доступности, SEO и аналитики перед публикацией и после неё."}</p></article>
+      </div>
+    </section>
     <section className="wrap section-space service-estimator" id="service-estimator" aria-labelledby="service-estimator-title">
       <div className="section-heading">
         <div>

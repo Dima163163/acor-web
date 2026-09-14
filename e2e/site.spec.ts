@@ -120,7 +120,7 @@ test.describe('interactive pages', () => {
     await expect(quickView).toBeVisible();
     await quickView.click();
     await expect(page.locator('#project-gallery')).toBeVisible();
-    await expect(page.locator('#gallery-title')).toHaveText('GreenFlow');
+    await expect(page.locator('#gallery-title')).toHaveText('Commerce study');
     await page.locator('.gallery-close').click();
     await expect(page.locator('#project-gallery')).toBeHidden();
   });
@@ -134,6 +134,26 @@ test.describe('interactive pages', () => {
     await page.locator('#brief-next').click();
     await expect(page.locator('[data-brief-step="1"]')).toBeVisible();
     await expect(page).toHaveURL(/type=app/);
+  });
+
+  test('localized route exposes translated SEO and keeps SPA navigation', async ({ page }) => {
+    await page.goto('/en/cases');
+    await waitForRuntime(page);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page).toHaveTitle(/Selected work/);
+    await page.locator('.header-contact').click();
+    await expect(page).toHaveURL(/\/en\/contact(?:\?|$)/);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  });
+
+  test('case demo toggles and lab export controls are available', async ({ page }) => {
+    await page.goto('/cases/arden');
+    await waitForRuntime(page);
+    await page.locator('[data-demo-value="plan"]').click();
+    await expect(page.locator('[data-demo-output]')).toContainText('План переводит');
+    await page.goto('/lab');
+    await waitForRuntime(page);
+    await expect(page.locator('#lab-export')).toBeVisible();
   });
 
   test('team search and profile dialog work', async ({ page }) => {

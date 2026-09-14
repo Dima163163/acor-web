@@ -18,6 +18,14 @@ const routes = [
   { url: '/cases/greenflow', output: 'cases/greenflow/index.html', schema: 'CreativeWork' },
   { url: '/cases/orbit', output: 'cases/orbit/index.html', schema: 'CreativeWork' }
 ];
+const locales = ['ru', 'en', 'pl', 'be'];
+const ogLocales = { ru: 'ru_RU', en: 'en_US', pl: 'pl_PL', be: 'be_BY' };
+const localizedRoutes = routes.flatMap((route) => locales.map((locale) => ({
+  ...route,
+  locale,
+  url: locale === 'ru' ? route.url : `/${locale}${route.url === '/' ? '' : route.url}`,
+  output: locale === 'ru' ? route.output : `${locale}/${route.output}`
+})));
 
 const countMatches = (value, expression) => [...value.matchAll(expression)].length;
 const readMeta = (html, attribute, value) => {
@@ -28,7 +36,7 @@ const readMeta = (html, attribute, value) => {
 const readCanonical = (html) => html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["'][^>]*>/i)?.[1] || '';
 const readTitle = (html) => html.match(/<title>([^<]*)<\/title>/i)?.[1]?.trim() || '';
 
-for (const route of routes) {
+for (const route of localizedRoutes) {
   const html = await readFile(path.join(dist, route.output), 'utf8');
   const title = readTitle(html);
   const description = readMeta(html, 'name', 'description');
@@ -37,6 +45,12 @@ for (const route of routes) {
   assert.ok(title, `${route.url}: title is empty`);
   assert.ok(description, `${route.url}: description is empty`);
   assert.equal(canonical, `${origin}${route.url}`, `${route.url}: canonical mismatch`);
+  assert.equal(html.match(/<html lang="([^"]+)"/)?.[1], route.locale, `${route.url}: html lang mismatch`);
+  assert.equal(readMeta(html, 'property', 'og:locale'), ogLocales[route.locale], `${route.url}: og:locale mismatch`);
+  for (const alternateLocale of locales) {
+    assert.match(html, new RegExp(`hreflang=["']${alternateLocale}["']`), `${route.url}: missing ${alternateLocale} hreflang`);
+  }
+  assert.match(html, /hreflang=["']x-default["']/i, `${route.url}: missing x-default hreflang`);
   assert.equal(readMeta(html, 'property', 'og:title'), title, `${route.url}: og:title mismatch`);
   assert.equal(readMeta(html, 'property', 'og:description'), description, `${route.url}: og:description mismatch`);
   assert.equal(readMeta(html, 'property', 'og:url'), canonical, `${route.url}: og:url mismatch`);
@@ -50,7 +64,7 @@ for (const route of routes) {
 
 const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-assert.deepEqual(new Set(sitemapUrls), new Set(routes.map(({ url }) => `${origin}${url}`)), 'sitemap URLs mismatch');
+assert.deepEqual(new Set(sitemapUrls), new Set(localizedRoutes.map(({ url }) => `${origin}${url}`)), 'sitemap URLs mismatch');
 
 const robots = await readFile(path.join(dist, 'robots.txt'), 'utf8');
 assert.match(robots, /User-agent:\s*\*/);
@@ -61,4 +75,4 @@ const shell = await readFile(path.join(dist, 'index.html'), 'utf8');
 assert.doesNotMatch(shell, /\/styles\.css(?:["?])/);
 assert.match(shell, /<link[^>]+rel=["']stylesheet["'][^>]+href=["']\/assets\/[^"']+\.css["']/i);
 
-console.log(`SEO audit passed: ${routes.length} routes, sitemap and robots.txt are valid.`);
+console.log(`SEO audit passed: ${localizedRoutes.length} localized routes, sitemap and robots.txt are valid.`);

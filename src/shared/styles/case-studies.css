@@ -1,0 +1,45 @@
+.case-demo {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(36px, 5vw, 72px);
+}
+
+.case-demo-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(220px, .9fr);
+  gap: 32px;
+  align-items: end;
+}
+
+.case-demo-heading h2 { margin-top: 12px; max-width: 680px; }
+.case-demo-heading > p { color: var(--muted); max-width: 420px; margin: 0; }
+.case-demo-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.case-demo-button { border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--ink); padding: 11px 17px; font: inherit; cursor: pointer; transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease; }
+.case-demo-button:hover { transform: translateY(-2px); border-color: var(--blue); }
+.case-demo-button.is-active { color: #fff; background: var(--blue); border-color: var(--blue); }
+.case-demo-output { display: block; min-height: 26px; margin-top: 20px; color: var(--ink); font-size: clamp(18px, 2vw, 24px); letter-spacing: -.025em; }
+.case-annotation { margin-top: 28px; border-top: 1px solid var(--line); max-width: 680px; }
+.case-annotation summary { cursor: pointer; padding: 16px 0; list-style: none; font-size: 14px; }
+.case-annotation summary::-webkit-details-marker { display: none; }
+.case-annotation summary::after { content: '+'; float: right; color: var(--blue); font-size: 20px; line-height: 1; }
+.case-annotation[open] summary::after { content: '−'; }
+.case-annotation p { color: var(--muted); max-width: 620px; margin: 0 0 18px; }
+.compare-product-ui { height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: clamp(24px, 5vw, 72px); color: #21304f; background: linear-gradient(135deg, #d5def3, #edf0f7); }
+.compare-product-ui span { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+.compare-product-ui strong { font: 500 clamp(28px, 5vw, 70px)/1 var(--display); letter-spacing: -.07em; }
+.compare-product-ui i { display: block; width: 72%; height: 2px; background: #4166f5; opacity: .75; transform-origin: left; }
+.compare-product-ui i:nth-of-type(2) { width: 54%; opacity: .45; }
+.compare-product-ui i:nth-of-type(3) { width: 40%; opacity: .25; }
+.icon { display: inline-block; vertical-align: middle; flex: none; }
+.lab-export-status, .favorite-projects-note { min-height: 18px; color: var(--muted); font-size: 12px; }
+.favorite-projects-note { margin-top: 14px; }
+
+@media (max-width: 760px) {
+  .case-demo-heading { grid-template-columns: 1fr; gap: 14px; }
+  .case-demo-heading > p { max-width: none; }
+  .case-demo-controls { margin-top: 22px; }
+  .case-demo-button { padding: 10px 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-demo-button { transition: none; }
+}

@@ -1,3 +1,5 @@
+import { submitBriefToEndpoint } from './brief-submit';
+
 export const mountContactForm = ({ t }) => {
   const form = document.querySelector('#brief-form');
   if (form) {
@@ -5,6 +7,14 @@ export const mountContactForm = ({ t }) => {
     const budgetLabels = { undecided: 'Пока обсуждаем', 'under-500': 'До 500 тыс. ₽', '500-1000': '500 тыс. – 1 млн ₽', '1-3m': '1–3 млн ₽', 'over-3m': 'Более 3 млн ₽' };
     const draftKey = 'acor-brief-draft';
     const draftFields = ['name', 'company', 'email', 'type', 'message', 'budget', 'timing'];
+    const endpoint = import.meta.env.VITE_BRIEF_ENDPOINT;
+    let favoriteProjects = [];
+    try {
+      const stored = JSON.parse(localStorage.getItem('acor-project-favorites') || '[]');
+      if (Array.isArray(stored)) favoriteProjects = stored.filter((value) => typeof value === 'string');
+    } catch { /* Favorites remain optional when storage is unavailable. */ }
+    const favoritesNote = document.querySelector('#favorite-projects-note');
+    if (favoritesNote && favoriteProjects.length) favoritesNote.textContent = `${t('Сохранённые проекты')}: ${favoriteProjects.join(', ')}.`;
     let restoredDraft = false;
     try {
       const draft = JSON.parse(sessionStorage.getItem(draftKey) || 'null');
@@ -71,6 +81,7 @@ export const mountContactForm = ({ t }) => {
         `Email: ${data.get('email')}`, `Проект: ${project}`,
         `Бюджет: ${budgetLabels[data.get('budget')] || data.get('budget') || 'Пока обсуждаем'}`, `Сроки: ${data.get('timing') || 'Обсудим'}`,
         '', 'ЗАДАЧА', String(data.get('message')), '',
+        favoriteProjects.length ? `Сохранённые проекты: ${favoriteProjects.join(', ')}` : '',
         'Письмо подготовлено на сайте Acor Web.'
         ].join('\n')
       };
@@ -93,7 +104,7 @@ export const mountContactForm = ({ t }) => {
     document.querySelector('#download-brief')?.addEventListener('click', () => {
       if (form.reportValidity()) downloadBrief();
     });
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!form.reportValidity()) return;
       const { data, project, text } = collectBrief();
@@ -106,6 +117,25 @@ export const mountContactForm = ({ t }) => {
         status.textContent = t('Открываем почтовое приложение…');
         status.classList.remove('is-success');
         status.classList.add('is-visible');
+      }
+      const apiSent = endpoint ? await submitBriefToEndpoint(endpoint, {
+        name: String(data.get('name') || ''),
+        company: String(data.get('company') || ''),
+        email: String(data.get('email') || ''),
+        project,
+        budget: String(data.get('budget') || ''),
+        timing: String(data.get('timing') || ''),
+        message: String(data.get('message') || ''),
+        favorites: favoriteProjects
+      }) : false;
+      if (apiSent) {
+        if (status) {
+          status.textContent = t('Заявка отправлена. Вернёмся с ответом в течение рабочего дня.');
+          status.classList.add('is-success', 'is-visible');
+        }
+        form.reset();
+        if (submitButton) submitButton.disabled = false;
+        return;
       }
       window.location.href = `mailto:hello@acorweb.ru?subject=${subject}&body=${body}`;
       window.setTimeout(() => {

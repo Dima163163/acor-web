@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { Icon } from '../../../shared/ui/Icon';
 
 export const LabPage = (): ReactElement => (
   <>
@@ -33,6 +34,10 @@ export const LabPage = (): ReactElement => (
 {"Случайная форма "}
             <span>{"⤨"}</span>
           </button>
+          <button type="button" className="pill-button lab-export" id="lab-export">
+            <span>{"Скачать PNG"}</span>
+            <Icon name="arrow-down" size={14} />
+          </button>
         </div>
         <div className="lab-palette" role="group" aria-label="Палитра эксперимента">
           <span className="lab-preset-label">{"Палитра"}</span>
@@ -44,6 +49,7 @@ export const LabPage = (): ReactElement => (
       <div className="lab-art">
         <img id="lab-object" src="/assets/sculpture.jpg" alt="Скульптура Acor с управляемым поворотом и масштабом" width="1536" height="1024" />
       </div>
+      <p className="lab-export-status" id="lab-export-status" role="status" aria-live="polite"></p>
     </section>
     <section className="wrap section-space">
       <p className="eyebrow">{"Не только эффект"}</p>

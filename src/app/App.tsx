@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import type { MouseEvent as ReactMouseEvent, ReactElement, ReactNode } from 'react';
 import { RoutePage } from '../pages/route-page/ui/RoutePage';
-import { defaultDescription, siteOrigin, type PageSeo } from '../shared/config/seo';
+import { defaultDescription, getPageSeo, siteOrigin, type PageSeo } from '../shared/config/seo';
+import { stripLocalePrefix, withLocalePrefix } from '../shared/config/locales';
 import { SiteFooter } from '../widgets/site-footer/ui/SiteFooter';
 import { SiteHeader } from '../widgets/site-header/ui/SiteHeader';
 import { loadRuntime } from './runtime/bootstrap';
@@ -10,22 +11,25 @@ import { notFoundPage, resolvePage, routeDefinitions } from './routes';
 
 const updateSeo = (page: PageSeo): void => {
   const canonicalPath = window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '');
-  const description = page.description || defaultDescription;
-  const schemaType = ['caseArden', 'caseGreenflow', 'caseOrbit'].includes(page.key) ? 'CreativeWork' : page.key === 'contact' ? 'ContactPage' : 'WebPage';
-  document.title = page.title;
-  document.documentElement.lang = 'ru';
+  const { locale } = stripLocalePrefix(window.location.pathname);
+  const localizedPage = getPageSeo(page, locale);
+  const description = localizedPage.description || defaultDescription;
+  const schemaType = ['caseArden', 'caseGreenflow', 'caseOrbit'].includes(localizedPage.key) ? 'CreativeWork' : localizedPage.key === 'contact' ? 'ContactPage' : 'WebPage';
+  document.title = localizedPage.title;
+  document.documentElement.lang = locale;
   document.querySelector('meta[name="description"]')?.setAttribute('content', description);
-  document.querySelector('meta[property="og:title"]')?.setAttribute('content', page.title);
+  document.querySelector('meta[property="og:title"]')?.setAttribute('content', localizedPage.title);
   document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+  document.querySelector('meta[property="og:locale"]')?.setAttribute('content', { ru: 'ru_RU', en: 'en_US', pl: 'pl_PL', be: 'be_BY' }[locale]);
   document.querySelector('meta[property="og:url"]')?.setAttribute('content', `${siteOrigin}${canonicalPath}`);
-  document.querySelector('meta[property="og:image:alt"]')?.setAttribute('content', `${page.title} — Acor Web`);
-  document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', page.title);
+  document.querySelector('meta[property="og:image:alt"]')?.setAttribute('content', `${localizedPage.title} — Acor Web`);
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', localizedPage.title);
   document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
-  document.querySelector('meta[name="twitter:image:alt"]')?.setAttribute('content', `${page.title} — Acor Web`);
+  document.querySelector('meta[name="twitter:image:alt"]')?.setAttribute('content', `${localizedPage.title} — Acor Web`);
   document.querySelector('link[rel="canonical"]')?.setAttribute('href', `${siteOrigin}${canonicalPath}`);
   const schema = document.querySelector('#route-schema');
   if (schema) {
-    schema.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': schemaType, name: page.title, description, url: `${siteOrigin}${canonicalPath}` });
+    schema.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': schemaType, name: localizedPage.title, description, url: `${siteOrigin}${canonicalPath}` });
   }
 };
 
@@ -55,10 +59,13 @@ const handleSpaLink = (event: ReactMouseEvent<HTMLDivElement>, navigate: ReturnT
   if (!link || (link.target && link.target !== '_self') || link.hasAttribute('download') || link.dataset.noSpa !== undefined) return;
   if (link.origin !== window.location.origin) return;
   const url = new URL(link.href);
-  const isAppPath = url.pathname === '/' || url.pathname.startsWith('/cases') || !url.pathname.includes('.');
+  const appPath = stripLocalePrefix(url.pathname).pathname;
+  const isAppPath = appPath === '/' || appPath.startsWith('/cases') || !appPath.includes('.');
   if (!isAppPath) return;
   event.preventDefault();
-  const destination = `${url.pathname}${url.search}${url.hash}`;
+  const { locale } = stripLocalePrefix(window.location.pathname);
+  const destinationPath = stripLocalePrefix(url.pathname).pathname;
+  const destination = `${withLocalePrefix(locale, destinationPath)}${url.search}${url.hash}`;
   navigate(destination, { viewTransition: !document.body.classList.contains('motion-off') });
 };
 

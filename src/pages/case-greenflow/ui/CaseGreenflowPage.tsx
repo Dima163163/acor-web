@@ -3,7 +3,7 @@ import type { CSSProperties, ReactElement } from 'react';
 export const CaseGreenflowPage = (): ReactElement => (
   <>
     <section className="page-intro wrap">
-      <p className="eyebrow">{"E-commerce / Бренд / Концепт"}</p>
+      <p className="eyebrow">{"Commerce / Web / Study 02"}</p>
       <h1>
 {"Природа ближе,"}
         <br />
@@ -11,8 +11,27 @@ export const CaseGreenflowPage = (): ReactElement => (
       </h1>
       <p className="intro-description">{"Концепция магазина растений, где спокойная визуальная среда помогает выбрать живую деталь для своего пространства."}</p>
     </section>
-    <section className="wrap case-scene project--flora">
-      <img src="/assets/flora.jpg" alt="Визуальная концепция GreenFlow" width="1536" height="1024" />
+    <section className="wrap case-scene project--flora" data-study="commerce" data-case-demo="commerce" style={{ viewTransitionName: 'case-study-commerce' } as CSSProperties}>
+      <img src="/assets/flora.jpg" alt="Абстрактная botanical-сцена для commerce-интерфейса" width="1536" height="1024" />
+    </section>
+    <section className="wrap case-demo section-space" aria-labelledby="commerce-demo-title">
+      <div className="case-demo-heading">
+        <div>
+          <p className="eyebrow">{"Интерактив / каталог"}</p>
+          <h2 id="commerce-demo-title">{"Соберите настроение подборки."}</h2>
+        </div>
+        <p>{"Фильтр меняет акцент карточек и показывает, как эмоциональная подача может вести к практичному действию."}</p>
+      </div>
+      <div className="case-demo-controls" role="group" aria-label="Категория commerce-концепции">
+        <button type="button" className="case-demo-button is-active" data-demo-value="stone" aria-pressed="true">{"Камень"}</button>
+        <button type="button" className="case-demo-button" data-demo-value="textile" aria-pressed="false">{"Текстиль"}</button>
+        <button type="button" className="case-demo-button" data-demo-value="light" aria-pressed="false">{"Свет"}</button>
+      </div>
+      <output className="case-demo-output" data-demo-output="">{"Камень — фактура и спокойный контраст для первого экрана."}</output>
+      <details className="case-annotation">
+        <summary>{"Почему так устроено"}</summary>
+        <p>{"Категории остаются короткими и визуальными. Человеку легче начать с ощущения, а уточняющие данные появляются в карточке и на следующем шаге."}</p>
+      </details>
     </section>
     <section className="wrap section-space case-story">
       <div>
@@ -22,7 +41,7 @@ export const CaseGreenflowPage = (): ReactElement => (
       <div>
         <p className="eyebrow">{"Наше решение"}</p>
         <p>{"Натуральная палитра, предметная фотография и простая структура каталога. Информация об уходе становится частью выбора, а не примечанием."}</p>
-        <p className="case-note">{"Демонстрационная концепция Acor Web. Визуализации созданы для портфолио; результаты реального клиента не заявляются."}</p>
+        <p className="case-note">{"Демонстрационная study Acor Web. Изображения и данные абстрактны и показывают принцип, а не результат реального клиента."}</p>
       </div>
     </section>
     <section className="wrap case-details section-space" aria-labelledby="case-details-title">

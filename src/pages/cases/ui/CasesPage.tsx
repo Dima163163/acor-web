@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import type { CSSProperties, ReactElement } from 'react';
 
 export const CasesPage = (): ReactElement => (
   <>
@@ -36,54 +36,54 @@ export const CasesPage = (): ReactElement => (
       </div>
       <p className="sr-only" role="status" id="filter-status"></p>
       <div className="project-grid">
-        <article className="project project--arden project--wide" data-category="web">
+        <article className="project project--arden project--wide" data-category="web" data-study="architecture">
           <a className="project-link" href="/cases/arden" data-cursor="Смотреть ↗︎">
-            <div className="project-visual">
-              <img src="/assets/arden.jpg" alt="Светлая архитектура Arden с оливковым деревом и отражением в воде" loading="lazy" width="1536" height="1024" />
-              <span className="project-type">{"Архитектура · Web"}</span>
-              <span className="project-wordmark">{"Arden"}</span>
+            <div className="project-visual" style={{ viewTransitionName: 'case-study-architecture' } as CSSProperties}>
+              <img src="/assets/arden.jpg" alt="Светлая архитектурная сцена с оливковым деревом и отражением в воде" loading="lazy" width="1536" height="1024" />
+              <span className="project-type">{"Architecture · Web"}</span>
+              <span className="project-wordmark">{"FORM / 01"}</span>
             </div>
             <div className="project-caption">
               <div>
-                <h3>{"Arden"}</h3>
-                <p>{"Архитектура, которую можно почувствовать."}</p>
+                <h3>{"Architecture study"}</h3>
+                <p>{"Свет, масштаб и маршрут до первого визита."}</p>
               </div>
               <span className="concept-label">{"Концепт / 2026"}</span>
             </div>
           </a>
-          <button type="button" className="project-quickview" data-gallery-open="" aria-label="Посмотреть Arden на весь экран" hidden>
+          <button type="button" className="project-quickview" data-gallery-open="" aria-label="Посмотреть архитектурную концепцию на весь экран" hidden>
             <span>{"Смотреть ближе"}</span>
             <i aria-hidden="true">{"⤢"}</i>
           </button>
         </article>
-        <article className="project project--flora " data-category="commerce">
+        <article className="project project--flora " data-category="commerce" data-study="commerce">
           <a className="project-link" href="/cases/greenflow" data-cursor="Смотреть ↗︎">
-            <div className="project-visual">
-              <img src="/assets/flora.jpg" alt="Ботаническая композиция GreenFlow в оливковых и кремовых тонах" loading="lazy" width="1536" height="1024" />
-              <span className="project-type">{"E-commerce · Бренд"}</span>
-              <span className="project-wordmark">{"GreenFlow"}</span>
+            <div className="project-visual" style={{ viewTransitionName: 'case-study-commerce' } as CSSProperties}>
+              <img src="/assets/flora.jpg" alt="Ботаническая композиция в оливковых и кремовых тонах" loading="lazy" width="1536" height="1024" />
+              <span className="project-type">{"Commerce · Web"}</span>
+              <span className="project-wordmark">{"FORM / 02"}</span>
             </div>
             <div className="project-caption">
               <div>
-                <h3>{"GreenFlow"}</h3>
-                <p>{"Ближе к природе. Даже онлайн."}</p>
+                <h3>{"Commerce study"}</h3>
+                <p>{"Каталог, который помогает выбрать без спешки."}</p>
               </div>
               <span className="concept-label">{"Концепт / 2026"}</span>
             </div>
           </a>
-          <button type="button" className="project-quickview" data-gallery-open="" aria-label="Посмотреть GreenFlow на весь экран" hidden>
+          <button type="button" className="project-quickview" data-gallery-open="" aria-label="Посмотреть commerce-концепцию на весь экран" hidden>
             <span>{"Смотреть ближе"}</span>
             <i aria-hidden="true">{"⤢"}</i>
           </button>
         </article>
-        <article className="project project--orbit " data-category="product">
+        <article className="project project--orbit " data-category="product" data-study="product">
           <a className="project-link" href="/cases/orbit" data-cursor="Смотреть ↗︎">
-            <div className="project-visual">
+            <div className="project-visual" style={{ viewTransitionName: 'case-study-product' } as CSSProperties}>
               <div className="orbit-composition" aria-hidden="true">
                 <div className="orbit-dashboard">
                   <div className="dash-nav">
                     <b>
-{"orbit"}
+{"OVERVIEW"}
                       <span>{"↗︎"}</span>
                     </b>
                     <span>{"Обзор"}</span>
@@ -128,11 +128,11 @@ export const CasesPage = (): ReactElement => (
                 </div>
                 <div className="orbit-phone">
                   <div className="phone-notch"></div>
-                  <span>{"orbit ↗︎"}</span>
+                  <span>{"BALANCE ↗︎"}</span>
                   <small>{"Свобода в цифрах"}</small>
                   <b>{"284 650 ₽"}</b>
                   <div className="bank-card">
-                    <span>{"orbit / debit"}</span>
+                    <span>{"CARD / DAILY"}</span>
                     <b>{"•••• 4082"}</b>
                     <small>{"YOUR EVERYDAY"}</small>
                   </div>
@@ -148,18 +148,18 @@ export const CasesPage = (): ReactElement => (
                   </p>
                 </div>
               </div>
-              <span className="project-type">{"Fintech · Web / Mobile"}</span>
-              <span className="project-wordmark">{"Orbit"}</span>
+              <span className="project-type">{"Product · Web / Mobile"}</span>
+              <span className="project-wordmark">{"FORM / 03"}</span>
             </div>
             <div className="project-caption">
               <div>
-                <h3>{"Orbit"}</h3>
-                <p>{"Финансы в человеческом масштабе."}</p>
+                <h3>{"Product study"}</h3>
+                <p>{"Финансовый сценарий без лишнего шума."}</p>
               </div>
               <span className="concept-label">{"Концепт / 2026"}</span>
             </div>
           </a>
-          <button type="button" className="project-quickview" data-gallery-open="" aria-label="Посмотреть Orbit на весь экран" hidden>
+          <button type="button" className="project-quickview" data-gallery-open="" aria-label="Посмотреть продуктовую концепцию на весь экран" hidden>
             <span>{"Смотреть ближе"}</span>
             <i aria-hidden="true">{"⤢"}</i>
           </button>

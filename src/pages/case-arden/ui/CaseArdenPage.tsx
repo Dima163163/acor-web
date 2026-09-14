@@ -3,7 +3,7 @@ import type { CSSProperties, ReactElement } from 'react';
 export const CaseArdenPage = (): ReactElement => (
   <>
     <section className="page-intro wrap">
-      <p className="eyebrow">{"Архитектура / Web / Концепт"}</p>
+      <p className="eyebrow">{"Architecture / Web / Study 01"}</p>
       <h1>
 {"Пространство."}
         <br />
@@ -12,8 +12,27 @@ export const CaseArdenPage = (): ReactElement => (
       </h1>
       <p className="intro-description">{"Архитектура начинается с ощущения. В этой концепции сайт передаёт тишину пространства через масштаб изображений, паузы и точную типографику."}</p>
     </section>
-    <section className="wrap case-scene project--arden">
-      <img src="/assets/arden.jpg" alt="Визуальная концепция Arden" width="1536" height="1024" />
+    <section className="wrap case-scene project--arden" data-study="architecture" data-case-demo="architecture" style={{ viewTransitionName: 'case-study-architecture' } as CSSProperties}>
+      <img src="/assets/arden.jpg" alt="Абстрактная архитектурная сцена для цифрового продукта" width="1536" height="1024" />
+    </section>
+    <section className="wrap case-demo section-space" aria-labelledby="architecture-demo-title">
+      <div className="case-demo-heading">
+        <div>
+          <p className="eyebrow">{"Интерактив / маршрут"}</p>
+          <h2 id="architecture-demo-title">{"Выберите точку внимания."}</h2>
+        </div>
+        <p>{"Небольшая демонстрация того, как один и тот же материал меняет акцент в зависимости от сценария чтения."}</p>
+      </div>
+      <div className="case-demo-controls" role="group" aria-label="Сценарий архитектурной концепции">
+        <button type="button" className="case-demo-button is-active" data-demo-value="panorama" aria-pressed="true">{"Панорама"}</button>
+        <button type="button" className="case-demo-button" data-demo-value="plan" aria-pressed="false">{"План"}</button>
+        <button type="button" className="case-demo-button" data-demo-value="material" aria-pressed="false">{"Материал"}</button>
+      </div>
+      <output className="case-demo-output" data-demo-output="">{"Панорама задаёт ощущение места до деталей."}</output>
+      <details className="case-annotation">
+        <summary>{"Почему так устроено"}</summary>
+        <p>{"Сначала человек считывает масштаб, затем ищет подтверждение в планировке и материалах. Поэтому визуальная иерархия повторяет естественный порядок вопросов."}</p>
+      </details>
     </section>
     <section className="wrap section-space case-story">
       <div>
@@ -23,7 +42,7 @@ export const CaseArdenPage = (): ReactElement => (
       <div>
         <p className="eyebrow">{"Наше решение"}</p>
         <p>{"Крупная фотография задаёт настроение, а последовательная навигация помогает перейти от общего впечатления к деталям пространства."}</p>
-        <p className="case-note">{"Демонстрационная концепция Acor Web. Визуализации созданы для портфолио; результаты реального клиента не заявляются."}</p>
+        <p className="case-note">{"Демонстрационная study Acor Web. Изображения и данные абстрактны и показывают принцип, а не результат реального клиента."}</p>
       </div>
     </section>
     <section className="wrap case-details section-space" aria-labelledby="case-details-title">

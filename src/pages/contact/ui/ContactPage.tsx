@@ -203,6 +203,7 @@ export const ContactPage = (): ReactElement => (
 {"Резервная копия брифа остаётся в браузере."}
           </p>
         </div>
+        <p className="favorite-projects-note" id="favorite-projects-note" role="status" aria-live="polite"></p>
         <p className="form-status" id="form-status" role="status"></p>
       </form>
     </section>

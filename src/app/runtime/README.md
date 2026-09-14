@@ -20,13 +20,15 @@ React отвечает за разметку страниц, а этот сло�
 - `navigation.ts` — мобильное меню и focus trap;
 - `features/motion-effects.js` — параллакс, reveal, magnetic CTA и hover-курсор;
 - `features/projects.js` — фильтры, сортировка, список и избранные проекты;
-- `features/contact-form.js` — черновик формы, скачивание брифа и mailto;
+- `features/contact-form.js` — черновик формы, скачивание брифа, избранные кейсы и mailto/API fallback;
 - `features/scroll-state.js` — прогресс чтения, chapter dock и online/offline;
 - `features/team.js` — поиск команды, фильтры и диалог профиля;
 - `features/case-features.js` — галерея, breadcrumbs, share и печать кейса;
+- `features/case-demos.ts` — переключатели сценариев и пояснения в кейсах;
+- `features/brief-submit.ts` — типизированный необязательный адаптер отправки брифа на endpoint;
 - `features/compare-and-cards.js` — compare slider и tilt карточек;
 - `features/project-builder.ts` — интерактивный выбор типа проекта;
-- `features/lab-palette.ts` и `lab.js` — сцена Lab и её пресеты;
+- `features/lab-palette.ts`, `features/lab-export.ts` и `lab.js` — сцена Lab, её пресеты и PNG-экспорт;
 - `features/process-tabs.ts` — вкладки этапов процесса;
 - `features/feedback-effects.ts` — ripple, entry animation и 404-эксперимент;
 - `features/estimator.ts` — оценка сроков по типу и масштабу проекта;

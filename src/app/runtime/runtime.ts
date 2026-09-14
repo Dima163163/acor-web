@@ -10,6 +10,7 @@ import { mountContactForm } from './features/contact-form';
 import { mountEstimator } from './features/estimator';
 import { mountFeedbackEffects } from './features/feedback-effects';
 import { mountLabPalette } from './features/lab-palette';
+import { mountLabExport } from './features/lab-export';
 import { mountMotionEffects } from './features/motion-effects';
 import { mountProcessTabs } from './features/process-tabs';
 import { mountProjects } from './features/projects';
@@ -18,6 +19,7 @@ import { mountServiceWorker } from './features/service-worker';
 import { mountTeam } from './features/team';
 import { mountTelemetry } from './features/telemetry';
 import { mountProjectBuilder } from './features/project-builder';
+import { mountCaseDemos } from './features/case-demos';
 import { createRuntimeScope } from './runtime-scope';
 import type { RuntimeContext } from './types';
 
@@ -45,10 +47,12 @@ export const mountRuntime = (): void => {
   mountTeam({ ...context, updateScroll });
   mountProjectBuilder(context);
   mountCaseFeatures(context);
+  mountCaseDemos(context);
   mountBrief(t, reducedMotion);
   mountCompareAndCards(context);
   mountFeedbackEffects(context);
   mountLabPalette(context);
+  mountLabExport(context);
   mountCommandPalette(t, setMenu);
   mountProcessTabs(context);
   mountServiceWorker({ applyLocale, runtimeController });

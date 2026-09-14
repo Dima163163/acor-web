@@ -3,7 +3,7 @@ import type { CSSProperties, ReactElement } from 'react';
 export const CaseOrbitPage = (): ReactElement => (
   <>
     <section className="page-intro wrap">
-      <p className="eyebrow">{"Fintech / Web + Mobile / Концепт"}</p>
+      <p className="eyebrow">{"Product / Web + Mobile / Study 03"}</p>
       <h1>
 {"Ваши деньги."}
         <br />
@@ -11,12 +11,12 @@ export const CaseOrbitPage = (): ReactElement => (
       </h1>
       <p className="intro-description">{"Исследование финансового интерфейса: баланс, повседневные операции и личные цели в одной понятной системе."}</p>
     </section>
-    <section className="wrap case-scene project--orbit">
+    <section className="wrap case-scene project--orbit" data-study="product" data-case-demo="finance" style={{ viewTransitionName: 'case-study-product' } as CSSProperties}>
       <div className="orbit-composition" aria-hidden="true">
         <div className="orbit-dashboard">
           <div className="dash-nav">
             <b>
-{"orbit"}
+{"OVERVIEW"}
               <span>{"↗︎"}</span>
             </b>
             <span>{"Обзор"}</span>
@@ -61,11 +61,11 @@ export const CaseOrbitPage = (): ReactElement => (
         </div>
         <div className="orbit-phone">
           <div className="phone-notch"></div>
-          <span>{"orbit ↗︎"}</span>
+          <span>{"BALANCE ↗︎"}</span>
           <small>{"Свобода в цифрах"}</small>
           <b>{"284 650 ₽"}</b>
           <div className="bank-card">
-            <span>{"orbit / debit"}</span>
+            <span>{"CARD / DAILY"}</span>
             <b>{"•••• 4082"}</b>
             <small>{"YOUR EVERYDAY"}</small>
           </div>
@@ -82,6 +82,25 @@ export const CaseOrbitPage = (): ReactElement => (
         </div>
       </div>
     </section>
+    <section className="wrap case-demo section-space" aria-labelledby="finance-demo-title">
+      <div className="case-demo-heading">
+        <div>
+          <p className="eyebrow">{"Интерактив / обзор"}</p>
+          <h2 id="finance-demo-title">{"Смените горизонт планирования."}</h2>
+        </div>
+        <p>{"Один экран может поддерживать разные ритмы: быстро свериться сегодня или увидеть направление на несколько месяцев."}</p>
+      </div>
+      <div className="case-demo-controls" role="group" aria-label="Период финансовой концепции">
+        <button type="button" className="case-demo-button is-active" data-demo-value="month" aria-pressed="true">{"Месяц"}</button>
+        <button type="button" className="case-demo-button" data-demo-value="quarter" aria-pressed="false">{"Квартал"}</button>
+        <button type="button" className="case-demo-button" data-demo-value="year" aria-pressed="false">{"Год"}</button>
+      </div>
+      <output className="case-demo-output" data-demo-output="">{"Месяц — быстрый срез для ежедневных решений."}</output>
+      <details className="case-annotation">
+        <summary>{"Почему так устроено"}</summary>
+        <p>{"Период переключается рядом с главным числом, поэтому контекст не прячется в отдельном отчёте. Это снижает нагрузку и оставляет контроль у пользователя."}</p>
+      </details>
+    </section>
     <section className="wrap section-space case-story">
       <div>
         <p className="eyebrow">{"Задача концепции"}</p>
@@ -90,7 +109,7 @@ export const CaseOrbitPage = (): ReactElement => (
       <div>
         <p className="eyebrow">{"Наше решение"}</p>
         <p>{"Главное видно сразу. Второстепенное открывается по запросу. Web и мобильный интерфейс используют общий визуальный язык."}</p>
-        <p className="case-note">{"Демонстрационная концепция Acor Web. Визуализации созданы для портфолио; результаты реального клиента не заявляются."}</p>
+        <p className="case-note">{"Демонстрационная study Acor Web. Интерфейс и данные абстрактны и показывают принцип, а не результат реального клиента."}</p>
       </div>
     </section>
     <section className="wrap case-details section-space" aria-labelledby="case-details-title">
@@ -130,7 +149,11 @@ export const CaseOrbitPage = (): ReactElement => (
         <div className="case-compare-stage">
           <div className="case-compare-base">
             <span>{"Собранная форма"}</span>
-            <img src="/assets/sculpture.jpg" alt="Визуальная форма проекта" loading="lazy" width="1536" height="1024" />
+            <div className="compare-product-ui" aria-hidden="true">
+              <span>OVERVIEW / 03</span>
+              <strong>284 650 ₽</strong>
+              <i></i><i></i><i></i>
+            </div>
           </div>
           <div className="case-compare-overlay">
             <span>{"Черновая структура"}</span>
