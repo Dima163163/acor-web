@@ -105,13 +105,13 @@
 
 /* Keep the process tree connected when its panel shrinks. */
 .process-art--map { overflow: hidden; }
-.map-branches { width: 100%; max-width: 640px; padding-inline: 12px; }
+.map-branches { width: 92%; max-width: 640px; padding-inline: 12px; }
 .map-branches:before { left: 16.666%; right: 16.666%; }
 .map-branches>span { width: max-content; max-width: 100%; }
 .map-branches>span:before { top: -16px; height: 15px; }
 
 @media (max-width: 540px) {
-  .map-branches { width: 100%; padding-inline: 4px; }
+  .map-branches { width: 92%; padding-inline: 4px; }
   .map-branches>span { width: max-content; padding-inline: 10px; }
 }
 
