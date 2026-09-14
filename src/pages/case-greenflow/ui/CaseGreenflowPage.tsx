@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactElement } from 'react';
+import { CaseVisual } from '../../../shared/ui/CaseVisual';
 
 export const CaseGreenflowPage = (): ReactElement => (
   <>
@@ -12,7 +13,7 @@ export const CaseGreenflowPage = (): ReactElement => (
       <p className="intro-description">{"Концепция магазина растений, где спокойная визуальная среда помогает выбрать живую деталь для своего пространства."}</p>
     </section>
     <section className="wrap case-scene project--flora" data-study="commerce" data-case-demo="commerce" style={{ viewTransitionName: 'case-study-commerce' } as CSSProperties}>
-      <img src="/assets/flora.jpg" alt="Абстрактная botanical-сцена для commerce-интерфейса" width="1536" height="1024" />
+      <CaseVisual kind="commerce" />
     </section>
     <section className="wrap case-demo section-space" aria-labelledby="commerce-demo-title">
       <div className="case-demo-heading">
@@ -81,7 +82,7 @@ export const CaseGreenflowPage = (): ReactElement => (
         <div className="case-compare-stage">
           <div className="case-compare-base">
             <span>{"Собранная форма"}</span>
-            <img src="/assets/flora.jpg" alt="Визуальная форма проекта" loading="lazy" width="1536" height="1024" />
+            <div className="compare-commerce-ui" aria-hidden="true"><span>CURATED OBJECTS / 02</span><strong>Texture first.</strong><div><i></i><i></i><i></i></div></div>
           </div>
           <div className="case-compare-overlay">
             <span>{"Черновая структура"}</span>

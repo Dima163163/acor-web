@@ -46,7 +46,7 @@ export const mountProjects = ({ appearance }) => {
   const projectSortButtons = document.querySelectorAll('[data-project-sort]');
   const savedProjectsStatus = document.querySelector('#saved-projects');
   const projectOrder = Array.from(projects);
-  const projectNames = new Map(projectOrder.map((project) => [project, project.querySelector('h3')?.textContent.trim() || 'Проект']));
+  const projectNames = new Map(projectOrder.map((project) => [project, project.querySelector('.project-caption h3')?.textContent.trim() || 'Проект']));
   let projectView = 'grid';
   let projectSort = 'curated';
   let savedProjects = [];

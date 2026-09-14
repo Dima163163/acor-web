@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactElement } from 'react';
+import { CaseVisual } from '../../../shared/ui/CaseVisual';
 
 export const CaseArdenPage = (): ReactElement => (
   <>
@@ -13,7 +14,7 @@ export const CaseArdenPage = (): ReactElement => (
       <p className="intro-description">{"Архитектура начинается с ощущения. В этой концепции сайт передаёт тишину пространства через масштаб изображений, паузы и точную типографику."}</p>
     </section>
     <section className="wrap case-scene project--arden" data-study="architecture" data-case-demo="architecture" style={{ viewTransitionName: 'case-study-architecture' } as CSSProperties}>
-      <img src="/assets/arden.jpg" alt="Абстрактная архитектурная сцена для цифрового продукта" width="1536" height="1024" />
+      <CaseVisual kind="architecture" />
     </section>
     <section className="wrap case-demo section-space" aria-labelledby="architecture-demo-title">
       <div className="case-demo-heading">
@@ -82,7 +83,7 @@ export const CaseArdenPage = (): ReactElement => (
         <div className="case-compare-stage">
           <div className="case-compare-base">
             <span>{"Собранная форма"}</span>
-            <img src="/assets/arden.jpg" alt="Визуальная форма проекта" loading="lazy" width="1536" height="1024" />
+            <div className="compare-architecture-ui" aria-hidden="true"><span>RESIDENTIAL STUDY / 01</span><strong>Quiet geometry.</strong><i></i><i></i><i></i></div>
           </div>
           <div className="case-compare-overlay">
             <span>{"Черновая структура"}</span>

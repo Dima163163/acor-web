@@ -33,9 +33,9 @@ export const pageSeo: Record<SitePageKey, PageSeo> = {
   careers: { key: 'careers', title: 'Карьера — Acor Web', description: 'Открытые роли, стажировка и контакты для тех, кто хочет создавать цифровые продукты вместе с Acor Web.' },
   lab: { key: 'lab', title: 'Lab — Acor Web', description: 'Интерактивные эксперименты Acor Lab с формой, движением и ощущением интерфейса.' },
   contact: { key: 'contact', title: 'Обсудить проект — Acor Web', description: 'Расскажите о задаче — соберём контекст, предложим маршрут и обсудим следующий шаг.' },
-  caseArden: { key: 'caseArden', title: 'Arden — Acor Web', description: 'Концепция сайта для архитектурного проекта: масштаб, паузы и точная типографика.' },
-  caseGreenflow: { key: 'caseGreenflow', title: 'GreenFlow — Acor Web', description: 'Концепция e-commerce для растений, где настроение помогает сделать понятный выбор.' },
-  caseOrbit: { key: 'caseOrbit', title: 'Orbit — Acor Web', description: 'Концепция финансового продукта для web и mobile с ясным балансом и спокойным интерфейсом.' },
+  caseArden: { key: 'caseArden', title: 'Architecture study — Acor Web', description: 'Обезличенное исследование архитектурного сайта: структура, маршрут и точная типографика.' },
+  caseGreenflow: { key: 'caseGreenflow', title: 'Commerce study — Acor Web', description: 'Обезличенное исследование commerce-сайта: каталог, фактура и спокойный выбор.' },
+  caseOrbit: { key: 'caseOrbit', title: 'Product study — Acor Web', description: 'Обезличенное исследование финансового интерфейса для web и mobile: обзор и контроль.' },
   privacy: { key: 'privacy', title: 'Конфиденциальность — Acor Web', description: 'Условия обработки данных и конфиденциальности на сайте Acor Web.' },
   notFound: { key: 'notFound', title: 'Страница не найдена — Acor Web', description: 'Запрошенная страница не найдена. Вернитесь на главную Acor Web.' }
 };

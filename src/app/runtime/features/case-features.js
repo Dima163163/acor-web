@@ -29,10 +29,11 @@ export const mountCaseFeatures = ({ t, appearance, finePointer, cursor, pageKey 
       });
       stage.className = `gallery-stage ${Array.from(card.classList).filter((name) => name.startsWith('project--')).join(' ')}`;
       stage.replaceChildren(visual);
-      gallery.querySelector('#gallery-title').textContent = card.querySelector('h3').textContent;
-      const projectName = card.querySelector('h3').textContent.trim();
+      const captionTitle = card.querySelector('.project-caption h3');
+      gallery.querySelector('#gallery-title').textContent = captionTitle?.textContent || 'Study';
+      const projectName = captionTitle?.textContent.trim() || 'Study';
       galleryMeta.textContent = `${categoryLabels[card.dataset.category] || 'Концепция'}  /  ${projectApproach[projectName] || 'точная форма'}`;
-      gallery.querySelector('#gallery-description').textContent = card.querySelector('.project-caption p').textContent;
+      gallery.querySelector('#gallery-description').textContent = card.querySelector('.project-caption p')?.textContent || '';
       gallery.querySelector('#gallery-count').textContent = `${galleryIndex + 1} / ${galleryCards.length}`;
       gallery.querySelector('#gallery-case').href = card.querySelector('.project-link').href;
       previous.disabled = next.disabled = galleryCards.length < 2;

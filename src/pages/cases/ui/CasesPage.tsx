@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactElement } from 'react';
+import { CaseVisual } from '../../../shared/ui/CaseVisual';
 
 export const CasesPage = (): ReactElement => (
   <>
@@ -39,9 +40,9 @@ export const CasesPage = (): ReactElement => (
         <article className="project project--arden project--wide" data-category="web" data-study="architecture">
           <a className="project-link" href="/cases/arden" data-cursor="Смотреть ↗︎">
             <div className="project-visual" style={{ viewTransitionName: 'case-study-architecture' } as CSSProperties}>
-              <img src="/assets/arden.jpg" alt="Светлая архитектурная сцена с оливковым деревом и отражением в воде" loading="lazy" width="1536" height="1024" />
+              <CaseVisual kind="architecture" />
               <span className="project-type">{"Architecture · Web"}</span>
-              <span className="project-wordmark">{"FORM / 01"}</span>
+              <span className="project-wordmark">{"STUDY / 01"}</span>
             </div>
             <div className="project-caption">
               <div>
@@ -59,9 +60,9 @@ export const CasesPage = (): ReactElement => (
         <article className="project project--flora " data-category="commerce" data-study="commerce">
           <a className="project-link" href="/cases/greenflow" data-cursor="Смотреть ↗︎">
             <div className="project-visual" style={{ viewTransitionName: 'case-study-commerce' } as CSSProperties}>
-              <img src="/assets/flora.jpg" alt="Ботаническая композиция в оливковых и кремовых тонах" loading="lazy" width="1536" height="1024" />
+              <CaseVisual kind="commerce" />
               <span className="project-type">{"Commerce · Web"}</span>
-              <span className="project-wordmark">{"FORM / 02"}</span>
+              <span className="project-wordmark">{"STUDY / 02"}</span>
             </div>
             <div className="project-caption">
               <div>
@@ -79,77 +80,9 @@ export const CasesPage = (): ReactElement => (
         <article className="project project--orbit " data-category="product" data-study="product">
           <a className="project-link" href="/cases/orbit" data-cursor="Смотреть ↗︎">
             <div className="project-visual" style={{ viewTransitionName: 'case-study-product' } as CSSProperties}>
-              <div className="orbit-composition" aria-hidden="true">
-                <div className="orbit-dashboard">
-                  <div className="dash-nav">
-                    <b>
-{"OVERVIEW"}
-                      <span>{"↗︎"}</span>
-                    </b>
-                    <span>{"Обзор"}</span>
-                    <span>{"Мои счета"}</span>
-                    <span>{"Аналитика"}</span>
-                    <span>{"Платежи"}</span>
-                    <small>{"Всё под контролем."}</small>
-                  </div>
-                  <div className="dash-main">
-                    <div className="dash-top">
-{"Ваш финансовый обзор "}
-                      <i>{"О"}</i>
-                    </div>
-                    <p className="muted">{"Общий баланс"}</p>
-                    <strong>
-{"284 650 "}
-                      <small>{"₽"}</small>
-                    </strong>
-                    <div className="dash-chart">
-                      <svg viewBox="0 0 420 140">
-                        <defs>
-                          <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
-                            <stop stopColor="#4166f5" stopOpacity=".25"></stop>
-                            <stop offset="1" stopColor="#4166f5" stopOpacity="0"></stop>
-                          </linearGradient>
-                        </defs>
-                        <path d="M0 126 C40 126 48 74 80 88 S126 121 155 75 S210 85 245 48 S295 77 323 30 S370 53 420 8 L420 140 L0 140Z" fill="url(#chart-fill)"></path>
-                        <path d="M0 126 C40 126 48 74 80 88 S126 121 155 75 S210 85 245 48 S295 77 323 30 S370 53 420 8" fill="none" stroke="#4166f5" strokeWidth="3"></path>
-                      </svg>
-                    </div>
-                    <div className="dash-totals">
-                      <span>
-{"Поступления"}
-                        <b>{"+ 86 400 ₽"}</b>
-                      </span>
-                      <span>
-{"Расходы"}
-                        <b>{"− 32 780 ₽"}</b>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="orbit-phone">
-                  <div className="phone-notch"></div>
-                  <span>{"BALANCE ↗︎"}</span>
-                  <small>{"Свобода в цифрах"}</small>
-                  <b>{"284 650 ₽"}</b>
-                  <div className="bank-card">
-                    <span>{"CARD / DAILY"}</span>
-                    <b>{"•••• 4082"}</b>
-                    <small>{"YOUR EVERYDAY"}</small>
-                  </div>
-                  <div className="phone-actions">
-                    <i>{"↗︎"}</i>
-                    <i>{"＋"}</i>
-                    <i>{"⇄"}</i>
-                  </div>
-                  <p>
-{"Ваши деньги."}
-                    <br />
-{"Ваш следующий шаг."}
-                  </p>
-                </div>
-              </div>
+              <CaseVisual kind="product" />
               <span className="project-type">{"Product · Web / Mobile"}</span>
-              <span className="project-wordmark">{"FORM / 03"}</span>
+              <span className="project-wordmark">{"STUDY / 03"}</span>
             </div>
             <div className="project-caption">
               <div>
