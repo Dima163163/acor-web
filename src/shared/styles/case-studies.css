@@ -106,7 +106,7 @@
 /* Keep the process tree connected when its panel shrinks. */
 .process-art--map { overflow: hidden; }
 .map-branches {
-  --map-line-inset: 8px;
+  --map-line-inset: 5px;
   width: 92%;
   max-width: 640px;
   padding-inline: 12px;
@@ -121,7 +121,7 @@
 .map-branches>span:before { top: -16px; height: 15px; }
 
 @media (max-width: 540px) {
-  .map-branches { --map-line-inset: 3px; width: 92%; padding-inline: 4px; }
+  .map-branches { --map-line-inset: 1px; width: 92%; padding-inline: 4px; }
   .map-branches>span { width: max-content; padding-inline: 10px; }
 }
 
