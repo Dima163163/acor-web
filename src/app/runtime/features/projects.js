@@ -19,7 +19,7 @@ export const mountProjects = ({ appearance }) => {
           if (project.hidden || typeof project.animate !== 'function') return;
           project.animate(
             [{ opacity: .2, transform: 'translateY(18px) scale(.985)' }, { opacity: 1, transform: 'translateY(0) scale(1)' }],
-            { duration: 460 + index * 45, delay: index * 35, easing: 'cubic-bezier(.22,1,.36,1)' }
+            { duration: 3000, delay: Math.min(index, 3) * 80, easing: 'cubic-bezier(.25,.1,.25,1)', fill: 'backwards' }
           );
         });
       });

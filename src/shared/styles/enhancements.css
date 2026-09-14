@@ -91,8 +91,8 @@ html:has(body.motion-off) {
 .team-empty { padding:70px 0; font-size:20px; color:var(--muted); }
 .person-dialog { border:0; padding:0; background:var(--paper); color:var(--ink); width:min(1000px,calc(100% - 48px)); max-height:calc(100svh - 60px); overflow:auto; border-radius:8px; box-shadow:0 35px 150px #0005; }
 .person-dialog::backdrop { background:#141b2a99; backdrop-filter:blur(10px); }
-.person-dialog[open] { animation:dialog-enter .45s var(--ease) both; }
-.person-dialog[open]::backdrop { animation:backdrop-enter .3s ease both; }
+.person-dialog[open] { animation:dialog-enter var(--duration-panel) var(--ease-reveal) both; }
+.person-dialog[open]::backdrop { animation:backdrop-enter .6s ease both; }
 .person-dialog-grid { display:grid; grid-template-columns:1fr 1.15fr; }
 .dialog-image-wrap { align-self:start; background:#e0e4dc; }
 .dialog-portrait { filter:none; }
@@ -154,7 +154,7 @@ body:has(.person-dialog[open]) { overflow:hidden; }
 .builder-preview[data-builder-state=design] .builder-graphic>i { background:#c47e58; border-radius:15px; }
 .builder-preview[data-builder-state=design] .builder-graphic>i:nth-child(2) { background:#debe9c; transform:rotate(-10deg); }
 .builder-preview[data-builder-state=design] .builder-graphic>i:nth-child(3) { background:#574c42; }
-.builder-preview.is-changing .builder-response { animation:section-enter .45s var(--ease); }
+.builder-preview.is-changing .builder-response { animation:section-enter var(--duration-panel) var(--ease-reveal); }
 /* More expression, without hijacking scrolling or adding a perpetual JS loop. */
 .site-header { position:sticky; top:0; transition:background .35s,box-shadow .35s; }
 .site-header.is-scrolled { background:#f3f4f1eb; backdrop-filter:blur(18px); box-shadow:0 1px 0 #21231f12; }
@@ -169,17 +169,17 @@ body:has(.person-dialog[open]) { overflow:hidden; }
 .team-art .role-node--3 { animation-delay:-4s!important; }
 .team-art .role-node--4 { animation-delay:-1s!important; }
 .project-visual { clip-path:inset(0 round 6px); }
-.project.seen .project-visual { animation:project-unfold 1s var(--ease) both; }
-.person-card.seen { animation:person-enter .65s var(--ease) both; animation-delay:var(--person-delay,0ms); }
-.person-card:nth-child(2) { --person-delay:60ms; }
-.person-card:nth-child(3) { --person-delay:120ms; }
-.person-card:nth-child(4) { --person-delay:180ms; }
-.service-item[open] .service-body { animation:disclosure-open .5s var(--ease) both; }
+.project.seen .project-visual { animation:project-unfold var(--duration-reveal) var(--ease-reveal) both; }
+.person-card.seen { animation:person-enter var(--duration-reveal) var(--ease-reveal) both; animation-delay:var(--person-delay,0ms); }
+.person-card:nth-child(2) { --person-delay:100ms; }
+.person-card:nth-child(3) { --person-delay:200ms; }
+.person-card:nth-child(4) { --person-delay:300ms; }
+.service-item[open] .service-body { animation:disclosure-open var(--duration-panel) var(--ease-reveal) both; }
 @keyframes sculpture-drift { from { transform:translateY(0) rotate(-1deg); } to { transform:translateY(-15px) rotate(1deg); } }
 @keyframes team-orbit { from { transform:rotateX(20deg) rotateZ(-12deg) scale(.95); } to { transform:rotateX(-10deg) rotateZ(15deg) scale(1.04); } }
 @keyframes node-breathe { from { translate:0 0; } to { translate:0 -12px; } }
 @keyframes project-unfold { from { clip-path:inset(5% 1% round 28px); } to { clip-path:inset(0 round 6px); } }
-@keyframes person-enter { from { opacity:.2; translate:0 25px; } to { opacity:1; translate:0 0; } }
+@keyframes person-enter { from { opacity:.65; translate:0 20px; } to { opacity:1; translate:0 0; } }
 @keyframes disclosure-open {
   from { opacity:0; transform:translateY(-10px); clip-path:inset(0 0 100% 0); }
   to { opacity:1; transform:translateY(0); clip-path:inset(0 0 0 0); }
@@ -240,7 +240,7 @@ h1,h2 { letter-spacing:-.05em; }
 .project-quickview i { font-size:21px; font-style:normal; line-height:1; }
 .project-quickview:hover { background:var(--blue); color:white; }
 .project-gallery { width:calc(100% - 48px); max-width:1500px; height:min(92svh,1100px); max-height:calc(100svh - 30px); padding:22px 28px 16px; border:0; border-radius:12px; color:var(--ink); background:var(--paper); overflow:auto; }
-.project-gallery[open] { display:flex; flex-direction:column; animation:dialog-enter .45s var(--ease) both; }
+.project-gallery[open] { display:flex; flex-direction:column; animation:dialog-enter var(--duration-panel) var(--ease-reveal) both; }
 .project-gallery::backdrop { background:#141b2ab3; backdrop-filter:blur(16px); }
 .gallery-header { display:flex; align-items:center; gap:28px; padding-bottom:18px; flex-shrink:0; }
 .gallery-header h2 { font-size:32px; margin-top:7px; letter-spacing:-.04em; }
@@ -534,7 +534,7 @@ body.motion-off .studio-marquee-track { animation:none; transform:none; }
 .insight-card summary>i { font:normal 24px/1 var(--display); transition:transform .3s; }
 .insight-card[open] summary>i { transform:rotate(45deg); }
 .insight-card>p { color:var(--muted); font-size:12px; line-height:1.6; margin-top:23px; max-width:330px; will-change:opacity,transform; }
-.insight-card[open]>p { animation:disclosure-open .45s var(--ease) both; }
+.insight-card[open]>p { animation:disclosure-open var(--duration-panel) var(--ease-reveal) both; }
 
 /* Keyboard-first site search keeps navigation discoverable on long pages. */
 .command-trigger { display:inline-flex; align-items:center; gap:4px; border:1px solid var(--line); border-radius:20px; padding:9px 11px; color:var(--muted); font-size:12px; transition:background .25s,color .25s,border-color .25s; }
@@ -542,7 +542,7 @@ body.motion-off .studio-marquee-track { animation:none; transform:none; }
 .command-trigger small { font-size:9px; }
 .command-palette { border:0; padding:0; width:min(620px,calc(100% - 30px)); border-radius:8px; background:var(--paper); color:var(--ink); box-shadow:0 30px 100px #10142145; }
 .command-palette::backdrop { background:#101421aa; backdrop-filter:blur(8px); }
-.command-palette[open] { animation:dialog-enter .35s var(--ease) both; }
+.command-palette[open] { animation:dialog-enter var(--duration-panel) var(--ease-reveal) both; }
 .command-palette-inner { padding:30px; }
 .command-palette-head { display:flex; justify-content:space-between; align-items:start; gap:20px; }
 .command-palette-head h2 { font:500 38px/1 var(--display); letter-spacing:-.06em; margin-top:12px; }
@@ -588,8 +588,8 @@ body.motion-off .studio-marquee-track { animation:none; transform:none; }
 .faq-list summary:after { content:'+'; color:var(--blue); font:400 25px/1 var(--display); transition:transform .3s var(--ease); }
 .faq-list details[open] summary:after { transform:rotate(45deg); }
 .faq-list details>p { color:var(--muted); font-size:13px; line-height:1.65; max-width:620px; padding:0 60px 24px 0; will-change:opacity,transform; }
-.faq-list details[open]>p { animation:disclosure-open .45s var(--ease) both; }
-.disclosure-height-animating { overflow:hidden; transition:height .48s var(--ease); }
+.faq-list details[open]>p { animation:disclosure-open var(--duration-panel) var(--ease-reveal) both; }
+.disclosure-height-animating { overflow:hidden; transition:height var(--duration-panel) var(--ease-reveal); }
 .service-estimator { border-top:1px solid var(--line); }
 .estimator-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:70px; border-top:1px solid var(--line); margin-top:65px; padding-top:28px; }
 .estimator-controls { display:grid; gap:20px; align-content:start; }
@@ -931,9 +931,6 @@ body.theme-night .person-corner { color:#15181d; }
 body.theme-night .project-link:hover .project-open { color:#15181d; }
 
 /* Interaction pack: motion is purposeful, bounded and easy to turn off. */
-body.page-enter main,
-body.page-enter .site-footer { animation:studio-page-enter .6s var(--ease) both; }
-@keyframes studio-page-enter { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
 
 @media (hover:hover) and (pointer:fine) {
   .project-link {
@@ -1055,8 +1052,6 @@ body.motion-off .error-orbit:before { animation:none; }
 }
 
 @media(prefers-reduced-motion:reduce) {
-  body.page-enter main,
-  body.page-enter .site-footer { animation:none; }
   .studio-marquee-track { translate:none; }
   .case-timeline li:hover { transform:none; }
   .tap-ripple,.error-orbit:before { animation:none; }
@@ -1064,12 +1059,6 @@ body.motion-off .error-orbit:before { animation:none; }
 
 /* Client-side document navigation keeps the static HTML fallback while the
    Vite router adds a quieter, no-reload transition for capable browsers. */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 360ms;
-  animation-timing-function: cubic-bezier(.22, 1, .36, 1);
-}
-
 html.is-route-loading {
   cursor: progress;
 }

@@ -56,7 +56,7 @@ export const mountMotionEffects = ({ appearance, finePointer, reducedMotion, cur
         if (!appearance.isMotionDisabled()) entry.target.classList.add('seen');
         observer.unobserve(entry.target);
       });
-    }, { threshold: .08 });
+    }, { threshold: 0, rootMargin: '0px 0px 80px 0px' });
     animatedElements.forEach((element) => observer.observe(element));
   }
   document.querySelectorAll('[data-cursor]').forEach((link) => {
@@ -93,7 +93,7 @@ export const mountMotionEffects = ({ appearance, finePointer, reducedMotion, cur
       return Math.ceil(summary.getBoundingClientRect().height + padding + borders);
     };
     const finish = (event) => {
-      if (event?.propertyName && event.propertyName !== 'height') return;
+      if (event && (event.target !== details || event.propertyName !== 'height')) return;
       window.clearTimeout(finishTimer);
       const callback = afterFinish;
       afterFinish = null;
@@ -117,7 +117,7 @@ export const mountMotionEffects = ({ appearance, finePointer, reducedMotion, cur
       void details.offsetHeight;
       requestAnimationFrame(() => {
         details.style.height = `${details.scrollHeight}px`;
-        finishTimer = window.setTimeout(() => finish(), 700);
+        finishTimer = window.setTimeout(() => finish(), 3200);
       });
     };
     const animateClose = () => {
@@ -134,7 +134,7 @@ export const mountMotionEffects = ({ appearance, finePointer, reducedMotion, cur
       afterFinish = () => { details.open = false; };
       requestAnimationFrame(() => {
         details.style.height = `${closedHeight()}px`;
-        finishTimer = window.setTimeout(() => finish(), 700);
+        finishTimer = window.setTimeout(() => finish(), 3200);
       });
     };
     summary.addEventListener('click', (event) => {

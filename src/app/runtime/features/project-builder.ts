@@ -43,7 +43,7 @@ export const mountProjectBuilder = ({ t, appearance }: RuntimeContext): void => 
       cta.href = `/contact?type=${type}`;
       cta.textContent = t(project.action);
     }
-    if (animate && !appearance.isMotionDisabled()) scene.querySelector<HTMLElement>('.builder-response')?.animate([{ opacity: .25, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 450, easing: 'cubic-bezier(.22,1,.36,1)' });
+    if (animate && !appearance.isMotionDisabled()) scene.querySelector<HTMLElement>('.builder-response')?.animate([{ opacity: .25, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 3000, easing: 'cubic-bezier(.25,.1,.25,1)' });
   };
 
   builderOptions.forEach((button) => button.addEventListener('click', () => {

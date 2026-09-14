@@ -14,9 +14,6 @@ export const mountFeedbackEffects = ({ t, appearance, pageKey }: RuntimeContext)
     ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
   }, { passive: true });
 
-  document.body.classList.add('page-enter');
-  requestAnimationFrame(() => document.body.classList.remove('page-enter'));
-
   const offlinePage = document.querySelector('.offline-page');
   if (!offlinePage || pageKey() !== '404.html') return;
 

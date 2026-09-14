@@ -145,10 +145,10 @@
 }
 .hero-line {
   display:block;
-  animation:hero-enter 1s var(--ease) both;
+  animation:hero-enter var(--duration-hero) var(--ease-reveal) both;
 }
 .hero-line:nth-child(2) {
-  animation-delay:.12s;
+  animation-delay:.2s;
 }
 .hero-copy p {
   font-size:15px;

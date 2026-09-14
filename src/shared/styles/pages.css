@@ -546,12 +546,12 @@ legend {
   opacity:1;
 }
 .seen {
-  animation:section-enter .85s var(--ease) both;
+  animation:section-enter var(--duration-reveal) var(--ease-reveal) both;
 }
 @keyframes section-enter {
   from {
     transform:translateY(22px);
-    opacity:.35;
+    opacity:.65;
   }
   to {
     transform:translateY(0);

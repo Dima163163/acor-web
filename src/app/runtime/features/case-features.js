@@ -37,7 +37,7 @@ export const mountCaseFeatures = ({ t, appearance, finePointer, cursor, pageKey 
       gallery.querySelector('#gallery-count').textContent = `${galleryIndex + 1} / ${galleryCards.length}`;
       gallery.querySelector('#gallery-case').href = card.querySelector('.project-link').href;
       previous.disabled = next.disabled = galleryCards.length < 2;
-      if (!appearance.isMotionDisabled()) visual.animate([{ opacity: .35, transform: 'scale(.98)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 350, easing: 'ease-out' });
+      if (!appearance.isMotionDisabled()) visual.animate([{ opacity: .35, transform: 'scale(.98)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 3000, easing: 'cubic-bezier(.25,.1,.25,1)' });
     };
     document.querySelectorAll('[data-gallery-open]').forEach((button) => {
       button.hidden = false;

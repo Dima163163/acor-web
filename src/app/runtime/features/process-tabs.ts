@@ -13,7 +13,7 @@ export const mountProcessTabs = ({ appearance }: RuntimeContext): void => {
       if (!panel) return;
       panel.hidden = !selected;
       panel.getAnimations({ subtree: true }).forEach((animation) => animation.cancel());
-      if (selected && !appearance.isMotionDisabled()) panel.animate([{ opacity: .2, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 400, easing: 'ease-out' });
+      if (selected && !appearance.isMotionDisabled()) panel.animate([{ opacity: .2, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 3000, easing: 'cubic-bezier(.25,.1,.25,1)' });
     });
     const index = Math.max(0, stepTabs.indexOf(button));
     processTabs?.style.setProperty('--process-progress', `${stepTabs.length > 1 ? (index / (stepTabs.length - 1)) * 100 : 0}%`);
