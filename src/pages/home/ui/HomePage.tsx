@@ -95,13 +95,11 @@ export const HomePage = (): ReactElement => (
           <a className="project-link" href="/cases/arden" data-cursor="Смотреть ↗︎">
             <div className="project-visual">
               <CaseVisual kind="architecture" />
-              <span className="project-type">{"Architecture · Web"}</span>
-              <span className="project-wordmark">{"STUDY / 01"}</span>
             </div>
             <div className="project-caption">
               <div>
-                <h3>{"Architecture study"}</h3>
-                <p>{"Свет, масштаб и маршрут до первого визита."}</p>
+                <h3>{"Field / 01"}</h3>
+                <p>{"Сайт архитектурной студии о свете, объёме и тихом маршруте."}</p>
               </div>
               <span className="concept-label">{"Концепт / 2026"}</span>
             </div>
@@ -115,13 +113,11 @@ export const HomePage = (): ReactElement => (
           <a className="project-link" href="/cases/greenflow" data-cursor="Смотреть ↗︎">
             <div className="project-visual">
               <CaseVisual kind="commerce" />
-              <span className="project-type">{"Commerce · Web"}</span>
-              <span className="project-wordmark">{"STUDY / 02"}</span>
             </div>
             <div className="project-caption">
               <div>
-                <h3>{"Commerce study"}</h3>
-                <p>{"Каталог, который помогает выбрать без спешки."}</p>
+                <h3>{"Material / 02"}</h3>
+                <p>{"E-commerce для предметов, ароматов и спокойных ритуалов."}</p>
               </div>
               <span className="concept-label">{"Концепт / 2026"}</span>
             </div>
@@ -135,13 +131,11 @@ export const HomePage = (): ReactElement => (
           <a className="project-link" href="/cases/orbit" data-cursor="Смотреть ↗︎">
             <div className="project-visual">
               <CaseVisual kind="product" />
-              <span className="project-type">{"Product · Web / Mobile"}</span>
-              <span className="project-wordmark">{"STUDY / 03"}</span>
             </div>
             <div className="project-caption">
               <div>
-                <h3>{"Product study"}</h3>
-                <p>{"Финансовый сценарий без лишнего шума."}</p>
+                <h3>{"Vector / 03"}</h3>
+                <p>{"Климатическая платформа для ясных решений о ресурсах."}</p>
               </div>
               <span className="concept-label">{"Концепт / 2026"}</span>
             </div>

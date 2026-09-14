@@ -28,6 +28,12 @@ export const localeRows: ReadonlyArray<readonly [string, string, string, string]
 ];
 
 const additionalLocaleRows: ReadonlyArray<readonly [string, string, string, string]> = [
+  ['Field / 01', 'Field / 01', 'Field / 01', 'Field / 01'],
+  ['Material / 02', 'Material / 02', 'Material / 02', 'Material / 02'],
+  ['Vector / 03', 'Vector / 03', 'Vector / 03', 'Vector / 03'],
+  ['Сайт архитектурной студии о свете, объёме и тихом маршруте.', 'A website for an architecture studio about light, volume and a quiet route.', 'Strona studia architektonicznego o świetle, bryle i spokojnej drodze.', 'Сайт архітэктурнай студыі пра святло, аб’ём і ціхі маршрут.'],
+  ['E-commerce для предметов, ароматов и спокойных ритуалов.', 'An e-commerce experience for objects, scents and slower rituals.', 'E-commerce dla przedmiotów, zapachów i spokojnych rytuałów.', 'E-commerce для прадметаў, водараў і спакойных рытуалаў.'],
+  ['Климатическая платформа для ясных решений о ресурсах.', 'A climate platform for clear decisions about resources.', 'Platforma klimatyczna dla świadomych decyzji o zasobach.', 'Кліматычная платформа для ясных рашэнняў пра рэсурсы.'],
   ['Architecture · Web', 'Architecture · Web', 'Architecture · Web', 'Architecture · Web'],
   ['Commerce · Web', 'Commerce · Web', 'Commerce · Web', 'Commerce · Web'],
   ['Product · Web / Mobile', 'Product · Web / Mobile', 'Product · Web / Mobile', 'Product · Web / Mobile'],

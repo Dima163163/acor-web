@@ -8,7 +8,7 @@ export const mountCaseFeatures = ({ t, appearance, finePointer, cursor, pageKey 
     const galleryMeta = document.createElement('p');
     galleryMeta.className = 'gallery-meta';
     gallery.querySelector('.gallery-header > div').append(galleryMeta);
-    const projectApproach = { 'Architecture study': 'масштаб и пауза', 'Commerce study': 'ритм каталога', 'Product study': 'ясная иерархия' };
+    const projectApproach = { 'Field / 01': 'масштаб и пауза', 'Material / 02': 'ритм каталога', 'Vector / 03': 'ясная иерархия' };
     const categoryLabels = { web: 'Web', commerce: 'E-commerce', product: 'Продукт' };
     let galleryCards = [];
     let galleryIndex = 0;
@@ -80,7 +80,7 @@ export const mountCaseFeatures = ({ t, appearance, finePointer, cursor, pageKey 
   const caseScene = document.querySelector('.case-scene');
   const caseIntro = document.querySelector('.page-intro');
   if (caseScene && caseIntro) {
-    const projectName = caseScene.dataset.study === 'architecture' ? 'Architecture study' : caseScene.dataset.study === 'commerce' ? 'Commerce study' : 'Product study';
+    const projectName = caseScene.dataset.study === 'architecture' ? 'Field / 01' : caseScene.dataset.study === 'commerce' ? 'Material / 02' : 'Vector / 03';
     const crumbs = document.createElement('nav');
     crumbs.className = 'case-crumbs';
     crumbs.setAttribute('aria-label', 'Навигация по проекту');

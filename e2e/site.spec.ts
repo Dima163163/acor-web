@@ -120,7 +120,7 @@ test.describe('interactive pages', () => {
     await expect(quickView).toBeVisible();
     await quickView.click();
     await expect(page.locator('#project-gallery')).toBeVisible();
-    await expect(page.locator('#gallery-title')).toHaveText('Commerce study');
+    await expect(page.locator('#gallery-title')).toHaveText('Material / 02');
     await page.locator('.gallery-close').click();
     await expect(page.locator('#project-gallery')).toBeHidden();
   });
