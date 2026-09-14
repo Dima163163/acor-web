@@ -105,13 +105,23 @@
 
 /* Keep the process tree connected when its panel shrinks. */
 .process-art--map { overflow: hidden; }
-.map-branches { width: 92%; max-width: 640px; padding-inline: 12px; }
-.map-branches:before { left: 16.666%; right: 16.666%; }
+.map-branches {
+  --map-line-inset: 8px;
+  width: 92%;
+  max-width: 640px;
+  padding-inline: 12px;
+}
+/* The grid has horizontal padding, so compensate the bus line by two thirds
+   of that padding. This makes its ends land on the outer card stems. */
+.map-branches:before {
+  left: calc(16.666% + var(--map-line-inset));
+  right: calc(16.666% + var(--map-line-inset));
+}
 .map-branches>span { width: max-content; max-width: 100%; }
 .map-branches>span:before { top: -16px; height: 15px; }
 
 @media (max-width: 540px) {
-  .map-branches { width: 92%; padding-inline: 4px; }
+  .map-branches { --map-line-inset: 3px; width: 92%; padding-inline: 4px; }
   .map-branches>span { width: max-content; padding-inline: 10px; }
 }
 
