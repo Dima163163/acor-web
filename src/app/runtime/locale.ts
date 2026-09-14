@@ -31,6 +31,8 @@ const additionalLocaleRows: ReadonlyArray<readonly [string, string, string, stri
   ['Field / 01', 'Field / 01', 'Field / 01', 'Field / 01'],
   ['Material / 02', 'Material / 02', 'Material / 02', 'Material / 02'],
   ['Vector / 03', 'Vector / 03', 'Vector / 03', 'Vector / 03'],
+  ['Собранная форма', 'Refined form', 'Dopracowana forma', 'Сабраная форма'],
+  ['Черновая структура', 'Rough structure', 'Szkic struktury', 'Чарнавая структура'],
   ['Сайт архитектурной студии о свете, объёме и тихом маршруте.', 'A website for an architecture studio about light, volume and a quiet route.', 'Strona studia architektonicznego o świetle, bryle i spokojnej drodze.', 'Сайт архітэктурнай студыі пра святло, аб’ём і ціхі маршрут.'],
   ['E-commerce для предметов, ароматов и спокойных ритуалов.', 'An e-commerce experience for objects, scents and slower rituals.', 'E-commerce dla przedmiotów, zapachów i spokojnych rytuałów.', 'E-commerce для прадметаў, водараў і спакойных рытуалаў.'],
   ['Климатическая платформа для ясных решений о ресурсах.', 'A climate platform for clear decisions about resources.', 'Platforma klimatyczna dla świadomych decyzji o zasobach.', 'Кліматычная платформа для ясных рашэнняў пра рэсурсы.'],

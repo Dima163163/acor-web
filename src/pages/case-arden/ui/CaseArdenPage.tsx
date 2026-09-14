@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactElement } from 'react';
 import { CaseVisual } from '../../../shared/ui/CaseVisual';
+import { CaseCompareVisual } from '../../../shared/ui/CaseCompareVisual';
 
 export const CaseArdenPage = (): ReactElement => (
   <>
@@ -81,24 +82,7 @@ export const CaseArdenPage = (): ReactElement => (
           <output data-compare-output="">{"62%"}</output>
         </div>
         <div className="case-compare-stage">
-          <div className="case-compare-base">
-            <span>{"Собранная форма"}</span>
-            <div className="compare-architecture-ui" aria-hidden="true"><span>RESIDENTIAL STUDY / 01</span><strong>Quiet geometry.</strong><i></i><i></i><i></i></div>
-          </div>
-          <div className="case-compare-overlay">
-            <span>{"Черновая структура"}</span>
-            <div className="compare-wireframe" aria-hidden="true">
-              <i></i>
-              <i></i>
-              <i></i>
-              <b></b>
-            </div>
-            <strong>
-{"Сначала — вопрос."}
-              <br />
-{"Потом — ответ."}
-            </strong>
-          </div>
+          <CaseCompareVisual kind="architecture" />
           <input type="range" min="15" max="85" defaultValue="62" aria-label="Сравнить черновую структуру и собранную форму" data-compare-range="" />
         </div>
         <p className="case-compare-caption">{"Слева — рабочая схема мысли. Справа — визуальное решение, которое из неё выросло."}</p>
