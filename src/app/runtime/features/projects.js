@@ -2,6 +2,7 @@ export const mountProjects = ({ appearance }) => {
   const filters = document.querySelectorAll('[data-filter]');
   const projects = document.querySelectorAll('[data-category]');
   const applyProjectFilter = (filter, { updateUrl = true } = {}) => {
+    const firstRects = new Map(Array.from(projects).filter((project) => !project.hidden).map((project) => [project, project.getBoundingClientRect()]));
     filters.forEach((button) => {
       const active = button === filter;
       button.classList.toggle('active', active);
@@ -15,11 +16,23 @@ export const mountProjects = ({ appearance }) => {
     });
     if (!appearance.isMotionDisabled()) {
       requestAnimationFrame(() => {
-        projects.forEach((project, index) => {
+        projects.forEach((project) => {
           if (project.hidden || typeof project.animate !== 'function') return;
+          const first = firstRects.get(project);
+          const last = project.getBoundingClientRect();
+          if (!first) {
+            project.animate(
+              [{ opacity: .2, transform: 'translateY(18px) scale(.985)' }, { opacity: 1, transform: 'translateY(0) scale(1)' }],
+              { duration: 700, easing: 'cubic-bezier(.25,.1,.25,1)', fill: 'backwards' }
+            );
+            return;
+          }
+          const deltaX = first.left - last.left;
+          const deltaY = first.top - last.top;
+          if (Math.abs(deltaX) < 1 && Math.abs(deltaY) < 1) return;
           project.animate(
-            [{ opacity: .2, transform: 'translateY(18px) scale(.985)' }, { opacity: 1, transform: 'translateY(0) scale(1)' }],
-            { duration: 3000, delay: Math.min(index, 3) * 80, easing: 'cubic-bezier(.25,.1,.25,1)', fill: 'backwards' }
+            [{ transform: `translate(${deltaX}px,${deltaY}px)` }, { transform: 'translate(0,0)' }],
+            { duration: 700, easing: 'cubic-bezier(.25,.1,.25,1)' }
           );
         });
       });

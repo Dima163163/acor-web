@@ -383,8 +383,34 @@
 .service-item {
   border-bottom:1px solid var(--line);
   padding:0 5px;
+  position:relative;
   transition:background .35s;
 }
+.service-item:after {
+  content:'01';
+  position:absolute;
+  right:70px;
+  top:27px;
+  width:54px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border:1px solid #3257f533;
+  border-radius:4px;
+  color:var(--blue);
+  font:600 8px/1 var(--body);
+  letter-spacing:.14em;
+  opacity:0;
+  transform:translateY(8px) rotate(-4deg);
+  background:linear-gradient(135deg,#e9edff 0 48%,#d0dafa 48% 52%,#f3f4f1 52%);
+  box-shadow:0 8px 16px #3257f51c;
+  pointer-events:none;
+  transition:opacity .45s var(--ease),transform .6s var(--ease);
+}
+.service-item:nth-child(2):after { content:'02'; background:linear-gradient(160deg,#e6efe8 0 55%,#cbded0 55%); transform:translateY(8px) rotate(3deg); }
+.service-item:nth-child(3):after { content:'03'; background:linear-gradient(135deg,#f0e9de 0 45%,#e4d2bb 45% 58%,#f5f1e9 58%); transform:translateY(8px) rotate(-2deg); }
+.service-item:nth-child(4):after { content:'04'; background:linear-gradient(145deg,#e6e7f1 0 42%,#bfc5db 42% 56%,#f3f4f1 56%); transform:translateY(8px) rotate(4deg); }
+.service-item:hover:after,.service-item[open]:after { opacity:1; transform:translateY(0) rotate(0); }
 .service-item summary {
   padding:32px 0;
   display:flex;

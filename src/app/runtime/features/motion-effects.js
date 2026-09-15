@@ -4,8 +4,9 @@ export const mountMotionEffects = ({ appearance, finePointer, reducedMotion, cur
   const hero = document.querySelector('.hero');
   let frame = null;
   if (art && hero) {
+    let dragState = null;
     hero.addEventListener('pointermove', (event) => {
-      if (appearance.isMotionDisabled() || !finePointer.matches) return;
+      if (appearance.isMotionDisabled() || !finePointer.matches || dragState) return;
       if (frame) cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const bounds = hero.getBoundingClientRect();
@@ -25,6 +26,29 @@ export const mountMotionEffects = ({ appearance, finePointer, reducedMotion, cur
       art.style.setProperty('--light-shift-x', '0px'); art.style.setProperty('--light-shift-y', '0px');
       hero.classList.remove('hero-pointer-active');
     });
+    art.addEventListener('pointerdown', (event) => {
+      if (appearance.isMotionDisabled() || !finePointer.matches || event.button !== 0) return;
+      dragState = { startX: event.clientX, startRotation: Number.parseFloat(art.dataset.dragRotation || '0') || 0 };
+      art.classList.add('hero-art-dragging');
+      art.setPointerCapture?.(event.pointerId);
+      event.preventDefault();
+    });
+    art.addEventListener('pointermove', (event) => {
+      if (!dragState) return;
+      const rotation = Math.max(-14, Math.min(14, dragState.startRotation + (event.clientX - dragState.startX) * .08));
+      art.dataset.dragRotation = String(rotation);
+      art.style.setProperty('--drag-r', `${rotation}deg`);
+    });
+    const finishDrag = (event) => {
+      if (!dragState) return;
+      if (art.hasPointerCapture?.(event.pointerId)) art.releasePointerCapture?.(event.pointerId);
+      dragState = null;
+      art.classList.remove('hero-art-dragging');
+      art.dataset.dragRotation = '0';
+      art.style.setProperty('--drag-r', '0deg');
+    };
+    art.addEventListener('pointerup', finishDrag);
+    art.addEventListener('pointercancel', finishDrag);
     const heroLink = hero.querySelector('.round-link');
     heroLink?.addEventListener('pointerenter', () => hero.classList.add('hero-intent'));
     heroLink?.addEventListener('pointerleave', () => hero.classList.remove('hero-intent'));

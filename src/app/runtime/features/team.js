@@ -3,6 +3,7 @@ export const mountTeam = ({ appearance, finePointer, updateScroll }) => {
   const teamFilters = document.querySelectorAll('[data-team-filter]');
   const teamTrackFilters = document.querySelectorAll('[data-team-track]');
   const teamSearch = document.querySelector('#team-search');
+  const teamRoster = document.querySelector('.team-roster');
   const teamParams = new URLSearchParams(location.search);
   let teamCategory = teamParams.get('group') || 'all';
   let teamTrack = teamParams.get('track') || 'all';
@@ -25,6 +26,9 @@ export const mountTeam = ({ appearance, finePointer, updateScroll }) => {
     });
     const result = document.querySelector('#team-result');
     if (result) result.textContent = `Найдено: ${found}`;
+    teamRoster?.setAttribute('data-team-filter', teamCategory);
+    teamRoster?.setAttribute('data-team-track', teamTrack);
+    teamRoster?.setAttribute('data-team-query', query ? 'active' : 'empty');
     const empty = document.querySelector('#team-empty');
     if (empty) empty.hidden = found !== 0;
     if (teamFilters.length) {
