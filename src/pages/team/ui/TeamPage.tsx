@@ -1,5 +1,37 @@
 import type { ReactElement } from 'react';
 
+const constellationNodes = {
+  leader: { label: 'Дмитрий Прокопенко', x: 50, y: 12 },
+  analysis: { label: 'Аналитика', x: 12, y: 56 },
+  design: { label: 'Дизайн', x: 28, y: 34 },
+  frontend: { label: 'Frontend', x: 48, y: 58 },
+  backend: { label: 'Backend', x: 73, y: 36 },
+  mobile: { label: 'Mobile', x: 88, y: 61 },
+  qa: { label: 'QA', x: 31, y: 86 },
+  management: { label: 'Ведение', x: 69, y: 84 },
+} as const;
+
+const constellationConnections = [
+  ['leader', 'analysis'],
+  ['leader', 'design'],
+  ['leader', 'frontend'],
+  ['leader', 'backend'],
+  ['leader', 'mobile'],
+  ['leader', 'qa'],
+  ['leader', 'management'],
+  ['analysis', 'design'],
+  ['analysis', 'frontend'],
+  ['design', 'frontend'],
+  ['frontend', 'backend'],
+  ['frontend', 'mobile'],
+  ['backend', 'mobile'],
+  ['analysis', 'qa'],
+  ['qa', 'frontend'],
+  ['frontend', 'management'],
+  ['qa', 'management'],
+  ['management', 'mobile'],
+] as const;
+
 export const TeamPage = (): ReactElement => (
   <>
     <section className="page-intro wrap">
@@ -36,16 +68,23 @@ export const TeamPage = (): ReactElement => (
         <p className="demo-team-note">{"Демонстрационные профили: имена и портреты вымышлены и созданы для макета сайта."}</p>
       </div>
       <div className="team-constellation" aria-hidden="true">
-        <span className="team-constellation-line team-constellation-line--one"></span>
-        <span className="team-constellation-line team-constellation-line--two"></span>
-        <span className="team-constellation-line team-constellation-line--three"></span>
-        <i data-constellation-node="analysis">Аналитика</i>
-        <i data-constellation-node="design">Дизайн</i>
-        <i data-constellation-node="frontend">Frontend</i>
-        <i data-constellation-node="backend">Backend</i>
-        <i data-constellation-node="mobile">Mobile</i>
-        <i data-constellation-node="qa">QA</i>
-        <i data-constellation-node="management">Ведение</i>
+        <svg className="team-constellation-lines" width="100%" height="100%" focusable="false">
+          {constellationConnections.map(([from, to]) => (
+            <line
+              key={`${from}-${to}`}
+              x1={`${constellationNodes[from].x}%`}
+              y1={`${constellationNodes[from].y}%`}
+              x2={`${constellationNodes[to].x}%`}
+              y2={`${constellationNodes[to].y}%`}
+            />
+          ))}
+        </svg>
+        {Object.entries(constellationNodes).map(([id, node]) => (
+          <i key={id} data-constellation-node={id} style={{ left: `${node.x}%`, top: `${node.y}%` }}>
+            <span>{node.label}</span>
+            {id === 'leader' ? <small>Руководитель студии</small> : null}
+          </i>
+        ))}
       </div>
       <div className="team-track-filter" role="group" aria-label="Роль в проекте">
         <span className="team-filter-label">{"Роль в проекте"}</span>
