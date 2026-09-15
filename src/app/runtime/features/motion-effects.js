@@ -14,11 +14,16 @@ export const mountMotionEffects = ({ appearance, finePointer, reducedMotion, cur
         art.style.setProperty('--mx', `${x * 20}px`);
         art.style.setProperty('--my', `${y * 14}px`);
         art.style.setProperty('--mr', `${x * 3}deg`);
+        art.style.setProperty('--light-shift-x', `${x * 70}px`);
+        art.style.setProperty('--light-shift-y', `${y * 45}px`);
+        hero.classList.add('hero-pointer-active');
       });
     });
     hero.addEventListener('pointerleave', () => {
       if (frame) cancelAnimationFrame(frame);
       art.style.setProperty('--mx', '0px'); art.style.setProperty('--my', '0px'); art.style.setProperty('--mr', '0deg');
+      art.style.setProperty('--light-shift-x', '0px'); art.style.setProperty('--light-shift-y', '0px');
+      hero.classList.remove('hero-pointer-active');
     });
     const heroLink = hero.querySelector('.round-link');
     heroLink?.addEventListener('pointerenter', () => hero.classList.add('hero-intent'));

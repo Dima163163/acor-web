@@ -37,6 +37,9 @@ body.motion-off *,body.motion-off *::before,body.motion-off *::after {
 body.motion-off .hero-art {
   transform:none!important;
 }
+body.motion-off .hero-art::before {
+  opacity:0!important;
+}
 body.motion-off .cursor-caption {
   display:none!important;
 }
@@ -948,8 +951,12 @@ body.theme-night .project-link:hover .project-open { color:#15181d; }
     transition:transform .6s var(--ease);
   }
   .project-link:hover { filter:none; }
-  .project-link .project-visual { transition:box-shadow .35s ease; }
-  .project-link:hover .project-visual { box-shadow:0 18px 28px #1b2f5a18; }
+  .project-link .project-visual { transition:transform .7s var(--ease),box-shadow .45s ease; }
+  .project-link:hover .project-visual { transform:scale(.988); box-shadow:0 18px 28px #1b2f5a18; }
+  .project-link .project-caption { transition:transform .65s var(--ease); }
+  .project-link:hover .project-caption { transform:translateY(-4px); }
+  .project-link:hover .project-open { transform:rotate(45deg) scale(1.08); }
+  .project-open { transition:background .3s,color .3s,transform .65s var(--ease); }
   .project-link .project-caption,
   .project-link .project-visual { transform:none; }
 }
@@ -961,6 +968,16 @@ body.theme-night .project-link:hover .project-open { color:#15181d; }
 body.motion-off .studio-marquee-track { translate:none; }
 
 .process-tabs { position:relative; }
+.process-tabs::before {
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:1px;
+  background:var(--line);
+  pointer-events:none;
+}
 .process-tabs:after {
   content:'';
   position:absolute;
@@ -971,6 +988,21 @@ body.motion-off .studio-marquee-track { translate:none; }
   background:var(--blue);
   pointer-events:none;
   transition:width .5s var(--ease);
+}
+.process-route-marker {
+  position:absolute;
+  z-index:2;
+  left:var(--process-progress,0%);
+  bottom:-5px;
+  width:9px;
+  height:9px;
+  border:2px solid var(--paper);
+  border-radius:50%;
+  background:var(--blue);
+  box-shadow:0 0 0 4px #3257f526;
+  pointer-events:none;
+  transform:translateX(-50%);
+  transition:left .65s var(--ease);
 }
 
 .lab-art { position:relative; }
@@ -1052,6 +1084,9 @@ body.motion-off .error-orbit:before { animation:none; }
 }
 
 @media(prefers-reduced-motion:reduce) {
+  .hero-art::before {
+    display:none;
+  }
   .studio-marquee-track { translate:none; }
   .case-timeline li:hover { transform:none; }
   .tap-ripple,.error-orbit:before { animation:none; }
