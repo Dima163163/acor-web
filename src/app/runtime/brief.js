@@ -9,6 +9,7 @@ if (briefBuilder) {
   const briefCopy = briefBuilder.querySelector('#brief-summary-copy');
   const briefTags = briefBuilder.querySelector('#brief-summary-tags');
   const briefKicker = briefBuilder.querySelector('.brief-summary-kicker');
+  const briefProgressRing = briefBuilder.querySelector('.brief-progress-ring');
   const briefNote = briefBuilder.querySelector('.brief-summary-note');
   const briefForm = document.querySelector('#brief-form');
   const briefProgress = document.createElement('div');
@@ -86,6 +87,9 @@ if (briefBuilder) {
       briefProgress.style.setProperty('--brief-progress', `${progress}%`);
       briefProgress.setAttribute('aria-valuenow', String(progress));
       briefProgress.setAttribute('aria-valuetext', `${progress}%`);
+      briefProgressRing?.style.setProperty('--brief-ring-progress', `${progress}%`);
+      const ringLabel = briefProgressRing?.querySelector('span');
+      if (ringLabel) ringLabel.textContent = String(briefIndex + 1).padStart(2, '0');
     }
     if (briefPrev) briefPrev.disabled = briefIndex === 0;
     if (briefNext) briefNext.innerHTML = briefIndex === briefSteps.length - 1 ? `${t('Заполнить заявку')} <span>↘︎</span>` : `${t('Следующий вопрос')} <span>↗︎</span>`;

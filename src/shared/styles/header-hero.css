@@ -193,7 +193,23 @@
   will-change:transform;
   pointer-events:none;
 }
+.hero-art::before {
+  content:'';
+  position:absolute;
+  z-index:0;
+  inset:5% 8%;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,#ffffffb8 0%,#ffffff35 13%,transparent 43%);
+  mix-blend-mode:screen;
+  opacity:0;
+  pointer-events:none;
+  transform:translate3d(var(--light-shift-x,0px),var(--light-shift-y,0px),0);
+  transition:opacity .7s var(--ease),transform .8s var(--ease);
+}
+.hero-pointer-active .hero-art::before { opacity:.8; }
 .hero-art img {
+  position:relative;
+  z-index:1;
   width:100%;
   height:100%;
   object-fit:contain;

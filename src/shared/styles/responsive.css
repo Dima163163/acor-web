@@ -80,6 +80,7 @@
   }
 }
 @media(max-width:800px) {
+  .service-item:after { display:none; }
   .site-header {
     height:85px;
   }
@@ -959,4 +960,3 @@
     display:none;
   }
 }
-

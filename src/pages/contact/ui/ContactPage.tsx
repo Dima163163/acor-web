@@ -83,6 +83,7 @@ export const ContactPage = (): ReactElement => (
         </div>
         <aside className="brief-summary" aria-live="polite">
           <span className="brief-summary-kicker">{"Ваш контекст / 01 из 04"}</span>
+          <span className="brief-progress-ring" aria-hidden="true"><span>01</span></span>
           <h3 id="brief-summary-title">{"Сайт с характером."}</h3>
           <p id="brief-summary-copy">{"Соберём структуру, визуальную идею и понятный путь к действию."}</p>
           <div className="brief-summary-tags" id="brief-summary-tags">

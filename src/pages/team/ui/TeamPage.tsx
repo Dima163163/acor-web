@@ -35,6 +35,18 @@ export const TeamPage = (): ReactElement => (
         </div>
         <p className="demo-team-note">{"Демонстрационные профили: имена и портреты вымышлены и созданы для макета сайта."}</p>
       </div>
+      <div className="team-constellation" aria-hidden="true">
+        <span className="team-constellation-line team-constellation-line--one"></span>
+        <span className="team-constellation-line team-constellation-line--two"></span>
+        <span className="team-constellation-line team-constellation-line--three"></span>
+        <i data-constellation-node="analysis">Аналитика</i>
+        <i data-constellation-node="design">Дизайн</i>
+        <i data-constellation-node="frontend">Frontend</i>
+        <i data-constellation-node="backend">Backend</i>
+        <i data-constellation-node="mobile">Mobile</i>
+        <i data-constellation-node="qa">QA</i>
+        <i data-constellation-node="management">Ведение</i>
+      </div>
       <div className="team-track-filter" role="group" aria-label="Роль в проекте">
         <span className="team-filter-label">{"Роль в проекте"}</span>
         <button type="button" className="team-track active" data-team-track="all" aria-pressed="true">{"Все роли"}</button>

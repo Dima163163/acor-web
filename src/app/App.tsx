@@ -33,11 +33,22 @@ const updateSeo = (page: PageSeo): void => {
   }
 };
 
+const updateCaseTheme = (page: PageSeo): void => {
+  const themeByPage: Partial<Record<PageSeo['key'], string>> = {
+    caseArden: 'architecture',
+    caseGreenflow: 'commerce',
+    caseOrbit: 'product'
+  };
+  document.documentElement.dataset.caseTheme = themeByPage[page.key] || 'neutral';
+};
+
 const RuntimeBridge = (): null => {
   const location = useLocation();
 
   useEffect(() => {
-    updateSeo(resolvePage(location.pathname));
+    const page = resolvePage(location.pathname);
+    updateSeo(page);
+    updateCaseTheme(page);
     window.__acorRuntimeCleanup?.();
     loadRuntime();
   }, [location.pathname, location.search]);

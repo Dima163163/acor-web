@@ -35,6 +35,7 @@ export const mountCaseFeatures = ({ t, appearance, finePointer, cursor, pageKey 
       galleryMeta.textContent = `${categoryLabels[card.dataset.category] || 'Концепция'}  /  ${projectApproach[projectName] || 'точная форма'}`;
       gallery.querySelector('#gallery-description').textContent = card.querySelector('.project-caption p')?.textContent || '';
       gallery.querySelector('#gallery-count').textContent = `${galleryIndex + 1} / ${galleryCards.length}`;
+      gallery.style.setProperty('--gallery-progress', `${((galleryIndex + 1) / galleryCards.length) * 100}%`);
       gallery.querySelector('#gallery-case').href = card.querySelector('.project-link').href;
       previous.disabled = next.disabled = galleryCards.length < 2;
       if (!appearance.isMotionDisabled()) visual.animate([{ opacity: .35, transform: 'scale(.98)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 3000, easing: 'cubic-bezier(.25,.1,.25,1)' });

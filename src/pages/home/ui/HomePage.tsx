@@ -360,6 +360,7 @@ export const HomePage = (): ReactElement => (
 {"Запуск"}
           <i aria-hidden="true">{"↗︎"}</i>
         </button>
+        <span className="process-route-marker" aria-hidden="true"></span>
       </div>
       <div className="process-panels">
         <section id="step-panel-0" className="step-panel" role="tabpanel" aria-labelledby="step-tab-0" tabIndex={0}>
